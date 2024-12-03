@@ -96,4 +96,4 @@ Microcontroller board with sensors, display and audio module for measuring and d
 | Analog Pin 15 (A15)         | Analog-Eingang, Digitaler I/O              |                                   |
 | V3.3                        | Analog-Eingang, Digitaler I/O              |                                   |
 | V5                          | Analog-Eingang, Digitaler I/O              | LCD 1602 (2x), Potentiometer (1x) |
-| GND                         | Analog-Eingang, Digitaler I/O              | LCD 1602 (2x)                     |
+| GND                         | Analog-Eingang, Digitaler I/O              | LCD 1602 (2x), Potentiometer (1x) |
