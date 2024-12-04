@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-// pins
+// so many pins
 #define BUTTON 7
 
 // global constants
