@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+// import libraries
+
 // pins
 #define BUTTON 7
 
@@ -81,8 +83,7 @@ void loop() {
 
 // get the current time since board is on
 int get_current_time() {
-    int time_since_board_on;
-    return time_since_board_on;
+    return millis();
 };
 
 // get current co2 measurement
