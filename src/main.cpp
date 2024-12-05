@@ -50,38 +50,6 @@ void loop() {
     // set the current_time_s timestamp (seconds since board is on)
     current_time_s = get_current_time_in_s();
 
-    // check, if there was an overflow in the time since board is on
-    if (last_loop_iteration_time_s <= current_time_s) {
-        // no overflow. reset last_loop_iteration_time_s value to provide at next loop iteration.
-        last_loop_iteration_time_s = current_time_s;
-    } else {
-        // handle time overflow.
-        /*
-         * This else branch will be executed one to several times in succession after each time overflow.
-         * In each case for a maximum period of max_co2_above_threshold_time_s per time overflow.
-         */
-
-        /*
-         * set the current_time_s variable to the difference between the last_loop_iteration_time_s variable
-         * and the last_co2_below_threshold_time_s variable.
-         * This allows a new last_co2_below_threshold_time_s value to be set that
-         * is less than or equal to the new current_time_s value and
-         * has the same difference to the current_time_s as it had at the end of the last iteration.
-         */
-        current_time_s = last_loop_iteration_time_s - last_co2_below_threshold_time_s;
-
-        /*
-         * set the last_co2_below_threshold_time_s variable to 0
-         * This should provide the same
-         * time difference between current_time_s and last_co2_below_threshold_time_s
-         * as it was at the end of the last loop iteration.
-         */
-        last_co2_below_threshold_time_s = 0;
-
-        // reset last_loop_iteration_time_s value to provide at next loop iteration.
-        last_loop_iteration_time_s = current_time_s;
-    }
-
     // get the current measurement from co2 sensor in ppm
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
 
@@ -93,7 +61,14 @@ void loop() {
 
     // check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
-        // check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
+        /*
+         * check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
+         * since all time variables and constants are unsigned, a potential overflow should be handled flawlessly.
+         * For example, a potential value of more than 4294967000 for the variable last_co2_below_threshold_time_s
+         * after an overflow of millis() leads still to a meaningful value in the subtraction
+         * (current_time_s - last_co2_below_threshold_time_s),
+         * which can be compared with max_co2_above_threshold_time_s.
+         */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
             // issue an audio warning
             issue_audio_warning();
