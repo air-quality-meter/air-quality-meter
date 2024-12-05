@@ -32,8 +32,9 @@ void set_led(int);
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-    last_co2_below_threshold_time_s = get_current_time_in_s();
-    warning_counter = 0;
+    // set the current_time_s timestamp (seconds since board is on)
+    current_time_s = get_current_time_in_s();
+    reset();
 
     // setup Interrupt Service Routine
     attachInterrupt(BUTTON, reset,FALLING); // reset when button is released
