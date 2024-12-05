@@ -6,10 +6,10 @@
 #define BUTTON 7
 
 // global constants
-const int co2_threshold_ppm = 1400; // value in ppm
-const int max_co2_above_threshold_time_s = 3600; //  value in seconds
-const int waiting_period_between_warnings_s = 60; // value in seconds
-const int max_consecutive_warnings = 5; // number of maximum consecutive audio warnings
+constexpr int co2_threshold_ppm = 1400; // value in ppm
+constexpr int max_co2_above_threshold_time_s = 3600; //  value in seconds
+constexpr int waiting_period_between_warnings_s = 60; // value in seconds
+constexpr int max_consecutive_warnings = 5; // number of maximum consecutive audio warnings
 
 // global variables
 int current_time;
