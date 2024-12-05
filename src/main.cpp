@@ -14,10 +14,12 @@ constexpr int max_consecutive_warnings = 5; // number of maximum consecutive aud
 // global variables
 int current_time_s;
 int current_co2_measurement_ppm;
-int last_co2_below_threshold_time_s;
+volatile int last_co2_below_threshold_time_s; // volatile to allow change by interrupt function
 int warning_counter;
 
 // function declarations
+void reset_last_co2_below_threshold_time();
+
 int get_current_time_in_s();
 
 int get_co2_measurement_in_ppm();
@@ -32,7 +34,9 @@ void set_led(int);
 void setup() {
     last_co2_below_threshold_time_s = get_current_time_in_s();
     warning_counter = 0;
-    pinMode(BUTTON, INPUT);
+
+    // setup Interrupt Service Routine
+    attachInterrupt(BUTTON, reset_last_co2_below_threshold_time,FALLING); // reset when button is released
 }
 
 // the loop function runs over and over again forever
@@ -49,12 +53,6 @@ void loop() {
     // set the LEDs according to the CO2 measurement value
     set_led(current_co2_measurement_ppm);
 
-    // check if reset button was pressed
-    if (digitalRead(BUTTON) == HIGH) {
-        // reset timestamp
-        last_co2_below_threshold_time_s = current_time_s;
-    }
-
     // check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
         // check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
@@ -70,16 +68,21 @@ void loop() {
 
             // reset timestamp when the maximum number of warnings has been reached
             if (warning_counter > max_consecutive_warnings) {
-                last_co2_below_threshold_time_s = current_time_s;
+                reset_last_co2_below_threshold_time();
             }
         }
     } else {
         // reset timestamp
-        last_co2_below_threshold_time_s = current_time_s;
+        reset_last_co2_below_threshold_time();
     }
 }
 
 // function definitions
+
+// reset last_co_2_below_threshold_time
+void reset_last_co2_below_threshold_time() {
+    last_co2_below_threshold_time_s = current_time_s;
+};
 
 // get the current time since board is on in seconds
 int get_current_time_in_s() {
