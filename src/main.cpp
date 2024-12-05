@@ -67,7 +67,7 @@ void loop() {
             warning_counter++;
 
             // reset timestamp when the maximum number of warnings has been reached
-            if (warning_counter > max_consecutive_warnings) {
+            if (warning_counter >= max_consecutive_warnings) {
                 reset();
             }
         }
