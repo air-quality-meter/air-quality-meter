@@ -83,7 +83,10 @@ void loop() {
 
 // get the current time since board is on in seconds
 int get_current_time_in_s() {
-    return millis();
+    const unsigned long time_since_board_on_ms = millis();
+    // get seconds from milliseconds
+    int time_since_board_on_s = time_since_board_on_ms / 1000;
+    return time_since_board_on_s;
 };
 
 // get current co2 measurement in ppm
