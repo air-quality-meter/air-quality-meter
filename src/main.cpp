@@ -3,7 +3,7 @@
 // import libraries
 
 // pins
-#define BUTTON 7
+#define BUTTON 2 // Interrupt functionality on Pin2 (Int0)
 
 // global constants
 constexpr int co2_threshold_ppm = 1400; // value in ppm
