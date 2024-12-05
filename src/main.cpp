@@ -72,7 +72,7 @@ void loop() {
             }
         }
     } else {
-        // reset timestamp
+        // reset timestamp if the CO2 measurement is below or equal to threshold value
         reset_last_co2_below_threshold_time();
     }
 }
