@@ -7,9 +7,6 @@ Microcontroller board with sensors, display and audio module for measuring and d
 - get the current measurement from co2 sensor
 - display the current co2 measurement on the display
 - set the LEDs according to the CO2 measurement value
-- check if reset button was pressed
-  - reset timestamp
-
 - check whether the current CO2 measurement is above the threshold value
   - check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
     - issue an audio warning
@@ -17,6 +14,9 @@ Microcontroller board with sensors, display and audio module for measuring and d
     - increase the warning counter
     - reset timestamp when the maximum number of warnings has been reached
 - else reset timestamp
+
+Interrupt function (when button released):
+  - reset timestamp
 
 
 
