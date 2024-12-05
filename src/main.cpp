@@ -58,12 +58,12 @@ void loop() {
     // check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement > co2_threshold_ppm) {
         // check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
-        if (current_time - last_co2_below_threshold_time > max_co2_above_threshold_time) {
+        if (current_time - last_co2_below_threshold_time > max_co2_above_threshold_time_s) {
             // issue an audio warning
             issue_audio_warning();
 
             // adjust the timestamp to wait until the next audio warning
-            last_co2_below_threshold_time = last_co2_below_threshold_time + waiting_period_between_warnings;
+            last_co2_below_threshold_time = last_co2_below_threshold_time + waiting_period_between_warnings_s;
 
             // increase the warning counter
             warning_counter++;
