@@ -15,10 +15,10 @@ constexpr int max_consecutive_warnings = 5; // number of maximum consecutive aud
 int current_time_s;
 int current_co2_measurement_ppm;
 volatile int last_co2_below_threshold_time_s; // volatile to allow change by interrupt function
-int warning_counter;
+volatile int warning_counter; // volatile to allow change by interrupt function
 
 // function declarations
-void reset_last_co2_below_threshold_time();
+void reset();
 
 int get_current_time_in_s();
 
@@ -36,7 +36,7 @@ void setup() {
     warning_counter = 0;
 
     // setup Interrupt Service Routine
-    attachInterrupt(BUTTON, reset_last_co2_below_threshold_time,FALLING); // reset when button is released
+    attachInterrupt(BUTTON, reset,FALLING); // reset when button is released
 }
 
 // the loop function runs over and over again forever
@@ -68,20 +68,21 @@ void loop() {
 
             // reset timestamp when the maximum number of warnings has been reached
             if (warning_counter > max_consecutive_warnings) {
-                reset_last_co2_below_threshold_time();
+                reset();
             }
         }
     } else {
         // reset timestamp if the CO2 measurement is below or equal to threshold value
-        reset_last_co2_below_threshold_time();
+        reset();
     }
 }
 
 // function definitions
 
-// reset last_co_2_below_threshold_time
-void reset_last_co2_below_threshold_time() {
+// reset last_co_2_below_threshold_time and warning_counter
+void reset() {
     last_co2_below_threshold_time_s = current_time_s;
+    warning_counter = 0;
 };
 
 // get the current time since board is on in seconds
