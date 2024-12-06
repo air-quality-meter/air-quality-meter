@@ -15,7 +15,6 @@ constexpr int max_consecutive_warnings = 5; // number of maximum consecutive aud
 // global variables
 // All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
 unsigned long current_time_s;
-unsigned long last_loop_iteration_time_s; // to check, if there was a time overflow
 int current_co2_measurement_ppm;
 volatile unsigned long last_co2_below_threshold_time_s; // volatile to allow change by interrupt function
 volatile int warning_counter; // volatile to allow change by interrupt function
@@ -37,7 +36,6 @@ void set_led(int);
 void setup() {
     // set the current_time_s timestamp (seconds since board is on)
     current_time_s = get_current_time_in_s();
-    last_loop_iteration_time_s = current_time_s;
     last_co2_below_threshold_time_s = current_time_s;
     reset();
 
