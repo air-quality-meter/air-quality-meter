@@ -60,8 +60,9 @@ void loop() {
     // check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
         /*
-         * check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
-         * since all time variables and constants are unsigned, a potential overflow should be handled flawlessly.
+         * check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time.
+         *
+         * Since all time variables and constants are unsigned, a potential overflow should be handled flawlessly.
          * For example, a potential value of more than 4294967000 for the variable last_co2_below_threshold_time_s
          * after an overflow of millis() leads still to a meaningful value in the subtraction
          * (current_time_s - last_co2_below_threshold_time_s),
