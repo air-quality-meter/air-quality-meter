@@ -54,7 +54,7 @@ void setup() {
 
     // Setup Interrupt Service Routine
     attachInterrupt(BUTTON, reset,FALLING); ///< reset() function when button is pressed (released)
-}
+};
 
 // the loop function runs over and over again forever
 void loop() {
@@ -86,13 +86,13 @@ void loop() {
             // reset timestamp when the maximum number of warnings has been reached
             if (warning_counter >= max_consecutive_warnings) {
                 reset();
-            }
-        }
+            };
+        };
     } else {
         // reset timestamp if the CO2 measurement is below or equal to threshold value
         reset();
-    }
-}
+    };
+};
 
 // function definitions
 
@@ -114,7 +114,7 @@ int get_current_time_in_s() {
 int get_co2_measurement_in_ppm() {
     int co2_measurement_ppm;
     return co2_measurement_ppm;
-}
+};
 
 // issue an audio warning
 void issue_audio_warning() {
