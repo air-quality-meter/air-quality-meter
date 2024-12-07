@@ -59,7 +59,6 @@ void setup() {
     attachInterrupt(BUTTON, reset,FALLING); ///< reset() function when button is pressed (released)
 };
 
-// the loop function runs over and over again forever
 /**
  * @brief   Main loop for air-quality meter logic
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
