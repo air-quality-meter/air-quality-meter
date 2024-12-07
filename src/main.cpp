@@ -152,8 +152,7 @@ unsigned long get_current_time_in_s() {
  */
 int get_co2_measurement_in_ppm() {
     //TODO: This function needs to be written.
-    int co2_measurement_ppm;
-    return co2_measurement_ppm;
+    return 1500; //FIXME: this is a placeholder value. Fix when writing this function.
 };
 
 /**
