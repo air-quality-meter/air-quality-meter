@@ -16,21 +16,24 @@
 
 // Global constants
 constexpr int co2_threshold_ppm = 1400; ///< CO2 threshold value in parts per million (ppm)
-constexpr int max_co2_above_threshold_time_s = 3600; ///< Max time period allowed CO2 above threshold (seconds)
-constexpr int waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
+// All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
+constexpr unsigned long max_co2_above_threshold_time_s = 3600; ///< Max time period allowed CO2 above threshold (seconds)
+constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
+
 // Global variables
-int current_time_s; ///< Current timestamp (~time since board is powered on) (seconds)
+// All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
+unsigned long current_time_s; ///< Current timestamp (~time since board is powered on) (seconds)
 int current_co2_measurement_ppm; ///< Current CO2 measurement in parts per million (ppm)
 // Volatile variables (to allow mutation by interrupt function)
-volatile int last_co2_below_threshold_time_s; ///< Timestamp of last CO2 measurement below threshold (seconds)
+volatile unsigned long last_co2_below_threshold_time_s; ///< Timestamp of last CO2 measurement below threshold (seconds)
 volatile int warning_counter; ///< Counter for consecutive warnings
 
 // function declarations
 void reset();
 
-int get_current_time_in_s();
+unsigned long get_current_time_in_s();
 
 int get_co2_measurement_in_ppm();
 
@@ -76,7 +79,15 @@ void loop() {
 
     // check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
-        // check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
+        /*
+         * check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time.
+         *
+         * Since all time variables and constants are unsigned, a potential overflow should be handled flawlessly.
+         * For example, a potential value of more than 4294967000 for the variable last_co2_below_threshold_time_s
+         * after an overflow of millis() leads still to a meaningful value in the subtraction
+         * (current_time_s - last_co2_below_threshold_time_s),
+         * which can be compared with max_co2_above_threshold_time_s.
+         */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
             // issue an audio warning
             issue_audio_warning();
@@ -107,10 +118,10 @@ void reset() {
 };
 
 // get the current time since board is on in seconds
-int get_current_time_in_s() {
+unsigned long get_current_time_in_s() {
     const unsigned long time_since_board_on_ms = millis();
     // get seconds from milliseconds
-    int time_since_board_on_s = time_since_board_on_ms / 1000;
+    const unsigned long time_since_board_on_s = time_since_board_on_ms / 1000;
     return time_since_board_on_s;
 };
 
