@@ -117,13 +117,21 @@ void loop() {
 
 // function definitions
 
-// reset last_co_2_below_threshold_time and warning_counter
+/**
+ * @brief   Resets last_co2_below_threshold_time_s and warning_counter.
+ * @details Resets the timestamp of the last CO2 measurement that was below the threshold
+ *          and the counter for consecutive warnings.
+ */
 void reset() {
     last_co2_below_threshold_time_s = current_time_s;
     warning_counter = 0;
 };
 
-// get the current time since board is on in seconds
+/**
+ * @brief   Retrieves the elapsed time since the board was powered on.
+ * @details Converts the internal millis() value from milliseconds to seconds to provide a time reference.
+ * @return  The elapsed time since the board was powered on in seconds.
+ */
 unsigned long get_current_time_in_s() {
     const unsigned long time_since_board_on_ms = millis();
     // get seconds from milliseconds
@@ -131,20 +139,48 @@ unsigned long get_current_time_in_s() {
     return time_since_board_on_s;
 };
 
-// get current co2 measurement in ppm
+/**
+ * @brief   Retrieves a CO2 measurement.
+ * @details Reads the CO2 value from the sensor and provides the measurement in parts per million (ppm).
+ *          Sensor used: MH-Z19 Infrared CO2 Sensor Module MH-Z19B
+ * @return  The current CO2 measurement in ppm.
+ */
 int get_co2_measurement_in_ppm() {
+    //TODO: This function needs to be written.
     int co2_measurement_ppm;
     return co2_measurement_ppm;
 };
 
-// issue an audio warning
+/**
+ * @brief   Issues an audio warning.
+ * @details Voice message that calls for the room to be ventilated (output of an MP3 track).
+ *          MP3 module used: Gravity UART MP3 Voice Module
+ *          Speaker used: Stereo Enclosed Speaker - 3W 8Ω
+ */
 void issue_audio_warning() {
+    //TODO: This function needs to be written.
 };
 
-// show the current co2 measurement on the display
-void display_co2_value(int) {
+/**
+ * @brief   Displays the provided CO2 measurement.
+ * @details Updates the connected display to show the provided CO2 value in ppm.
+ *          Display used: LCD1602 Module (with pin header)
+ * @param   co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
+ */
+void display_co2_value(int co2_measurement_ppm) {
+    //TODO: This function needs to be written.
 };
 
-// set the LEDs according to the CO2 measurement value
-void set_led(int) {
+/**
+ * @brief   Controls the LED indicators to visually represent CO2 levels.
+ * @details Activates two adjacent LEDs to indicate the current CO2 concentration:
+ *              - ≤ 800 ppm: Both green LEDs light up.
+ *              - 801–1000 ppm: One green and one yellow LED light up.
+ *              - 1001–1200 ppm: Both yellow LEDs light up.
+ *              - 1201–1400 ppm: One yellow and one red LED light up.
+ *              - > 1400 ppm: Both red LEDs light up.
+ * @param   co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
+ */
+void set_led(int co2_measurement_ppm) {
+    //TODO: This function needs to be written.
 };
