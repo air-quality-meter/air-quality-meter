@@ -64,30 +64,36 @@ void setup() {
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
  */
 void loop() {
-    // set the current_time_s timestamp (seconds since board is on)
+    // Set the current_time_s timestamp (seconds since board is on)
     current_time_s = get_current_time_in_s();
 
-    // get the current measurement from co2 sensor in ppm
+    // Get the current measurement from co2 sensor in ppm
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
 
-    // display the current co2 measurement on the display
+    // Display the current co2 measurement on the display
     display_co2_value(current_co2_measurement_ppm);
 
-    // set the LEDs according to the CO2 measurement value
+    // Set the LEDs according to the CO2 measurement value
     set_led(current_co2_measurement_ppm);
 
-    // check whether the current CO2 measurement is above the threshold value
+    // Check whether the current CO2 measurement is above the threshold value
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
-        /*
-         * check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time.
+
+        /**
+         * @brief   check whether the CO2 threshold value has already been exceeded for
+         *          longer than the maximum period of time.
          *
-         * Since all time variables and constants are unsigned, a potential overflow should be handled flawlessly.
-         * For example, a potential value of more than 4294967000 for the variable last_co2_below_threshold_time_s
-         * after an overflow of millis() leads still to a meaningful value in the subtraction
-         * (current_time_s - last_co2_below_threshold_time_s),
-         * which can be compared with max_co2_above_threshold_time_s.
+         * @note    As all time variables and constants are unsigned, a possible time overflow will still be handled
+         *          correctly.
+         *          A potentially very high value for the variable last_co2_below_threshold_time_s of almost the
+         *          maximum of the unsigned long type still leads to a correct result of the subraction
+         *          (current_time_s - last_co2_below_threshold_time_s)
+         *          even after an overflow of millis(), when current_time_s has a very small value again.
+         *
+         * @see     https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
          */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
+
             // issue an audio warning
             issue_audio_warning();
 
@@ -103,6 +109,7 @@ void loop() {
             };
         };
     } else {
+
         // reset timestamp if the CO2 measurement is below or equal to threshold value
         reset();
     };
