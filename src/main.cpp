@@ -1,5 +1,14 @@
 #include <Arduino.h>
 
+/**
+ * @file    main.cpp
+ * @brief   Arduino Sketch for the air quality meter.
+ * @details This program monitors the CO2 concentration in indoor air and shows the current value in ppm on a display.
+ *          The interpretation of the values is supported by a multi-colored LED display. CO2 values above the
+ *          threshold value trigger an acoustic warning after a defined period of time. A reset button can be used
+ *          to cancel the warning.
+ */
+
 // import libraries
 
 // pins
