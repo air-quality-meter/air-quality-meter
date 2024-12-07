@@ -9,7 +9,7 @@
  *          to cancel the warning.
  */
 
-// import libraries
+// Import libraries
 
 // Pins
 #define BUTTON 2 ///< Interrupt functionality on Pin2 (Int0)
