@@ -28,10 +28,12 @@ unsigned long current_time_s; ///< Current timestamp (~time since board is power
 int current_co2_measurement_ppm; ///< Current CO2 measurement in parts per million (ppm)
 // Volatile variables (to allow mutation by interrupt function)
 volatile unsigned long last_co2_below_threshold_time_s; ///< Timestamp of last CO2 measurement below threshold (seconds)
+                                                        ///< to calculate the elapsed time, since CO2 concentration is
+                                                        ///< too high. Used to manage warnings and warning intervals
 volatile int warning_counter; ///< Counter for consecutive warnings
 
 // function declarations
-void reset();
+void reset_co2_below_threshold_and_warning_counter();
 
 unsigned long get_current_time_in_s();
 
@@ -52,36 +54,39 @@ void setup() {
     // Set initial current_time_s timestamp (seconds since board is on).
     current_time_s = get_current_time_in_s();
 
-    // Set initial last_co2_below_threshold_time_s to current_time_s and warning_counter to 0
-    reset();
+    // Set initial last_co2_below_threshold_time_s to current_time_s and warning_counter to 0.
+    reset_co2_below_threshold_and_warning_counter();
 
-    // Setup Interrupt Service Routine
-    attachInterrupt(BUTTON, reset,FALLING); ///< reset() function when button is pressed (released)
+    // Setup Interrupt Service Routine.
+    attachInterrupt(BUTTON, reset_co2_below_threshold_and_warning_counter,FALLING); ///< trigger
+                                                                                          ///< reset_co2_below_threshold_and_warning_counter()
+                                                                                          ///< function when button is
+                                                                                          ///< pressed (released).
 };
 
 /**
- * @brief   Main loop for air-quality meter logic
+ * @brief   Main loop for air-quality meter logic.
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
  */
 void loop() {
-    // Set the current_time_s timestamp (seconds since board is on)
+    // Set the current_time_s timestamp (seconds since board is on).
     current_time_s = get_current_time_in_s();
 
-    // Get the current measurement from co2 sensor in ppm
+    // Get the current measurement from co2 sensor in ppm.
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
 
-    // Display the current co2 measurement on the display
+    // Display the current co2 measurement on the display.
     display_co2_value(current_co2_measurement_ppm);
 
-    // Set the LEDs according to the CO2 measurement value
+    // Set the LEDs according to the CO2 measurement value.
     set_led(current_co2_measurement_ppm);
 
-    // Check whether the current CO2 measurement is above the threshold value
+    // Check if the current CO2 measurement is above the threshold value.
     if (current_co2_measurement_ppm > co2_threshold_ppm) {
 
         /**
-         * @brief   check whether the CO2 threshold value has already been exceeded for
-         *          longer than the maximum period of time.
+         * @brief   check if the CO2 threshold value has already been exceeded for
+         *          longer than the maximum allowable time.
          *
          * @note    As all time variables and constants are unsigned, a possible time overflow will still be handled
          *          correctly.
@@ -94,35 +99,35 @@ void loop() {
          */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
 
-            // issue an audio warning
+            // Issue an audio warning.
             issue_audio_warning();
 
-            // adjust the timestamp to wait until the next audio warning
+            // Adjust the timestamp to wait until the next audio warning.
             last_co2_below_threshold_time_s = last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
 
-            // increase the warning counter
+            // Increase the warning counter.
             warning_counter++;
 
-            // reset timestamp when the maximum number of warnings has been reached
+            // Reset timestamp when the maximum number of warnings has been reached.
             if (warning_counter >= max_consecutive_warnings) {
-                reset();
+                reset_co2_below_threshold_and_warning_counter();
             };
         };
     } else {
 
-        // reset timestamp if the CO2 measurement is below or equal to threshold value
-        reset();
+        // Reset timestamp and warning counter if the CO2 measurement is below or equal to threshold value.
+        reset_co2_below_threshold_and_warning_counter();
     };
 };
 
-// function definitions
+// Function definitions
 
 /**
  * @brief   Resets last_co2_below_threshold_time_s and warning_counter.
  * @details Resets the timestamp of the last CO2 measurement that was below the threshold
  *          and the counter for consecutive warnings.
  */
-void reset() {
+void reset_co2_below_threshold_and_warning_counter() {
     last_co2_below_threshold_time_s = current_time_s;
     warning_counter = 0;
 };
@@ -134,7 +139,7 @@ void reset() {
  */
 unsigned long get_current_time_in_s() {
     const unsigned long time_since_board_on_ms = millis();
-    // get seconds from milliseconds
+    // Get seconds from milliseconds.
     const unsigned long time_since_board_on_s = time_since_board_on_ms / 1000;
     return time_since_board_on_s;
 };
@@ -165,7 +170,7 @@ void issue_audio_warning() {
  * @brief   Displays the provided CO2 measurement.
  * @details Updates the connected display to show the provided CO2 value in ppm.
  *          Display used: LCD1602 Module (with pin header)
- * @param   co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
+ * @param co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
  */
 void display_co2_value(int co2_measurement_ppm) {
     //TODO: This function needs to be written.
@@ -179,7 +184,7 @@ void display_co2_value(int co2_measurement_ppm) {
  *              - 1001–1200 ppm: Both yellow LEDs light up.
  *              - 1201–1400 ppm: One yellow and one red LED light up.
  *              - > 1400 ppm: Both red LEDs light up.
- * @param   co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
+ * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
  */
 void set_led(int co2_measurement_ppm) {
     //TODO: This function needs to be written.
