@@ -1,6 +1,6 @@
 # Air quality meter
 
-This project implements a CO2 monitoring device using an Arduino Mega 2560. The device measures CO2 concentration in ppm, displays the value on an LCD screen, and provides visual and audio warnings when CO2 levels exceed a predefined threshold.
+This project builds a CO2 monitoring device using an Arduino Mega 2560. The device measures the CO2 concentration in ppm, displays the value on an LCD screen and gives visual and acoustic warnings when the CO2 concentration exceeds a predefined threshold.
 
 ## Functionality
 
@@ -55,10 +55,10 @@ This project is licensed under the MIT License.
 ## Pin-Tabelle: Zuweisung
 
 | **Pin/Port**                | **Erläuterung**                            | **Zuweisung**                     |
-|-----------------------------|--------------------------------------------|---------------                    |
+|-----------------------------|--------------------------------------------|-----------------------------------|
 | Digital Pin 0 (RX0)         | Digitaler I/O, UART RX (Serial0)           |                                   |
 | Digital Pin 1 (TX0)         | Digitaler I/O, UART TX (Serial0)           |                                   |                                    
-| Digital Pin 2               | Digitaler I/O                              |                                   |
+| Digital Pin 2               | Digitaler I/O                              | Reset Button                      |
 | Digital Pin 3 (PWM)         | Digitaler I/O, PWM                         |                                   |
 | Digital Pin 4               | Digitaler I/O                              |                                   |
 | Digital Pin 5 (PWM)         | Digitaler I/O, PWM                         |                                   |
