@@ -40,14 +40,20 @@ void display_co2_value(int);
 
 void set_led(int);
 
-// the setup function runs once when you press reset or power the board
+/**
+ * @brief   Initializes the Arduino setup routine.
+ * @details Configures initial system states and sets up the interrupt service routine.
+ *          Runs once when the board is powered on or reset.
+ */
 void setup() {
-    // set the current_time_s timestamp (seconds since board is on)
+    // Set initial current_time_s timestamp (seconds since board is on).
     current_time_s = get_current_time_in_s();
+
+    // Set initial last_co2_below_threshold_time_s to current_time_s and warning_counter to 0
     reset();
 
-    // setup Interrupt Service Routine
-    attachInterrupt(BUTTON, reset,FALLING); // reset when button is released
+    // Setup Interrupt Service Routine
+    attachInterrupt(BUTTON, reset,FALLING); ///< reset() function when button is pressed (released)
 }
 
 // the loop function runs over and over again forever
