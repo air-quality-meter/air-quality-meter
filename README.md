@@ -1,23 +1,55 @@
-# air-quality-meter
-Microcontroller board with sensors, display and audio module for measuring and displaying indoor air quality and issuing warnings
+# Air quality meter
 
-## logic
-### loop:
-- set the current timestamp
-- get the current measurement from co2 sensor
-- display the current co2 measurement on the display
-- set the LEDs according to the CO2 measurement value
-- check whether the current CO2 measurement is above the threshold value
-  - check whether the CO2 threshold value has already been exceeded for longer than the maximum period of time
-    - issue an audio warning
-    - adjust the timestamp to wait until the next audio warning
-    - increase the warning counter
-    - reset timestamp when the maximum number of warnings has been reached
-- else reset timestamp
+This project implements a CO2 monitoring device using an Arduino Mega 2560. The device measures CO2 concentration in ppm, displays the value on an LCD screen, and provides visual and audio warnings when CO2 levels exceed a predefined threshold.
 
-Interrupt function (when button released):
-  - reset timestamp
+## Functionality
 
+The device operates as follows:
+
+1. **CO2 Measurement:** The device continuously measures the CO2 concentration in the surrounding environment using a MH-Z19B CO2 sensor.
+
+2. **Display:** The measured CO2 value is displayed on an LCD1602 LCD screen.
+
+3. **LED Indicators:** Two LEDs provide a visual indication of the CO2 level:
+  - Green: Good air quality (CO2 ≤ 800 ppm)
+  - Yellow: Moderate air quality (800 ppm < CO2 ≤ 1400 ppm)
+  - Red: Poor air quality (CO2 > 1400 ppm)
+
+4. **Audio Warning:** If the CO2 level exceeds the threshold (1400 ppm) for a prolonged period, the device triggers an audio warning using a Gravity UART MP3 Voice Module and a 3W 8Ω Stereo Enclosed Speaker. The warning is repeated at set intervals until the CO2 level falls below the threshold or the device is reset.
+
+5. **Reset Button:** A reset button allows the user to manually silence the audio warning and reset the warning counter.
+
+## Hardware Components
+
+* **Microcontroller:** Arduino Mega 2560
+* **CO2 Sensor:** MH-Z19B Infrared CO2 Sensor Module
+* **Display:** LCD1602 Module (with pin header)
+* **Audio Module:** Gravity UART MP3 Voice Module
+* **Speaker:** Stereo Enclosed Speaker - 3W 8Ω
+* **LEDs:** 2x Green, 2x Yellow, 2x Red
+* **Reset Button:** Push button
+
+## Software Logic
+
+The Arduino code implements the following logic:
+
+1. **Initialization:** Sets up the pins, initializes the starting values, and configures the interrupt for the reset button.
+
+2. **Measurement:** Continuously reads the CO2 sensor and updates the displayed value.
+
+3. **LED Control:** Sets the appropriate LED colors based on the CO2 level.
+
+4. **Warning Logic:**
+  - Monitors the CO2 level and the time spent above the threshold.
+  - Triggers an audio warning if the threshold is exceeded for a prolonged period.
+  - Implements a waiting period between warnings to avoid continuous alarms.
+  - Resets the warning counter after a predefined number of consecutive warnings or when the CO2 level falls below the threshold.
+
+5. **Reset Button:**  An interrupt service routine resets the warning counter and the timer when the reset button is pressed.
+
+## License
+
+This project is licensed under the MIT License.
 
 
 ## Pin-Tabelle: Zuweisung
