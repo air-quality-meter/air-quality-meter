@@ -57,6 +57,10 @@ void setup() {
 };
 
 // the loop function runs over and over again forever
+/**
+ * @brief   Main loop for air-quality meter logic
+ * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
+ */
 void loop() {
     // set the current_time_s timestamp (seconds since board is on)
     current_time_s = get_current_time_in_s();
