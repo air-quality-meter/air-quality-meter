@@ -11,20 +11,21 @@
 
 // import libraries
 
-// pins
-#define BUTTON 2 // Interrupt functionality on Pin2 (Int0)
+// Pins
+#define BUTTON 2 ///< Interrupt functionality on Pin2 (Int0)
 
-// global constants
-constexpr int co2_threshold_ppm = 1400; // value in ppm
-constexpr int max_co2_above_threshold_time_s = 3600; //  value in seconds
-constexpr int waiting_period_between_warnings_s = 60; // value in seconds
-constexpr int max_consecutive_warnings = 5; // number of maximum consecutive audio warnings
+// Global constants
+constexpr int co2_threshold_ppm = 1400; ///< CO2 threshold value in parts per million (ppm)
+constexpr int max_co2_above_threshold_time_s = 3600; ///< Max time period allowed CO2 above threshold (seconds)
+constexpr int waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
+constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
-// global variables
-int current_time_s;
-int current_co2_measurement_ppm;
-volatile int last_co2_below_threshold_time_s; // volatile to allow change by interrupt function
-volatile int warning_counter; // volatile to allow change by interrupt function
+// Global variables
+int current_time_s; ///< Current timestamp (~time since board is powered on) (seconds)
+int current_co2_measurement_ppm; ///< Current CO2 measurement in parts per million (ppm)
+// Volatile variables (to allow mutation by interrupt function)
+volatile int last_co2_below_threshold_time_s; ///< Timestamp of last CO2 measurement below threshold (seconds)
+volatile int warning_counter; ///< Counter for consecutive warnings
 
 // function declarations
 void reset();
