@@ -3,10 +3,11 @@
 /**
  * @file    main.cpp
  * @brief   Arduino Sketch for the air quality meter.
- * @details This program monitors the CO2 concentration in indoor air and shows the current value in ppm on a display.
- *          The interpretation of the values is supported by a multicolored LED display. CO2 values above the
- *          threshold value trigger an acoustic warning after a defined period of time. A reset button can be used
- *          to cancel the warning.
+ * @details This program controls an Arduino board (Mega 2560) which, along with other components, operates as an
+ *          air quality meter. That device monitors the CO2 concentration in indoor air and shows the current value in
+ *          ppm on a display. The interpretation of the values is assisted by a series of 6 LEDs in three different
+ *          colors. CO2 values above the threshold value trigger an acoustic warning after a defined period of time.
+ *          A reset button can be used to cancel the warning.
  */
 
 // Import libraries
@@ -15,16 +16,36 @@
 #define BUTTON 2 ///< Interrupt functionality on Pin2 (Int0)
 
 // Global constants
-constexpr int co2_threshold_ppm = 1400; ///< CO2 threshold value in parts per million (ppm)
+// Air quality thresholds based on DIN EN 13779.
+// See: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf
+constexpr int co2_upper_threshold_high_air_quality_ppm = 800; ///< Upper CO2 threshold (less than or equal to) for high
+                                                              ///< indoor air quality (IDA 1 DIN EN 13779) in parts per
+                                                              ///< million (ppm)
+constexpr int co2_upper_threshold_medium_air_quality_ppm = 1000; ///< Upper CO2 threshold (less than or equal to) for
+                                                                 ///< medium indoor air quality (IDA 2 DIN EN 13779) in
+                                                                 ///< parts per million (ppm)
+constexpr int co2_mid_threshold_moderate_air_quality_ppm = 1200; ///< Upper CO2 threshold (less than or equal to) for
+                                                                 ///< lower half (mid) of moderate indoor air quality
+                                                                 ///< (IDA 3 DIN EN 13779) parts per million (ppm). The
+                                                                 ///< IDA 3 bandwidth is double the size of the IDA 2
+                                                                 ///< bandwidth, which is why it is divided into two
+                                                                 ///< halves here.
+constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400; ///< Upper CO2 threshold (less than or equal to) for
+                                                                   ///< moderate indoor air quality (IDA 3 DIN EN 13779)
+                                                                   ///< parts per million (ppm). At the same time, this
+                                                                   ///< value represents the lower threshold (greater
+                                                                   ///< than) value for poor indoor air quality (IDA 4
+                                                                   ///< DIN EN 13779)
+constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 // All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
 constexpr unsigned long max_co2_above_threshold_time_s = 3600; ///< Max time period allowed CO2 above threshold (seconds)
 constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
-constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
 
 // Global variables
 // All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
-unsigned long current_time_s; ///< Current timestamp (~time since board is powered on) (seconds)
+unsigned long current_time_s; ///< Current timestamp (time since board is powered on or since last overflow of
+                              ///<  millis()) (seconds)
 int current_co2_measurement_ppm; ///< Current CO2 measurement in parts per million (ppm)
 // Volatile variables (to allow mutation by interrupt function)
 volatile unsigned long last_co2_below_threshold_time_s; ///< Timestamp of last CO2 measurement below threshold (seconds)
@@ -51,7 +72,7 @@ void set_led(int co2_measurement_ppm);
  *          Runs once when the board is powered on or reset.
  */
 void setup() {
-    // Set initial current_time_s timestamp (seconds since board is on).
+    // Set initial current_time_s timestamp (seconds since board is on or since last overflow of millis()).
     current_time_s = get_current_time_in_s();
 
     // Set initial last_co2_below_threshold_time_s to current_time_s and warning_counter to 0.
@@ -69,7 +90,7 @@ void setup() {
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
  */
 void loop() {
-    // Set the current_time_s timestamp (seconds since board is on).
+    // Set the current_time_s timestamp (seconds since board is on or since last overflow of millis).
     current_time_s = get_current_time_in_s();
 
     // Get the current measurement from co2 sensor in ppm.
@@ -82,7 +103,7 @@ void loop() {
     set_led(current_co2_measurement_ppm);
 
     // Check if the current CO2 measurement is above the threshold value.
-    if (current_co2_measurement_ppm > co2_threshold_ppm) {
+    if (current_co2_measurement_ppm > co2_upper_threshold_moderate_air_quality_ppm) {
 
         /**
          * @brief   check if the CO2 threshold value has already been exceeded for
@@ -177,12 +198,12 @@ void display_co2_value(int co2_measurement_ppm) {
 
 /**
  * @brief   Controls the LED indicators to visually represent CO2 levels.
- * @details Activates two adjacent LEDs to indicate the current CO2 concentration:
- *              - ≤ 800 ppm: Both green LEDs light up.
- *              - 801–1000 ppm: One green and one yellow LED light up.
- *              - 1001–1200 ppm: Both yellow LEDs light up.
- *              - 1201–1400 ppm: One yellow and one red LED light up.
- *              - > 1400 ppm: Both red LEDs light up.
+ * @details Activates two adjacent LEDs out of six in a series to indicate the current CO2 concentration:
+ *              - high indoor air quality: Both green LEDs light up.
+ *              - medium indoor air quality: One green and one yellow LED (adjacent to each other) light up.
+ *              - lower half of moderate indoor air quality: Both yellow LEDs light up.
+ *              - upper half of moderate indoor air quality: One yellow and one red LED (adjacent to each other) light up.
+ *              - poor indoor air quality: Both red LEDs light up.
  * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
  */
 void set_led(int co2_measurement_ppm) {
