@@ -41,9 +41,9 @@ int get_co2_measurement_in_ppm();
 
 void issue_audio_warning();
 
-void display_co2_value(int);
+void display_co2_value(int co2_measurement_ppm);
 
-void set_led(int);
+void set_led(int co2_measurement_ppm);
 
 /**
  * @brief   Initializes the Arduino setup routine.
