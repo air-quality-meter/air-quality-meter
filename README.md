@@ -10,12 +10,13 @@ The device operates as follows:
 
 2. **Display:** The measured CO2 value is displayed on an LCD1602 LCD screen.
 
-3. **LED Indicators:** Two LEDs provide a visual indication of the CO2 level:
-  - Green: Good air quality (CO2 ≤ 800 ppm)
-  - Yellow: Moderate air quality (800 ppm < CO2 ≤ 1400 ppm)
-  - Red: Poor air quality (CO2 > 1400 ppm)
+3. **LED Indicators:** Six LEDs (2x Green, 2x Yellow, 2x Red) provide a visual indication of the CO2 level based on DIN EN 13779 see: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf (Table 3):
+    - **High air quality (IDA 1):** Both green LEDs light up (CO2 ≤ 800 ppm).
+    - **Medium air quality (IDA 2):** One green and one yellow LED light up (800 ppm < CO2 ≤ 1000 ppm).
+    - **Moderate air quality (IDA 3):**  Both yellow LEDs light up (1000 ppm < CO2 ≤ 1200 ppm), or one yellow and one red LED light up (1200 ppm < CO2 ≤ 1400 ppm).
+    - **Poor air quality (IDA 4):** Both red LEDs light up (CO2 > 1400 ppm).
 
-4. **Audio Warning:** If the CO2 level exceeds the threshold (1400 ppm) for a prolonged period, the device triggers an audio warning using a Gravity UART MP3 Voice Module and a 3W 8Ω Stereo Enclosed Speaker. The warning is repeated at set intervals until the CO2 level falls below the threshold or the device is reset.
+4. **Audio Warning:** If the CO2 level exceeds the threshold for poor air quality (1400 ppm) for a prolonged period, the device triggers an audio warning using a Gravity UART MP3 Voice Module and a 3W 8Ω Stereo Enclosed Speaker. The warning is repeated at set intervals until the CO2 level falls below the threshold or the device is reset.
 
 5. **Reset Button:** A reset button allows the user to manually silence the audio warning and reset the warning counter.
 
