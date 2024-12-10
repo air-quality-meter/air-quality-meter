@@ -210,7 +210,7 @@ void issue_audio_warning() {
  *          Display used: LCD1602 Module (with pin header)
  * @param co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
  */
-void display_co2_value(int co2_measurement_ppm) {
+void display_co2_value(const int co2_measurement_ppm) {
     //TODO: This function needs to be written.
 };
 
@@ -224,31 +224,39 @@ void display_co2_value(int co2_measurement_ppm) {
  *              - poor indoor air quality: Both red LEDs light up.
  * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
  */
-void set_led(int co2_measurement_ppm) {
+void set_led(const int co2_measurement_ppm) {
+
+    // Switch all LEDs off.
     digitalWrite(GREEN_LED_1, LOW);
     digitalWrite(GREEN_LED_2, LOW);
     digitalWrite(YELLOW_LED_1, LOW);
     digitalWrite(YELLOW_LED_2, LOW);
     digitalWrite(RED_LED_1, LOW);
     digitalWrite(RED_LED_2, LOW);
+
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
+        // High indoor air quality: switch both green LEDs on
         digitalWrite(GREEN_LED_1, HIGH);
         digitalWrite(GREEN_LED_2, HIGH);
-    }
-    else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
+
+    } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
+        // Medium indoor air quality: switch one green and one yellow LED (adjacent to each other) on.
         digitalWrite(GREEN_LED_2, HIGH);
         digitalWrite(YELLOW_LED_1, HIGH);
-    }
-    else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
+
+    } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
+        // Lower half of moderate indoor air quality: switch both yellow LEDs on.
         digitalWrite(YELLOW_LED_1, HIGH);
         digitalWrite(YELLOW_LED_2, HIGH);
-    }
-    else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
+
+    } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
+        // upper half of moderate indoor air quality: switch one yellow and one red LED (adjacent to each other) on.
         digitalWrite(YELLOW_LED_2, HIGH);
         digitalWrite(RED_LED_1, HIGH);
-    }
-    else {
+
+    } else {
+        // poor indoor air quality: switch both red LEDs on.
         digitalWrite(RED_LED_1, HIGH);
         digitalWrite(RED_LED_2, HIGH);
-    }
+    };
 };
