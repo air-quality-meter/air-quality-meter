@@ -225,6 +225,7 @@ void display_co2_value(int co2_measurement_ppm) {
  * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
  */
 void set_led(int co2_measurement_ppm) {
+void set_led(const int co2_measurement_ppm) {
     digitalWrite(GREEN_LED_1, LOW);
     digitalWrite(GREEN_LED_2, LOW);
     digitalWrite(YELLOW_LED_1, LOW);
