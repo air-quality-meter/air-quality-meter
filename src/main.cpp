@@ -14,6 +14,12 @@
 
 // Pins
 #define BUTTON 2 ///< Interrupt functionality on Pin2 (Int0)
+#define GREEN_LED_1 22 ///< First green LED on Pin 22
+#define GREEN_LED_2 24 ///< Second green LED on Pin 24
+#define YELLOW_LED_1 26 ///< First yellow LED on Pin 26
+#define YELLOW_LED_2 28 ///< Second yellow LED on Pin 28
+#define RED_LED_1 30 ///< First red LED on Pin 30
+#define RED_LED_2 32 ///< Second red LED on Pin 32
 
 // Global constants
 // Air quality thresholds based on DIN EN 13779.
