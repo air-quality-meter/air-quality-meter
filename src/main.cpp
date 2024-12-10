@@ -210,7 +210,7 @@ void issue_audio_warning() {
  *          Display used: LCD1602 Module (with pin header)
  * @param co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
  */
-void display_co2_value(int co2_measurement_ppm) {
+void display_co2_value(const int co2_measurement_ppm) {
     //TODO: This function needs to be written.
 };
 
