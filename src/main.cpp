@@ -14,56 +14,53 @@
 
 // Pins
 #define TIME_COUNTER_RESET_BUTTON_PIN 2 ///< Interrupt functionality on Pin2 (Int0)
-#define GREEN_LED_1_PIN 22 ///< First green LED on Pin 22
-#define GREEN_LED_2_PIN 24 ///< Second green LED on Pin 24
-#define YELLOW_LED_1_PIN 26 ///< First yellow LED on Pin 26
-#define YELLOW_LED_2_PIN 28 ///< Second yellow LED on Pin 28
-#define RED_LED_1_PIN 30 ///< First red LED on Pin 30
-#define RED_LED_2_PIN 32 ///< Second red LED on Pin 32
+#define GREEN_LED_1_PIN 22 ///< LED to indicate high air quality on Pin 22
+#define GREEN_LED_2_PIN 24 ///< LED to indicate high or medium air quality on Pin 24
+#define YELLOW_LED_1_PIN 26 ///< LED to indicate medium or moderate air quality on Pin 26
+#define YELLOW_LED_2_PIN 28 ///< LED to indicate moderate air quality on Pin 28
+#define RED_LED_1_PIN 30 ///< LED to indicate moderate or poor air quality on Pin 30
+#define RED_LED_2_PIN 32 ///< LED to indicate poor air quality on Pin 32
 
 // Global constants
-// Air quality thresholds based on DIN EN 13779.
-// See: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf
+/*
+ * Air quality thresholds based on DIN EN 13779.
+ * See: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf
+ */
 constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
-///< Upper CO2 threshold (less than or equal to) for high
-                                                             ///< indoor air quality (IDA 1 DIN EN 13779) in parts per
-                                                             ///< million (ppm)
+///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
+///< in parts per million (ppm)
+
 constexpr int co2_upper_threshold_medium_air_quality_ppm = 1000;
-///< Upper CO2 threshold (less than or equal to) for
-                                                                ///< medium indoor air quality (IDA 2 DIN EN 13779) in
-                                                                ///< parts per million (ppm)
+///< Upper CO2 threshold (less than or equal to) for medium indoor air quality (IDA 2 DIN EN 13779)
+///< in parts per million (ppm)
+
 constexpr int co2_mid_threshold_moderate_air_quality_ppm = 1200;
-///< Upper CO2 threshold (less than or equal to) for
-                                                                ///< lower half (mid) of moderate indoor air quality
-                                                                ///< (IDA 3 DIN EN 13779) parts per million (ppm). The
-                                                                ///< IDA 3 bandwidth is double the size of the IDA 2
-                                                                ///< bandwidth, which is why it is divided into two
-                                                                ///< halves here.
+///< Upper CO2 threshold (less than or equal to) for lower half (mid) of moderate indoor air quality
+///< (IDA 3 DIN EN 13779) parts per million (ppm). The IDA 3 bandwidth is double the size of the IDA 2 bandwidth,
+///< which is why it is divided into two halves here.
+
 constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400;
-///< Upper CO2 threshold (less than or equal to) for
-                                                                  ///< moderate indoor air quality (IDA 3 DIN EN 13779)
-                                                                  ///< parts per million (ppm). At the same time, this
-                                                                  ///< value represents the lower threshold (greater
-                                                                  ///< than) value for poor indoor air quality (IDA 4
-                                                                  ///< DIN EN 13779)
+///< Upper CO2 threshold (less than or equal to) for moderate indoor air quality (IDA 3 DIN EN 13779)
+///< parts per million (ppm). At the same time, this value represents the lower threshold (greater than) value
+///< for poor indoor air quality (IDA 4 DIN EN 13779)
+
 constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
-// All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
+
 constexpr unsigned long max_co2_above_threshold_time_s = 3600;
 ///< Max time period allowed CO2 above threshold (seconds)
+
 constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
-
 // Global variables
-// All time constants and variables as unsigned long to delay the overflow of millis() as long as possible.
 unsigned long current_time_s;
-///< Current timestamp (time since board is powered on or since last overflow of
-                             ///<  millis()) (seconds)
+///< Current timestamp (time since board is powered on or since last overflow of millis()) (seconds)
+
 int current_co2_measurement_ppm; ///< Current CO2 measurement in parts per million (ppm)
-// Volatile variables (to allow mutation by interrupt function)
+
 volatile unsigned long last_co2_below_threshold_time_s;
-///< Timestamp of last CO2 measurement below threshold (seconds)
-                                                       ///< to calculate the elapsed time, since CO2 concentration is
-                                                       ///< too high. Used to manage warnings and warning intervals
+///< Timestamp of last CO2 measurement below threshold (seconds) to calculate the elapsed time, since CO2 concentration
+///< is too high. Used to manage warnings and warning intervals
+
 volatile int warning_counter; ///< Counter for consecutive warnings
 
 // function declarations
@@ -79,31 +76,26 @@ void display_co2_value(int co2_measurement_ppm);
 
 void set_led(int co2_measurement_ppm);
 
+/// Arduino Sketch functions
 /**
  * @brief   Initializes the Arduino setup routine.
  * @details Configures initial system states and sets up the interrupt service routine.
  *          Runs once when the board is powered on or reset.
  */
 void setup() {
-    // Set initial current_time_s timestamp (seconds since board is on or since last overflow of millis()).
     current_time_s = get_current_time_in_s();
-
-    // Set initial last_co2_below_threshold_time_s to current_time_s and warning_counter to 0.
     reset_co2_below_threshold_and_warning_counter();
 
     // Setup Interrupt Service Routine.
     attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
-    ///< trigger
-                                                                                             ///< reset_co2_below_threshold_and_warning_counter()
-                                                                                             ///< function when button is
-                                                                                             ///< pressed (released).
+
     // Setup Input/Output
-    pinMode(GREEN_LED_1_PIN, OUTPUT); ///< Output for first green LED
-    pinMode(GREEN_LED_2_PIN, OUTPUT); ///< Output for second green LED
-    pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< Output for first yellow LED
-    pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< Output for second yellow LED
-    pinMode(RED_LED_1_PIN, OUTPUT); ///< Output for first red LED
-    pinMode(RED_LED_2_PIN, OUTPUT); ///< Output for second red LED
+    pinMode(GREEN_LED_1_PIN, OUTPUT); ///< LED for high air quality
+    pinMode(GREEN_LED_2_PIN, OUTPUT); ///< LED for high or medium air quality
+    pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< LED for medium or moderate air quality
+    pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< LED for moderate air quality
+    pinMode(RED_LED_1_PIN, OUTPUT); ///< LED for moderate or poor air quality
+    pinMode(RED_LED_2_PIN, OUTPUT); ///< LED for poor air quality
 };
 
 /**
@@ -111,19 +103,11 @@ void setup() {
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
  */
 void loop() {
-    // Set the current_time_s timestamp (seconds since board is on or since last overflow of millis).
     current_time_s = get_current_time_in_s();
-
-    // Get the current measurement from co2 sensor in ppm.
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
-
-    // Display the current co2 measurement on the display.
     display_co2_value(current_co2_measurement_ppm);
-
-    // Set the LEDs according to the CO2 measurement value.
     set_led(current_co2_measurement_ppm);
 
-    // Check if the current CO2 measurement is above the threshold value.
     if (current_co2_measurement_ppm > co2_upper_threshold_moderate_air_quality_ppm) {
         /**
          * @brief   check if the CO2 threshold value has already been exceeded for
@@ -139,28 +123,21 @@ void loop() {
          * @see     https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
          */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
-            // Issue an audio warning.
             issue_audio_warning();
 
-            // Adjust the timestamp to wait until the next audio warning.
+            // Wait until the next audio warning to prevent uninterrupted audio output.
             last_co2_below_threshold_time_s = last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
-
-            // Increase the warning counter.
             warning_counter++;
-
-            // Reset timestamp when the maximum number of warnings has been reached.
             if (warning_counter >= max_consecutive_warnings) {
                 reset_co2_below_threshold_and_warning_counter();
             };
         };
     } else {
-        // Reset timestamp and warning counter if the CO2 measurement is below or equal to threshold value.
         reset_co2_below_threshold_and_warning_counter();
     };
 };
 
 // Function definitions
-
 /**
  * @brief   Resets last_co2_below_threshold_time_s and warning_counter.
  * @details Resets the timestamp of the last CO2 measurement that was below the threshold
@@ -177,9 +154,8 @@ void reset_co2_below_threshold_and_warning_counter() {
  * @return  The elapsed time since the board was powered on in seconds.
  */
 unsigned long get_current_time_in_s() {
-    const unsigned long time_since_board_on_ms = millis();
-    // Get seconds from milliseconds.
-    const unsigned long time_since_board_on_s = time_since_board_on_ms / 1000;
+    const unsigned long time_since_board_on_ms = millis(); ///< timestamp in milliseconds
+    const unsigned long time_since_board_on_s = time_since_board_on_ms / 1000; ///< timestamp in seconds
     return time_since_board_on_s;
 };
 
@@ -225,8 +201,7 @@ void display_co2_value(const int co2_measurement_ppm) {
  * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
  */
 void set_led(const int co2_measurement_ppm) {
-
-    // Switch all LEDs off.
+    // Reset all LEDs to off state to prepare for the next indication.
     digitalWrite(GREEN_LED_1_PIN, LOW);
     digitalWrite(GREEN_LED_2_PIN, LOW);
     digitalWrite(YELLOW_LED_1_PIN, LOW);
@@ -234,28 +209,25 @@ void set_led(const int co2_measurement_ppm) {
     digitalWrite(RED_LED_1_PIN, LOW);
     digitalWrite(RED_LED_2_PIN, LOW);
 
+    // Set LEDs to indicate the current CO2 measurement.
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
-        // High indoor air quality: switch both green LEDs on
+        // High indoor air quality.
         digitalWrite(GREEN_LED_1_PIN, HIGH);
         digitalWrite(GREEN_LED_2_PIN, HIGH);
-
     } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
-        // Medium indoor air quality: switch one green and one yellow LED (adjacent to each other) on.
+        // Medium indoor air quality.
         digitalWrite(GREEN_LED_2_PIN, HIGH);
         digitalWrite(YELLOW_LED_1_PIN, HIGH);
-
     } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
-        // Lower half of moderate indoor air quality: switch both yellow LEDs on.
+        // Lower half of moderate indoor air quality.
         digitalWrite(YELLOW_LED_1_PIN, HIGH);
         digitalWrite(YELLOW_LED_2_PIN, HIGH);
-
     } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
-        // upper half of moderate indoor air quality: switch one yellow and one red LED (adjacent to each other) on.
+        // upper half of moderate indoor air quality.
         digitalWrite(YELLOW_LED_2_PIN, HIGH);
         digitalWrite(RED_LED_1_PIN, HIGH);
-
     } else {
-        // poor indoor air quality: switch both red LEDs on.
+        // poor indoor air quality.
         digitalWrite(RED_LED_1_PIN, HIGH);
         digitalWrite(RED_LED_2_PIN, HIGH);
     };
