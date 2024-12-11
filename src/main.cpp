@@ -13,13 +13,13 @@
 // Import libraries
 
 // Pins
-#define BUTTON 2 ///< Interrupt functionality on Pin2 (Int0)
-#define GREEN_LED_1 22 ///< First green LED on Pin 22
-#define GREEN_LED_2 24 ///< Second green LED on Pin 24
-#define YELLOW_LED_1 26 ///< First yellow LED on Pin 26
-#define YELLOW_LED_2 28 ///< Second yellow LED on Pin 28
-#define RED_LED_1 30 ///< First red LED on Pin 30
-#define RED_LED_2 32 ///< Second red LED on Pin 32
+#define TIME_COUNTER_RESET_BUTTON_PIN 2 ///< Interrupt functionality on Pin2 (Int0)
+#define GREEN_LED_1_PIN 22 ///< First green LED on Pin 22
+#define GREEN_LED_2_PIN 24 ///< Second green LED on Pin 24
+#define YELLOW_LED_1_PIN 26 ///< First yellow LED on Pin 26
+#define YELLOW_LED_2_PIN 28 ///< Second yellow LED on Pin 28
+#define RED_LED_1_PIN 30 ///< First red LED on Pin 30
+#define RED_LED_2_PIN 32 ///< Second red LED on Pin 32
 
 // Global constants
 // Air quality thresholds based on DIN EN 13779.
@@ -92,18 +92,18 @@ void setup() {
     reset_co2_below_threshold_and_warning_counter();
 
     // Setup Interrupt Service Routine.
-    attachInterrupt(BUTTON, reset_co2_below_threshold_and_warning_counter,FALLING);
+    attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
     ///< trigger
                                                                                              ///< reset_co2_below_threshold_and_warning_counter()
                                                                                              ///< function when button is
                                                                                              ///< pressed (released).
     // Setup Input/Output
-    pinMode(GREEN_LED_1, OUTPUT); ///< Output for first green LED
-    pinMode(GREEN_LED_2, OUTPUT); ///< Output for second green LED
-    pinMode(YELLOW_LED_1, OUTPUT); ///< Output for first yellow LED
-    pinMode(YELLOW_LED_2, OUTPUT); ///< Output for second yellow LED
-    pinMode(RED_LED_1, OUTPUT); ///< Output for first red LED
-    pinMode(RED_LED_2, OUTPUT); ///< Output for second red LED
+    pinMode(GREEN_LED_1_PIN, OUTPUT); ///< Output for first green LED
+    pinMode(GREEN_LED_2_PIN, OUTPUT); ///< Output for second green LED
+    pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< Output for first yellow LED
+    pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< Output for second yellow LED
+    pinMode(RED_LED_1_PIN, OUTPUT); ///< Output for first red LED
+    pinMode(RED_LED_2_PIN, OUTPUT); ///< Output for second red LED
 };
 
 /**
@@ -227,36 +227,36 @@ void display_co2_value(const int co2_measurement_ppm) {
 void set_led(const int co2_measurement_ppm) {
 
     // Switch all LEDs off.
-    digitalWrite(GREEN_LED_1, LOW);
-    digitalWrite(GREEN_LED_2, LOW);
-    digitalWrite(YELLOW_LED_1, LOW);
-    digitalWrite(YELLOW_LED_2, LOW);
-    digitalWrite(RED_LED_1, LOW);
-    digitalWrite(RED_LED_2, LOW);
+    digitalWrite(GREEN_LED_1_PIN, LOW);
+    digitalWrite(GREEN_LED_2_PIN, LOW);
+    digitalWrite(YELLOW_LED_1_PIN, LOW);
+    digitalWrite(YELLOW_LED_2_PIN, LOW);
+    digitalWrite(RED_LED_1_PIN, LOW);
+    digitalWrite(RED_LED_2_PIN, LOW);
 
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
         // High indoor air quality: switch both green LEDs on
-        digitalWrite(GREEN_LED_1, HIGH);
-        digitalWrite(GREEN_LED_2, HIGH);
+        digitalWrite(GREEN_LED_1_PIN, HIGH);
+        digitalWrite(GREEN_LED_2_PIN, HIGH);
 
     } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
         // Medium indoor air quality: switch one green and one yellow LED (adjacent to each other) on.
-        digitalWrite(GREEN_LED_2, HIGH);
-        digitalWrite(YELLOW_LED_1, HIGH);
+        digitalWrite(GREEN_LED_2_PIN, HIGH);
+        digitalWrite(YELLOW_LED_1_PIN, HIGH);
 
     } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
         // Lower half of moderate indoor air quality: switch both yellow LEDs on.
-        digitalWrite(YELLOW_LED_1, HIGH);
-        digitalWrite(YELLOW_LED_2, HIGH);
+        digitalWrite(YELLOW_LED_1_PIN, HIGH);
+        digitalWrite(YELLOW_LED_2_PIN, HIGH);
 
     } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
         // upper half of moderate indoor air quality: switch one yellow and one red LED (adjacent to each other) on.
-        digitalWrite(YELLOW_LED_2, HIGH);
-        digitalWrite(RED_LED_1, HIGH);
+        digitalWrite(YELLOW_LED_2_PIN, HIGH);
+        digitalWrite(RED_LED_1_PIN, HIGH);
 
     } else {
         // poor indoor air quality: switch both red LEDs on.
-        digitalWrite(RED_LED_1, HIGH);
-        digitalWrite(RED_LED_2, HIGH);
+        digitalWrite(RED_LED_1_PIN, HIGH);
+        digitalWrite(RED_LED_2_PIN, HIGH);
     };
 };
