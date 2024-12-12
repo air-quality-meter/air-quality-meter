@@ -51,6 +51,14 @@ constexpr unsigned long max_co2_above_threshold_time_s = 3600;
 
 constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
+// Global string constants
+constexpr auto co2_prefix = String("CO2: "); ///< Prefix to display CO2 value
+constexpr auto ppm_suffix = String(" ppm"); ///< Suffix to display a value with ppm as the unit
+constexpr auto high_air_quality_description = String("High air quality"); ///< Text for IDA 1
+constexpr auto medium_air_quality_description = String("Medium air quality"); ///< Text for IDA 2
+constexpr auto moderate_air_quality_description = String("Moderate air quality"); ///< Text for IDA 3
+constexpr auto poor_air_quality_description = String("Poor air quality"); ///< Text for IDA 4
+
 // Global variables
 unsigned long current_time_s;
 ///< Current timestamp (time since board is powered on or since last overflow of millis()) (seconds)
@@ -72,9 +80,16 @@ int get_co2_measurement_in_ppm();
 
 void issue_audio_warning();
 
-void display_co2_value(int co2_measurement_ppm);
+void visually_output_air_quality(int co2_measurement_ppm);
 
-void set_led(int co2_measurement_ppm);
+void display_out(const String &line_1, const String &line_2);
+
+void set_leds(bool is_green_led_1_on,
+              bool is_green_led_2_on,
+              bool is_yellow_led_1_on,
+              bool is_yellow_led_2_on,
+              bool is_red_led_1_on,
+              bool is_red_led_2_on);
 
 /// Arduino Sketch functions
 /**
@@ -105,9 +120,7 @@ void setup() {
 void loop() {
     current_time_s = get_current_time_in_s();
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
-    display_co2_value(current_co2_measurement_ppm);
-    set_led(current_co2_measurement_ppm);
-
+    visually_output_air_quality(current_co2_measurement_ppm);
     if (current_co2_measurement_ppm > co2_upper_threshold_moderate_air_quality_ppm) {
         /**
          * @brief   check if the CO2 threshold value has already been exceeded for
@@ -124,7 +137,6 @@ void loop() {
          */
         if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
             issue_audio_warning();
-
             // Wait until the next audio warning to prevent uninterrupted audio output.
             last_co2_below_threshold_time_s = last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
             warning_counter++;
@@ -181,54 +193,75 @@ void issue_audio_warning() {
 };
 
 /**
- * @brief   Displays the provided CO2 measurement.
- * @details Updates the connected display to show the provided CO2 value in ppm.
+ * @brief   Outputs text to the LCD.
+ * @details Updates the connected display module to display the provided text on two lines.
  *          Display used: LCD1602 Module (with pin header)
- * @param co2_measurement_ppm The CO2 value to be displayed, in parts per million (ppm)
+ *          This function uses call by reference for the `String` parameters to avoid unnecessary
+ *          copying of potentially large strings, improving performance. The `const` keyword
+ *          ensures that the function cannot modify the original strings.
+ * @param line_1 Text to display on the first line of the LCD.
+ * @param line_2 Text to display on the second line of the LCD.
  */
-void display_co2_value(const int co2_measurement_ppm) {
+void display_out(const String &line_1, const String &line_2) {
     //TODO: This function needs to be written.
 };
 
 /**
- * @brief   Controls the LED indicators to visually represent CO2 levels.
- * @details Activates two adjacent LEDs out of six in a series to indicate the current CO2 concentration:
+ * @brief   Controls the LED indicators.
+ * @details Activates LEDs according to the given parameters.
+ *          HIGH and LOW as second parameters for digitalWrite() are provided as booleans.
+ *          This is valid, because HIGH and LOW are the same as true and false, as well as 1 and 0.
+ * @see     https://reference.arduino.cc/reference/en/language/variables/constants/highlow/?_gl=1*12oo2pw*_up*MQ..*_ga*NTMxMjcxOTAwLjE3MzM5NTQ2Mzc.*_ga_NEXN8H46L5*MTczMzk1NDYzNi4xLjEuMTczMzk1NDcxNC4wLjAuMTM1MTQzNjcxNw..
+ * @param is_green_led_1_on Is the green LED 1 on?
+ * @param is_green_led_2_on  Is the green LED 2 on?
+ * @param is_yellow_led_1_on  Is the yellow LED 1 on?
+ * @param is_yellow_led_2_on  Is the yellow LED 2 on?
+ * @param is_red_led_1_on  Is the red LED 1 on?
+ * @param is_red_led_2_on  Is the red LED 2 on?
+ */
+void set_leds(const bool is_green_led_1_on,
+              const bool is_green_led_2_on,
+              const bool is_yellow_led_1_on,
+              const bool is_yellow_led_2_on,
+              const bool is_red_led_1_on,
+              const bool is_red_led_2_on) {
+    digitalWrite(GREEN_LED_1_PIN, is_green_led_1_on);
+    digitalWrite(GREEN_LED_2_PIN, is_green_led_2_on);
+    digitalWrite(YELLOW_LED_1_PIN, is_yellow_led_1_on);
+    digitalWrite(YELLOW_LED_2_PIN, is_yellow_led_2_on);
+    digitalWrite(RED_LED_1_PIN, is_red_led_1_on);
+    digitalWrite(RED_LED_2_PIN, is_red_led_2_on);
+};
+
+/**
+ * @brief   Visually outputs air quality to display and LED indicators.
+ * @details Sends CO2 value and a description of the air quality to display output and
+ *          sets the LED indicators accordingly.
  *              - high indoor air quality: Both green LEDs light up.
  *              - medium indoor air quality: One green and one yellow LED (adjacent to each other) light up.
  *              - lower half of moderate indoor air quality: Both yellow LEDs light up.
  *              - upper half of moderate indoor air quality: One yellow and one red LED (adjacent to each other) light up.
  *              - poor indoor air quality: Both red LEDs light up.
- * @param co2_measurement_ppm The CO2 value whose level should be indicated with the LEDs
+ * @param co2_measurement_ppm CO2 value.
  */
-void set_led(const int co2_measurement_ppm) {
-    // Reset all LEDs to off state to prepare for the next indication.
-    digitalWrite(GREEN_LED_1_PIN, LOW);
-    digitalWrite(GREEN_LED_2_PIN, LOW);
-    digitalWrite(YELLOW_LED_1_PIN, LOW);
-    digitalWrite(YELLOW_LED_2_PIN, LOW);
-    digitalWrite(RED_LED_1_PIN, LOW);
-    digitalWrite(RED_LED_2_PIN, LOW);
-
-    // Set LEDs to indicate the current CO2 measurement.
+void visually_output_air_quality(const int co2_measurement_ppm) {
+    const String display_line_1 = co2_prefix + co2_measurement_ppm + ppm_suffix;
+    String display_line_2;
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
-        // High indoor air quality.
-        digitalWrite(GREEN_LED_1_PIN, HIGH);
-        digitalWrite(GREEN_LED_2_PIN, HIGH);
+        display_line_2 = high_air_quality_description;
+        set_leds(true, true, false, false, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
-        // Medium indoor air quality.
-        digitalWrite(GREEN_LED_2_PIN, HIGH);
-        digitalWrite(YELLOW_LED_1_PIN, HIGH);
+        display_line_2 = medium_air_quality_description;
+        set_leds(false, true, true, false, false, false);
     } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
-        // Lower half of moderate indoor air quality.
-        digitalWrite(YELLOW_LED_1_PIN, HIGH);
-        digitalWrite(YELLOW_LED_2_PIN, HIGH);
+        display_line_2 = moderate_air_quality_description;
+        set_leds(false, false, true, true, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
-        // upper half of moderate indoor air quality.
-        digitalWrite(YELLOW_LED_2_PIN, HIGH);
-        digitalWrite(RED_LED_1_PIN, HIGH);
+        display_line_2 = moderate_air_quality_description;
+        set_leds(false, false, false, true, true, false);
     } else {
-        // poor indoor air quality.
-        digitalWrite(RED_LED_1_PIN, HIGH);
-        digitalWrite(RED_LED_2_PIN, HIGH);
+        display_line_2 = poor_air_quality_description;
+        set_leds(false, false, false, false, true, true);
     };
+    display_out(display_line_1, display_line_2);
 };
