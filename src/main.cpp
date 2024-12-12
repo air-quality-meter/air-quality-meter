@@ -11,7 +11,6 @@
  */
 
 // Import libraries
-#include <string.h> // For strcpy and snprintf
 
 // Pins
 #define TIME_COUNTER_RESET_BUTTON_PIN 2 ///< Interrupt functionality on Pin2 (Int0)
@@ -52,17 +51,17 @@ constexpr unsigned long max_co2_above_threshold_time_s = 3600;
 
 constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
-// Global string constants. Use char in PROGMEM (Flash Memory) to avoid allocating dynamic memory for immutable strings.
-constexpr char co2_prefix[] PROGMEM = "CO2: "; ///< Prefix to display CO2 value
-constexpr char ppm_suffix[] PROGMEM = " ppm"; ///< Suffix to display a value with ppm as the unit
-constexpr char high_air_quality_description[] PROGMEM = "High air quality"; ///< Text for IDA 1
-constexpr char medium_air_quality_description[] PROGMEM = "Medium air quality"; ///< Text for IDA 2
-constexpr char moderate_air_quality_description[] PROGMEM = "Moderate air quality"; ///< Text for IDA 3
-constexpr char poor_air_quality_description[] PROGMEM = "Poor air quality"; ///< Text for IDA 4
+// Global string array constants.
+constexpr char co2_prefix[] = "CO2: "; ///< Prefix to display CO2 value
+constexpr char ppm_suffix[] = " ppm"; ///< Suffix to display a value with ppm as the unit
+constexpr char high_air_quality_description[] = "High air quality"; ///< Text for IDA 1
+constexpr char medium_air_quality_description[] = "Medium air quality"; ///< Text for IDA 2
+constexpr char moderate_air_quality_description[] = "Moderate air quality"; ///< Text for IDA 3
+constexpr char poor_air_quality_description[] = "Poor air quality"; ///< Text for IDA 4
 
 // Fix length of Strings:
-constexpr size_t display_line_1_size = 16; ///< Maximum size for the first line of the LCD display.
-constexpr size_t display_line_2_size = 24; ///< Maximum size for the second line of the LCD display.
+constexpr size_t display_line_1_size = 16; ///< Maximum size for the first line of the LCD.
+constexpr size_t display_line_2_size = 24; ///< Maximum size for the second line of the LCD.
 
 // Global variables
 unsigned long current_time_s;
@@ -207,6 +206,7 @@ void issue_audio_warning() {
  *          Display used: LCD1602 Module (with pin header)
  *          This function takes pointers to string arrays as parameters to avoid unnecessary
  *          copying of the data, improving performance and reducing memory usage.
+ *          Call by pointer. The use of const prevents mutating the strings (char arrays).
  * @param line_1 Pointer to the text to display on the first line of the LCD.
  * @param line_2 Pointer to the text to display on the second line of the LCD.
  */
@@ -242,8 +242,8 @@ void set_leds(const bool is_green_led_1_on,
 };
 
 /**
- * @brief   Visually outputs air quality to display and LED indicators.
- * @details Sends CO2 value and a description of the air quality to display output and
+ * @brief   Visually outputs air quality to LCD and LED indicators.
+ * @details Sends CO2 value and a description of the air quality to display_output() and
  *          sets the LED indicators accordingly.
  *              - high indoor air quality: Both green LEDs light up.
  *              - medium indoor air quality: One green and one yellow LED (adjacent to each other) light up.
@@ -254,27 +254,26 @@ void set_leds(const bool is_green_led_1_on,
  */
 void visually_output_air_quality(const int co2_measurement_ppm) {
     snprintf(display_line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
-    ///< snprintf for formatting the text (concatenate)
+    ///< Formatting the text (concatenate).
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
         strncpy(display_line_2, high_air_quality_description, display_line_2_size - 1);
-        ///< Ensuring that the copied string does not exceed the allocated buffer size
-        display_line_2[display_line_2_size-1] = '\0'; // Ensure null termination after strncpy()
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(true, true, false, false, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
         strncpy(display_line_2, medium_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size-1] = '\0';
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(false, true, true, false, false, false);
     } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
         strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size-1] = '\0';
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(false, false, true, true, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
         strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size-1] = '\0';
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(false, false, false, true, true, false);
     } else {
         strncpy(display_line_2, poor_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size-1] = '\0';
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(false, false, false, false, true, true);
     };
     display_out(display_line_1, display_line_2);
