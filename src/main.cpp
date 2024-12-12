@@ -11,6 +11,7 @@
  */
 
 // Import libraries
+#include <string.h> // For strcpy and snprintf
 
 // Pins
 #define TIME_COUNTER_RESET_BUTTON_PIN 2 ///< Interrupt functionality on Pin2 (Int0)
@@ -51,13 +52,17 @@ constexpr unsigned long max_co2_above_threshold_time_s = 3600;
 
 constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
-// Global string constants
-constexpr auto co2_prefix = String("CO2: "); ///< Prefix to display CO2 value
-constexpr auto ppm_suffix = String(" ppm"); ///< Suffix to display a value with ppm as the unit
-constexpr auto high_air_quality_description = String("High air quality"); ///< Text for IDA 1
-constexpr auto medium_air_quality_description = String("Medium air quality"); ///< Text for IDA 2
-constexpr auto moderate_air_quality_description = String("Moderate air quality"); ///< Text for IDA 3
-constexpr auto poor_air_quality_description = String("Poor air quality"); ///< Text for IDA 4
+// Global string constants. Use char in PROGMEM (Flash Memory) to avoid allocating dynamic memory for immutable strings.
+constexpr char co2_prefix[] PROGMEM = "CO2: "; ///< Prefix to display CO2 value
+constexpr char ppm_suffix[] PROGMEM = " ppm"; ///< Suffix to display a value with ppm as the unit
+constexpr char high_air_quality_description[] PROGMEM = "High air quality"; ///< Text for IDA 1
+constexpr char medium_air_quality_description[] PROGMEM = "Medium air quality"; ///< Text for IDA 2
+constexpr char moderate_air_quality_description[] PROGMEM = "Moderate air quality"; ///< Text for IDA 3
+constexpr char poor_air_quality_description[] PROGMEM = "Poor air quality"; ///< Text for IDA 4
+
+// Fix length of Strings:
+constexpr size_t display_line_1_size = 16; ///< Maximum size for the first line of the LCD display.
+constexpr size_t display_line_2_size = 24; ///< Maximum size for the second line of the LCD display.
 
 // Global variables
 unsigned long current_time_s;
@@ -71,6 +76,10 @@ volatile unsigned long last_co2_below_threshold_time_s;
 
 volatile int warning_counter; ///< Counter for consecutive warnings
 
+// Global string variables
+char display_line_1[display_line_1_size] = ""; ///< first line to display on the LCD
+char display_line_2[display_line_2_size] = ""; ///< second line to display on the LCD
+
 // function declarations
 void reset_co2_below_threshold_and_warning_counter();
 
@@ -82,7 +91,7 @@ void issue_audio_warning();
 
 void visually_output_air_quality(int co2_measurement_ppm);
 
-void display_out(const String &line_1, const String &line_2);
+void display_out(const char *line_1, const char *line_2);
 
 void set_leds(bool is_green_led_1_on,
               bool is_green_led_2_on,
@@ -196,13 +205,12 @@ void issue_audio_warning() {
  * @brief   Outputs text to the LCD.
  * @details Updates the connected display module to display the provided text on two lines.
  *          Display used: LCD1602 Module (with pin header)
- *          This function uses call by reference for the `String` parameters to avoid unnecessary
- *          copying of potentially large strings, improving performance. The `const` keyword
- *          ensures that the function cannot modify the original strings.
- * @param line_1 Text to display on the first line of the LCD.
- * @param line_2 Text to display on the second line of the LCD.
+ *          This function takes pointers to string arrays as parameters to avoid unnecessary
+ *          copying of the data, improving performance and reducing memory usage.
+ * @param line_1 Pointer to the text to display on the first line of the LCD.
+ * @param line_2 Pointer to the text to display on the second line of the LCD.
  */
-void display_out(const String &line_1, const String &line_2) {
+void display_out(const char *line_1, const char *line_2) {
     //TODO: This function needs to be written.
 };
 
@@ -245,22 +253,28 @@ void set_leds(const bool is_green_led_1_on,
  * @param co2_measurement_ppm CO2 value.
  */
 void visually_output_air_quality(const int co2_measurement_ppm) {
-    const String display_line_1 = co2_prefix + co2_measurement_ppm + ppm_suffix;
-    String display_line_2;
+    snprintf(display_line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
+    ///< snprintf for formatting the text (concatenate)
     if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
-        display_line_2 = high_air_quality_description;
+        strncpy(display_line_2, high_air_quality_description, display_line_2_size - 1);
+        ///< Ensuring that the copied string does not exceed the allocated buffer size
+        display_line_2[display_line_2_size-1] = '\0'; // Ensure null termination after strncpy()
         set_leds(true, true, false, false, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
-        display_line_2 = medium_air_quality_description;
+        strncpy(display_line_2, medium_air_quality_description, display_line_2_size - 1);
+        display_line_2[display_line_2_size-1] = '\0';
         set_leds(false, true, true, false, false, false);
     } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
-        display_line_2 = moderate_air_quality_description;
+        strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
+        display_line_2[display_line_2_size-1] = '\0';
         set_leds(false, false, true, true, false, false);
     } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
-        display_line_2 = moderate_air_quality_description;
+        strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
+        display_line_2[display_line_2_size-1] = '\0';
         set_leds(false, false, false, true, true, false);
     } else {
-        display_line_2 = poor_air_quality_description;
+        strncpy(display_line_2, poor_air_quality_description, display_line_2_size - 1);
+        display_line_2[display_line_2_size-1] = '\0';
         set_leds(false, false, false, false, true, true);
     };
     display_out(display_line_1, display_line_2);
