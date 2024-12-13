@@ -11,4 +11,4 @@
 int get_co2_measurement_in_ppm() {
     //TODO: This function needs to be written.
     return 1500; //FIXME: this is a placeholder value. Fix when writing this function.
-};
+}
