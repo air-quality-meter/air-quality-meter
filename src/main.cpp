@@ -41,7 +41,7 @@ void setup() {
     pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< LED for moderate air quality
     pinMode(RED_LED_1_PIN, OUTPUT); ///< LED for moderate or poor air quality
     pinMode(RED_LED_2_PIN, OUTPUT); ///< LED for poor air quality
-};
+}
 
 /**
  * @brief   Main loop for air-quality meter logic.
@@ -72,9 +72,9 @@ void loop() {
             warning_counter++;
             if (warning_counter >= max_consecutive_warnings) {
                 reset_co2_below_threshold_and_warning_counter();
-            };
-        };
+            }
+        }
     } else {
         reset_co2_below_threshold_and_warning_counter();
-    };
-};
+    }
+}

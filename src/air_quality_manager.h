@@ -19,10 +19,6 @@ constexpr char poor_air_quality_description[] = "Poor air quality"; ///< Text fo
 constexpr size_t display_line_1_size = 16; ///< Maximum size for the first line of the LCD.
 constexpr size_t display_line_2_size = 24; ///< Maximum size for the second line of the LCD.
 
-// String variables
-extern char display_line_1[display_line_1_size]; ///< first line to display on the LCD
-extern char display_line_2[display_line_2_size]; ///< second line to display on the LCD
-
 /**
  * @brief   Visually outputs air quality to LCD and LED indicators.
  * @details Sends CO2 value and a description of the air quality to display_output() and

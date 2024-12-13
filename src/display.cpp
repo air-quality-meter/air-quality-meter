@@ -10,4 +10,4 @@
 
 void display_out(const char *line_1, const char *line_2) {
     //TODO: This function needs to be written.
-};
+}

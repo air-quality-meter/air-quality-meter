@@ -20,4 +20,4 @@ void set_leds(const bool is_green_led_1_on,
     digitalWrite(YELLOW_LED_2_PIN, is_yellow_led_2_on);
     digitalWrite(RED_LED_1_PIN, is_red_led_1_on);
     digitalWrite(RED_LED_2_PIN, is_red_led_2_on);
-};
+}

@@ -38,6 +38,6 @@ void manage_air_quality(const int co2_measurement_ppm) {
         strncpy(display_line_2, poor_air_quality_description, display_line_2_size - 1);
         display_line_2[display_line_2_size-1] = '\0'; // Ensure there is a null termination at the end.
         set_leds(false, false, false, false, true, true);
-    };
+    }
     display_out(display_line_1, display_line_2);
-};
+}

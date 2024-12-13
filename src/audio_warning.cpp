@@ -10,4 +10,4 @@
 
 void issue_audio_warning() {
     //TODO: This function needs to be written.
-};
+}
