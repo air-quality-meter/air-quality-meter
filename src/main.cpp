@@ -29,14 +29,10 @@
  *          Runs once when the board is powered on or reset.
  */
 void setup() {
+    initialize_reset_button();
     initialize_leds();
     current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
-
-    // Setup Interrupt Service Routine.
-    attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
-
-    // Setup Input/Output
 }
 
 /**

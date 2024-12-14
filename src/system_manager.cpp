@@ -7,8 +7,14 @@
 
 #include "system_manager.h"
 #include "global_variables.h"
+#include "pin_configuration.h"
+
+void initialize_reset_button() {
+    attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
+}
 
 void reset_co2_below_threshold_and_warning_counter() {
+    //TODO: debounce reset button.
     last_co2_below_threshold_time_s = current_time_s;
     warning_counter = 0;
 }
