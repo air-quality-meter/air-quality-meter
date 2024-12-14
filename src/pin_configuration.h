@@ -21,7 +21,9 @@ constexpr int RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 3
 // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
 
 // Display
+// TODO declare PINS for the Display (use constexpr int, since this should not change during runtime)
 
 // MP3 Module
+// TODO declare PINS for the MP3 Module (use constexpr int, since this should not change during runtime)
 
 #endif //PIN_CONFIGURATION_H
