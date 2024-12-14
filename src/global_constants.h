@@ -28,9 +28,9 @@ constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400;
 
 constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
-constexpr unsigned long max_co2_above_threshold_time_s = 3600;
+constexpr unsigned int max_co2_above_threshold_time_s = 3600;
 ///< Max time period allowed CO2 above threshold (seconds)
 
-constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
+constexpr unsigned int waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
 #endif //GLOBAL_CONSTANTS_H
