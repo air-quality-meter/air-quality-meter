@@ -7,6 +7,12 @@
 #define CO2_SENSOR_H
 
 /**
+ * @brief   Initializes the CO2 sensor module.
+ * @details TODO: Write some more details such as initializes Serial1...
+ */
+void initialize_co2_sensor();
+
+/**
  * @brief   Retrieves a CO2 measurement.
  * @details Reads the CO2 value from the sensor and provides the measurement in parts per million (ppm).
  *          Sensor used: MH-Z19 Infrared CO2 Sensor Module MH-Z19B

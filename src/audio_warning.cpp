@@ -8,6 +8,13 @@
 #include "audio_warning.h"
 #include "pin_configuration.h"
 
+void initialize_mp3_module() {
+    Serial3.begin(9600);
+    ///< Initialize Serial communication on Serial3 (PINs 14 and 15) for mp3 module with baud rate 9600.
+    //TODO: This function needs to be finalized. (all the stuff, that should run on device startup)
+}
+
+
 void issue_audio_warning() {
-    //TODO: This function needs to be written.
+    //TODO: This function needs to be written. (all the stuff that runs on every loop iteration)
 }
