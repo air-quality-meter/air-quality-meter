@@ -8,6 +8,7 @@
 
 /**
  * @brief   Initializes the CO2 sensor module.
+ * @details TODO: Write some more details such as initializes Serial1...
  */
 void initialize_co2_sensor();
 

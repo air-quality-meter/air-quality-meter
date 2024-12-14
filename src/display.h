@@ -8,6 +8,7 @@
 
 /**
  * @brief   Initializes the display module.
+ * @details TODO: Write some more details
  */
 void initialize_display();
 
