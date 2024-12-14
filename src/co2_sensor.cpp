@@ -9,7 +9,8 @@
 #include "pin_configuration.h"
 
 void initialize_co2_sensor() {
-    Serial1.begin(9600); // Initialize Serial communication on Serial1 (PINs 18 and 19) for CO2 sensor
+    Serial1.begin(9600);
+    ///< Initialize Serial communication on Serial1 (PINs 18 and 19) for CO2 sensor with baud rate 9600.
     //TODO: This function needs to be finalized. (all the stuff, that should run on device startup)
 }
 
