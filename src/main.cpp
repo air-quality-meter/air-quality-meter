@@ -11,14 +11,14 @@
  */
 
 // Import header files
-#include "pin_configuration.h"
 #include "global_constants.h"
 #include "global_variables.h"
-#include "leds.h"
-#include "air_quality_manager.h"
-#include "co2_sensor.h"
-#include "audio_warning.h"
 #include "system_manager.h"
+#include "co2_sensor.h"
+#include "leds.h"
+#include "display.h"
+#include "air_quality_manager.h"
+#include "audio_warning.h"
 
 // Import external libraries
 
@@ -32,6 +32,7 @@ void setup() {
     Serial.begin(9600); ///< Initialize serial communication over USB (for debugging)
     initialize_reset_button();
     initialize_leds();
+    initialize_display();
     current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
 }

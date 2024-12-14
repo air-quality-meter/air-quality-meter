@@ -7,6 +7,11 @@
 #define DISPLAY_H
 
 /**
+ * @brief   Initializes the display module.
+ */
+void initialize_display();
+
+/**
  * @brief   Outputs text to the LCD.
  * @details Updates the connected display module to display the provided text on two lines.
  *          Display used: LCD1602 Module (with pin header)
