@@ -35,6 +35,7 @@ void setup() {
     initialize_leds();
     initialize_display();
     initialize_mp3_module();
+    delay(waiting_period_initialization_s); ///< Make sure, hardware is ready to use.
     current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
 }
@@ -73,4 +74,5 @@ void loop() {
     } else {
         reset_co2_below_threshold_and_warning_counter();
     }
+    delay(waiting_period_loop_iteration_s); ///< Make sure, hardware is ready for next loop iteration.
 }

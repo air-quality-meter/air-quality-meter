@@ -8,6 +8,12 @@
 #ifndef GLOBAL_CONSTANTS_H
 #define GLOBAL_CONSTANTS_H
 
+constexpr unsigned int waiting_period_initialization_s = 2000;
+///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
+
+constexpr unsigned int waiting_period_loop_iteration_s = 3000;
+///< Wait after each loop iteration to prevent overlapping device triggering.
+
 constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
 ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
 ///< in parts per million (ppm)
