@@ -8,6 +8,12 @@
 #ifndef GLOBAL_CONSTANTS_H
 #define GLOBAL_CONSTANTS_H
 
+constexpr unsigned int waiting_period_initialization_s = 2000;
+///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
+
+constexpr unsigned int waiting_period_loop_iteration_s = 3000;
+///< Wait after each loop iteration to prevent overlapping device triggering.
+
 constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
 ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
 ///< in parts per million (ppm)
@@ -28,9 +34,9 @@ constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400;
 
 constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
-constexpr unsigned long max_co2_above_threshold_time_s = 3600;
+constexpr unsigned int max_co2_above_threshold_time_s = 3600;
 ///< Max time period allowed CO2 above threshold (seconds)
 
-constexpr unsigned long waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
+constexpr unsigned int waiting_period_between_warnings_s = 60; ///< Time period between two warnings (seconds)
 
 #endif //GLOBAL_CONSTANTS_H
