@@ -31,6 +31,7 @@
 void setup() {
     Serial.begin(9600); ///< Initialize serial communication over USB (for debugging)
     initialize_reset_button();
+    initialize_co2_sensor();
     initialize_leds();
     initialize_display();
     current_time_s = get_current_time_in_s();
