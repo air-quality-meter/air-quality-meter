@@ -34,6 +34,7 @@ void setup() {
     initialize_co2_sensor();
     initialize_leds();
     initialize_display();
+    initialize_mp3_module();
     current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
 }
