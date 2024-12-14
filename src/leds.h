@@ -7,6 +7,11 @@
 #define LEDS_H
 
 /**
+ * @brief   Initialize LED PINs (Output)
+ */
+void initialize_leds();
+
+/**
  * @brief   Controls the LED indicators.
  * @details Activates LEDs according to the given parameters.
  *          HIGH and LOW as second parameters for digitalWrite() are provided as booleans.

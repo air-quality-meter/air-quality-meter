@@ -8,6 +8,15 @@
 #include "pin_configuration.h"
 
 
+void initialize_leds() {
+    pinMode(GREEN_LED_1_PIN, OUTPUT); ///< LED for high air quality
+    pinMode(GREEN_LED_2_PIN, OUTPUT); ///< LED for high or medium air quality
+    pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< LED for medium or moderate air quality
+    pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< LED for moderate air quality
+    pinMode(RED_LED_1_PIN, OUTPUT); ///< LED for moderate or poor air quality
+    pinMode(RED_LED_2_PIN, OUTPUT); ///< LED for poor air quality
+}
+
 void set_leds(const bool is_green_led_1_on,
               const bool is_green_led_2_on,
               const bool is_yellow_led_1_on,

@@ -14,6 +14,7 @@
 #include "pin_configuration.h"
 #include "global_constants.h"
 #include "global_variables.h"
+#include "leds.h"
 #include "air_quality_manager.h"
 #include "co2_sensor.h"
 #include "audio_warning.h"
@@ -28,6 +29,7 @@
  *          Runs once when the board is powered on or reset.
  */
 void setup() {
+    initialize_leds();
     current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
 
@@ -35,12 +37,6 @@ void setup() {
     attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
 
     // Setup Input/Output
-    pinMode(GREEN_LED_1_PIN, OUTPUT); ///< LED for high air quality
-    pinMode(GREEN_LED_2_PIN, OUTPUT); ///< LED for high or medium air quality
-    pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< LED for medium or moderate air quality
-    pinMode(YELLOW_LED_2_PIN, OUTPUT); ///< LED for moderate air quality
-    pinMode(RED_LED_1_PIN, OUTPUT); ///< LED for moderate or poor air quality
-    pinMode(RED_LED_2_PIN, OUTPUT); ///< LED for poor air quality
 }
 
 /**
