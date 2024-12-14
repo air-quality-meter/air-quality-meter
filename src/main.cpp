@@ -29,6 +29,7 @@
  *          Runs once when the board is powered on or reset.
  */
 void setup() {
+    Serial.begin(9600); ///< Initialize serial communication over USB (for debugging)
     initialize_reset_button();
     initialize_leds();
     current_time_s = get_current_time_in_s();
