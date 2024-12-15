@@ -30,10 +30,10 @@
  */
 void setup() {
     Serial.begin(9600); ///< Initialize serial communication over USB (for debugging)
+    initialize_display();
     initialize_reset_button();
     initialize_co2_sensor();
     initialize_leds();
-    initialize_display();
     initialize_mp3_module();
     delay(waiting_period_initialization_s); ///< Make sure, hardware is ready to use.
     current_time_s = get_current_time_in_s();
