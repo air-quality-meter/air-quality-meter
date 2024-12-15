@@ -17,7 +17,7 @@ constexpr int YELLOW_LED_2_PIN = 28; ///< LED to indicate moderate air quality o
 constexpr int RED_LED_1_PIN = 30; ///< LED to indicate moderate or poor air quality on Pin 30
 constexpr int RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 32
 
-// CO2 Sensor
+// CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
 
 // Display
