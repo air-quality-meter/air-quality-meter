@@ -7,7 +7,7 @@
 #define AUDIO_WARNING_H
 
 /**
- * @brief   Initializes the MP3 module.
+ * @brief   Initializes the Gravity UART MP3 Voice Module.
  * @details TODO: Write some more details such as initializes Serial3...
  */
 void initialize_mp3_module();

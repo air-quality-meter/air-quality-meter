@@ -16,8 +16,8 @@ constexpr char moderate_air_quality_description[] = "Moderate air quality"; ///<
 constexpr char poor_air_quality_description[] = "Poor air quality"; ///< Text for IDA 4
 
 // Constants for fix length of Strings.
-constexpr size_t display_line_1_size = 16; ///< Maximum size for the first line of the LCD.
-constexpr size_t display_line_2_size = 24; ///< Maximum size for the second line of the LCD.
+constexpr size_t display_line_1_size = 16; ///< Maximum size for the text to show on the first line of the LCD1602 Module.
+constexpr size_t display_line_2_size = 24; ///< Maximum size for the text to show on the second line of the LCD1602 Module.
 
 /**
  * @brief   Visually outputs air quality to LCD and LED indicators.

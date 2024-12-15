@@ -1,8 +1,8 @@
 # Air quality meter
 
 This project builds a CO2 monitoring device using an Arduino Mega 2560. The device measures the CO2 concentration in
-ppm, displays the value on an LCD screen and gives visual and acoustic warnings when the CO2 concentration exceeds a
-predefined threshold.
+ppm, displays the value on an LCD display (LCD1602 Module (with pin header) and gives visual and acoustic warnings when
+the CO2 concentration exceeds a predefined threshold.
 
 ## Functionality
 
@@ -11,7 +11,7 @@ The device operates as follows:
 1. **CO2 Measurement:** The device continuously measures the CO2 concentration in the surrounding environment using a
    MH-Z19B Infrared CO2 Sensor Module.
 
-2. **Display:** The measured CO2 value is displayed on an LCD1602 LCD screen.
+2. **Display:** The measured CO2 value is displayed on an LCD1602 display.
 
 3. **LED Indicators:** Six LEDs (2x Green, 2x Yellow, 2x Red) provide a visual indication of the CO2 level based on DIN
    EN 13779 see: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf (Table 3):
@@ -66,12 +66,12 @@ This table details the pin connections for the Arduino Mega 2560 in this project
 | Pin Number | Pin Info | Serial Port | Connected Device                   | Device Connection              |
 |------------|----------|-------------|------------------------------------|--------------------------------|
 | 2          | INT0     |             | Reset Button                       | "-"                            | 
-| 7          | Digital  |             | LCD1602 (LCD)                      | RS                             |
-| 8          | Digital  |             | LCD1602 (LCD)                      | E                              |
-| 9          | Digital  |             | LCD1602 (LCD)                      | D4                             |
-| 10         | Digital  |             | LCD1602 (LCD)                      | D5                             |
-| 11         | Digital  |             | LCD1602 (LCD)                      | D6                             |
-| 12         | Digital  |             | LCD1602 (LCD)                      | D7                             |
+| 7          | Digital  |             | LCD1602                            | RS                             |
+| 8          | Digital  |             | LCD1602                            | E                              |
+| 9          | Digital  |             | LCD1602                            | D4                             |
+| 10         | Digital  |             | LCD1602                            | D5                             |
+| 11         | Digital  |             | LCD1602                            | D6                             |
+| 12         | Digital  |             | LCD1602                            | D7                             |
 | 14         | TX3      | Serial3     | Gravity UART MP3 Voice Module      | TX                             |
 | 15         | RX3      | Serial3     | Gravity UART MP3 Voice Module      | RX                             |
 | 18         | TX1      | Serial1     | MH-Z19B Infrared CO2 Sensor Module | TX                             |
@@ -112,7 +112,7 @@ This table shows the power and ground connections for the various components in 
 
 | Component 1                   | Connection 1 | Component 2                     | Connection 2 |
 |-------------------------------|--------------|---------------------------------|--------------|
-| B103 (10K Potentiometer)      | Middle Pin   | LCD1602 (LCD)                   | VO           |
+| B103 (10K Potentiometer)      | Middle Pin   | LCD1602                         | VO           |
 | Gravity UART MP3 Voice Module | SPK          | Stereo Enclosed Speaker - 3W 8Ω |              |
 
 ## License

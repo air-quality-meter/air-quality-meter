@@ -12,8 +12,8 @@
 #include "display.h"
 
 // variables
-char display_line_1[display_line_1_size] = ""; ///< first line to display on the LCD
-char display_line_2[display_line_2_size] = ""; ///< second line to display on the LCD
+char display_line_1[display_line_1_size] = ""; ///< first line to display on the LCD1602 Module
+char display_line_2[display_line_2_size] = ""; ///< second line to display on the LCD1602 Module
 
 void manage_air_quality(const int co2_measurement_ppm) {
     snprintf(display_line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);

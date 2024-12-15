@@ -10,7 +10,7 @@
 
 void initialize_mp3_module() {
     Serial3.begin(9600);
-    ///< Initialize Serial communication on Serial3 (PINs 14 and 15) for mp3 module with baud rate 9600.
+    ///< Initialize Serial communication on Serial3 (PINs 14 and 15) for Gravity UART MP3 Voice Module with baud rate 9600.
     //TODO: This function needs to be finalized. (all the stuff, that should run on device startup)
 }
 
