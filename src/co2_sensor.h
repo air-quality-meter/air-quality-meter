@@ -15,7 +15,7 @@ void initialize_co2_sensor();
 /**
  * @brief   Retrieves a CO2 measurement.
  * @details Reads the CO2 value from the sensor and provides the measurement in parts per million (ppm).
- *          Sensor used: MH-Z19 Infrared CO2 Sensor Module MH-Z19B
+ *          Sensor used: MH-Z19B Infrared CO2 Sensor Module.
  * @return  The current CO2 measurement in ppm.
  */
 int get_co2_measurement_in_ppm();

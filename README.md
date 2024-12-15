@@ -1,17 +1,17 @@
 # Air quality meter
 
 This project builds a CO2 monitoring device using an Arduino Mega 2560. The device measures the CO2 concentration in
-ppm, displays the value on an LCD screen and gives visual and acoustic warnings when the CO2 concentration exceeds a
-predefined threshold.
+ppm, displays the value on an LCD display (LCD1602 Module (with pin header) and gives visual and acoustic warnings when
+the CO2 concentration exceeds a predefined threshold.
 
 ## Functionality
 
 The device operates as follows:
 
 1. **CO2 Measurement:** The device continuously measures the CO2 concentration in the surrounding environment using a
-   MH-Z19B CO2 sensor.
+   MH-Z19B Infrared CO2 Sensor Module.
 
-2. **Display:** The measured CO2 value is displayed on an LCD1602 LCD screen.
+2. **Display:** The measured CO2 value is displayed on an LCD1602 display.
 
 3. **LED Indicators:** Six LEDs (2x Green, 2x Yellow, 2x Red) provide a visual indication of the CO2 level based on DIN
    EN 13779 see: https://www.umweltbundesamt.de/sites/default/files/medien/publikation/long/4113.pdf (Table 3):
@@ -63,56 +63,56 @@ The Arduino code implements the following logic:
 
 This table details the pin connections for the Arduino Mega 2560 in this project.
 
-| Pin Number | Pin Info | Serial Port | Connected Device              | Device Connection              |
-|------------|----------|-------------|-------------------------------|--------------------------------|
-| 2          | INT0     |             | Reset Button                  | "-"                            | 
-| 7          | Digital  |             | LCD1602 (LCD)                 | RS                             |
-| 8          | Digital  |             | LCD1602 (LCD)                 | E                              |
-| 9          | Digital  |             | LCD1602 (LCD)                 | D4                             |
-| 10         | Digital  |             | LCD1602 (LCD)                 | D5                             |
-| 11         | Digital  |             | LCD1602 (LCD)                 | D6                             |
-| 12         | Digital  |             | LCD1602 (LCD)                 | D7                             |
-| 14         | TX3      | Serial3     | Gravity UART MP3 Voice Module | TX                             |
-| 15         | RX3      | Serial3     | Gravity UART MP3 Voice Module | RX                             |
-| 18         | TX1      | Serial1     | MH-Z19B (CO2 Sensor)          | TX                             |
-| 19         | RX1      | Serial1     | MH-Z19B (CO2 Sensor)          | RX                             |
-| 22         | Digital  |             | Green LED 1                   | Anode (+) through 1KΩ resistor |
-| 24         | Digital  |             | Green LED 2                   | Anode (+) through 1KΩ resistor |
-| 26         | Digital  |             | Yellow LED 1                  | Anode (+) through 1KΩ resistor |
-| 28         | Digital  |             | Yellow LED 2                  | Anode (+) through 1KΩ resistor |
-| 30         | Digital  |             | Red LED 1                     | Anode (+) through 1KΩ resistor |
-| 32         | Digital  |             | Red LED 2                     | Anode (+) through 1KΩ resistor |
+| Pin Number | Pin Info | Serial Port | Connected Device                   | Device Connection              |
+|------------|----------|-------------|------------------------------------|--------------------------------|
+| 2          | INT0     |             | Reset Button                       | "-"                            | 
+| 7          | Digital  |             | LCD1602                            | RS                             |
+| 8          | Digital  |             | LCD1602                            | E                              |
+| 9          | Digital  |             | LCD1602                            | D4                             |
+| 10         | Digital  |             | LCD1602                            | D5                             |
+| 11         | Digital  |             | LCD1602                            | D6                             |
+| 12         | Digital  |             | LCD1602                            | D7                             |
+| 14         | TX3      | Serial3     | Gravity UART MP3 Voice Module      | TX                             |
+| 15         | RX3      | Serial3     | Gravity UART MP3 Voice Module      | RX                             |
+| 18         | TX1      | Serial1     | MH-Z19B Infrared CO2 Sensor Module | TX                             |
+| 19         | RX1      | Serial1     | MH-Z19B Infrared CO2 Sensor Module | RX                             |
+| 22         | Digital  |             | Green LED 1                        | Anode (+) through 1KΩ resistor |
+| 24         | Digital  |             | Green LED 2                        | Anode (+) through 1KΩ resistor |
+| 26         | Digital  |             | Yellow LED 1                       | Anode (+) through 1KΩ resistor |
+| 28         | Digital  |             | Yellow LED 2                       | Anode (+) through 1KΩ resistor |
+| 30         | Digital  |             | Red LED 1                          | Anode (+) through 1KΩ resistor |
+| 32         | Digital  |             | Red LED 2                          | Anode (+) through 1KΩ resistor |
 
 ## Component Power and Ground Connections
 
 This table shows the power and ground connections for the various components in the project.
 
-| Component                     | Connection  | Arduino Pin    | Notes                                         |
-|-------------------------------|-------------|----------------|-----------------------------------------------|
-| MH-Z19B (CO2 Sensor)          | Vin         | 5V             |                                               |
-| MH-Z19B (CO2 Sensor)          | GND         | GND            |                                               |
-| LCD1602                       | VSS         | GND            |                                               |
-| LCD1602                       | VDD         | 5V             |                                               |
-| LCD1602                       | RW          | GND            |                                               |
-| LCD1602                       | A           | 5V             | Through 220Ω resistor                         |
-| LCD1602                       | K           | GND            |                                               |
-| B103 (10K Potentiometer)      | Outer Pin 1 | GND            |                                               |
-| B103 (10K Potentiometer)      | Outer Pin 2 | 5V             |                                               |
-| Reset Button                  | "-"         | GND            |                                               |
-| Green LED 1                   | Cathode (-) | GND            |                                               |
-| Green LED 2                   | Cathode (-) | GND            |                                               |
-| Yellow LED 1                  | Cathode (-) | GND            |                                               |
-| Yellow LED 2                  | Cathode (-) | GND            |                                               |
-| Red LED 1                     | Cathode (-) | GND            |                                               |
-| Red LED 2                     | Cathode (-) | GND            |                                               |
-| Gravity UART MP3 Voice Module | "+"         | 3.3V           |                                               |
-| Gravity UART MP3 Voice Module | "-"         | GND (separate) | Use a different GND pin than other components |
+| Component                          | Connection  | Arduino Pin    | Notes                                         |
+|------------------------------------|-------------|----------------|-----------------------------------------------|
+| MH-Z19B Infrared CO2 Sensor Module | Vin         | 5V             |                                               |
+| MH-Z19B Infrared CO2 Sensor Module | GND         | GND            |                                               |
+| LCD1602                            | VSS         | GND            |                                               |
+| LCD1602                            | VDD         | 5V             |                                               |
+| LCD1602                            | RW          | GND            |                                               |
+| LCD1602                            | A           | 5V             | Through 220Ω resistor                         |
+| LCD1602                            | K           | GND            |                                               |
+| B103 (10K Potentiometer)           | Outer Pin 1 | GND            |                                               |
+| B103 (10K Potentiometer)           | Outer Pin 2 | 5V             |                                               |
+| Reset Button                       | "-"         | GND            |                                               |
+| Green LED 1                        | Cathode (-) | GND            |                                               |
+| Green LED 2                        | Cathode (-) | GND            |                                               |
+| Yellow LED 1                       | Cathode (-) | GND            |                                               |
+| Yellow LED 2                       | Cathode (-) | GND            |                                               |
+| Red LED 1                          | Cathode (-) | GND            |                                               |
+| Red LED 2                          | Cathode (-) | GND            |                                               |
+| Gravity UART MP3 Voice Module      | "+"         | 3.3V           |                                               |
+| Gravity UART MP3 Voice Module      | "-"         | GND (separate) | Use a different GND pin than other components |
 
 ## Other Connections
 
 | Component 1                   | Connection 1 | Component 2                     | Connection 2 |
 |-------------------------------|--------------|---------------------------------|--------------|
-| B103 (10K Potentiometer)      | Middle Pin   | LCD1602 (LCD)                   | VO           |
+| B103 (10K Potentiometer)      | Middle Pin   | LCD1602                         | VO           |
 | Gravity UART MP3 Voice Module | SPK          | Stereo Enclosed Speaker - 3W 8Ω |              |
 
 ## License
