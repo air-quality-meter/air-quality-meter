@@ -7,14 +7,21 @@
 
 #include "audio_warning.h"
 #include "pin_configuration.h"
+#include <SoftwareSerial.h>
 
+SoftwareSerial mp3_module(MP3_MODULE_TX_PIN, MP3_MODULE_RX_PIN);
+
+//void setup() {
 void initialize_mp3_module() {
-    Serial3.begin(9600);
-    ///< Initialize Serial communication on Serial3 (PINs 14 and 15) for Gravity UART MP3 Voice Module with baud rate 9600.
-    //TODO: This function needs to be finalized. (all the stuff, that should run on device startup)
+    mp3_module.begin(9600);
+    const unsigned char vol = 0x1E;
+    unsigned char volume[5] = {0xAA,0x13,0x01,vol,vol+0xBE};
+    mp3_module.write(volume,5);
 }
 
-
 void issue_audio_warning() {
-    //TODO: This function needs to be written. (all the stuff that runs on every loop iteration)
+  	const unsigned char track = 0x01; ///< Track: "CO2 Wert zu hoch, bitte Fenster öffnen!"
+    //const unsigned char track = 0x03; ///< Track: "Die Luftqualität ist schlecht, bitte Fenster öffnen!"
+    unsigned char play[6] = {0xAA,0x07,0x02,0x00,track,track+0xB3};
+    mp3_module.write(play,6);
 }
