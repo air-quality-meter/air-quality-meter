@@ -24,6 +24,7 @@ constexpr int RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 3
 // TODO declare PINS for the Display (use constexpr int, since this should not change during runtime)
 
 // MP3 Module: Gravity UART MP3 Voice Module
-// TODO declare PINS for the MP3 Module (use constexpr int, since this should not change during runtime)
+constexpr int MP3_MODULE_TX_PIN = 14; ///< MP3 Modul Serial Pin T
+constexpr int MP3_MODULE_RX_PIN = 15; ///< MP3 Modul Serial Pin R
 
 #endif //PIN_CONFIGURATION_H
