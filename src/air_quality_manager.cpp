@@ -11,9 +11,12 @@
 #include "leds.h"
 #include "display.h"
 
-// variables
-char display_line_1[display_line_1_size] = ""; ///< first line to display on the LCD1602 Module
-char display_line_2[display_line_2_size] = ""; ///< second line to display on the LCD1602 Module
+constexpr int NO_UPPER_LIMIT = -1;
+
+struct DisplayLines {
+    char line_1[display_line_1_size]; ///< first line to display on the LCD1602 Module
+    char line_2[display_line_2_size]; ///< second line to display on the LCD1602 Module
+};
 
 enum AirQualityLevel {
     HIGH_AIR_QUALITY_LEVEL,
@@ -34,14 +37,14 @@ struct LEDIndicator {
 };
 
 struct AirQualityRule {
-    constexpr AirQualityLevel air_quality_level;
+    const AirQualityLevel air_quality_level;
     const char *description;
     ///< Pointer to a description char array (string). That allows storing and referencing a text description for
     ///< an air quality level without copying the entire string
-    constexpr LEDIndicator led_indicator;
+    const LEDIndicator led_indicator;
     const bool is_level_acceptable;
     ///< If level is not acceptable, there are further steps following.
-    constexpr int upper_threshold_ppm;
+    const int upper_threshold_ppm;
     ///< Upper co2 threshold for level; -1 indicates "no upper limit" (poor air quality)
 };
 
@@ -127,12 +130,12 @@ AirQualityRule air_quality_rules[] = {
         poor_air_quality_description,
         air_quality_led_indicators[POOR_AIR_QUALITY_LEVEL],
         false,
-        -1 ///< Poor air quality has no upper limit.
+        NO_UPPER_LIMIT
     }
 };
 
 const AirQualityRule *get_air_quality_rule_for_co2_measurement(const int co2_measurement_ppm) {
-    for (const AirQualityRule &air_quality_rule : air_quality_rules) {
+    for (const AirQualityRule &air_quality_rule: air_quality_rules) {
         if (co2_measurement_ppm <= air_quality_rule.upper_threshold_ppm) {
             return &air_quality_rule;
         }
@@ -140,36 +143,24 @@ const AirQualityRule *get_air_quality_rule_for_co2_measurement(const int co2_mea
     return &air_quality_rules[POOR_AIR_QUALITY_LEVEL];
 }
 
-void set_display_text(const char *line_1, const char *line_2) {
-    strncpy(display_line_1, line_1, display_line_1_size - 1);
-    display_line_1[display_line_1_size - 1] = '\0'; // Ensure there is a null termination at the end.
-    strncpy(display_line_2, line_2, display_line_2_size - 1);
-    display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
+DisplayLines get_air_quality_display_text(const int co2_measurement_ppm, const char *line_2) {
+    DisplayLines display_lines;
+    snprintf(display_lines.line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
+    ///< Formatting the text (concatenate).
+    display_lines.line_1[display_line_1_size - 1] = '\0'; // Ensure there is a null termination at the end.
+    strncpy(display_lines.line_2, line_2, display_line_2_size - 1);
+    display_lines.line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
+    return display_lines;
 }
 
 void manage_air_quality(const int co2_measurement_ppm) {
-    snprintf(display_line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
-    ///< Formatting the text (concatenate).
-    if (co2_measurement_ppm <= co2_upper_threshold_high_air_quality_ppm) {
-        strncpy(display_line_2, high_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-        set_leds(true, true, false, false, false, false);
-    } else if (co2_measurement_ppm <= co2_upper_threshold_medium_air_quality_ppm) {
-        strncpy(display_line_2, medium_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-        set_leds(false, true, true, false, false, false);
-    } else if (co2_measurement_ppm <= co2_mid_threshold_moderate_air_quality_ppm) {
-        strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-        set_leds(false, false, true, true, false, false);
-    } else if (co2_measurement_ppm <= co2_upper_threshold_moderate_air_quality_ppm) {
-        strncpy(display_line_2, moderate_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-        set_leds(false, false, false, true, true, false);
-    } else {
-        strncpy(display_line_2, poor_air_quality_description, display_line_2_size - 1);
-        display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-        set_leds(false, false, false, false, true, true);
-    }
-    display_out(display_line_1, display_line_2);
+    const AirQualityRule *air_quality_rule = get_air_quality_rule_for_co2_measurement(co2_measurement_ppm);
+    DisplayLines display_lines = get_air_quality_display_text(co2_measurement_ppm, air_quality_rule->description);
+    set_leds(air_quality_rule->led_indicator.is_green_led_1_on,
+             air_quality_rule->led_indicator.is_green_led_2_on,
+             air_quality_rule->led_indicator.is_yellow_led_1_on,
+             air_quality_rule->led_indicator.is_yellow_led_2_on,
+             air_quality_rule->led_indicator.is_red_led_1_on,
+             air_quality_rule->led_indicator.is_red_led_2_on);
+    display_out(display_lines.line_1, display_lines.line_2);
 }
