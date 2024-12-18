@@ -6,7 +6,7 @@
  */
 
 #include "audio_warning.h"
-#include "pin_configuration.h"
+#include "../system/pin_configuration.h"
 #include <SoftwareSerial.h>
 
 SoftwareSerial mp3_module(MP3_MODULE_TX_PIN, MP3_MODULE_RX_PIN);

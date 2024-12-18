@@ -11,14 +11,14 @@
  */
 
 // Import header files
-#include "global_constants.h"
-#include "global_variables.h"
-#include "system_manager.h"
-#include "co2_sensor.h"
-#include "leds.h"
-#include "display.h"
-#include "air_quality_manager.h"
-#include "audio_warning.h"
+#include "system/global_constants.h"
+#include "system/global_variables.h"
+#include "system/system_manager.h"
+#include "sensor/co2_sensor.h"
+#include "display/leds.h"
+#include "display/display.h"
+#include "air_quality/air_quality_manager.h"
+#include "audio/audio_warning.h"
 
 // Import external libraries
 

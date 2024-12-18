@@ -5,7 +5,7 @@
  */
 
 #include "leds.h"
-#include "pin_configuration.h"
+#include "../system/pin_configuration.h"
 
 
 void initialize_leds() {
