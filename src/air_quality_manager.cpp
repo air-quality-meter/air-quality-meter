@@ -16,11 +16,11 @@ char display_line_1[display_line_1_size] = ""; ///< first line to display on the
 char display_line_2[display_line_2_size] = ""; ///< second line to display on the LCD1602 Module
 
 enum AirQualityLevel {
-    HIGH_LEVEL,
-    MEDIUM_LEVEL,
-    MODERATE_LOWER_LEVEL,
-    MODERATE_UPPER_LEVEL,
-    POOR_LEVEL
+    HIGH_AIR_QUALITY_LEVEL,
+    MEDIUM_AIR_QUALITY_LEVEL,
+    LOWER_MODERATE_AIR_QUALITY_LEVEL,
+    UPPER_MODERATE_AIR_QUALITY_LEVEL,
+    POOR_AIR_QUALITY_LEVEL
 };
 
 struct LEDIndicator {
@@ -34,12 +34,45 @@ struct LEDIndicator {
 };
 
 struct AirQualityRule {
-    constexpr int upper_threshold_ppm;
     constexpr AirQualityLevel air_quality_level;
     const char *description;
     ///< Pointer to a description char array (string). That allows storing and referencing a text description for
     ///< an air quality level without copying the entire string
+    constexpr LEDIndicator led_indicator;
     const bool is_level_acceptable;
+    constexpr int upper_threshold_ppm;
+    ///< Upper co2 threshold for level; -1 indicates "no upper limit" (poor air quality)
+};
+
+LEDIndicator air_quality_led_indicators[] = {
+    {HIGH_AIR_QUALITY_LEVEL, true, true, false, false, false, false},
+    {MEDIUM_AIR_QUALITY_LEVEL, false, true, true, false, false, false},
+    {LOWER_MODERATE_AIR_QUALITY_LEVEL, false, false, true, true, false, false},
+    {UPPER_MODERATE_AIR_QUALITY_LEVEL, false, false, false, true, true, false},
+    {POOR_AIR_QUALITY_LEVEL, false, false, false, false, true, true}
+};
+
+AirQualityRule air_quality_rules[] = {
+    {
+        HIGH_AIR_QUALITY_LEVEL, high_air_quality_description, air_quality_led_indicators[HIGH_AIR_QUALITY_LEVEL], true,
+        co2_upper_threshold_high_air_quality_ppm
+    },
+    {
+        MEDIUM_AIR_QUALITY_LEVEL, medium_air_quality_description, air_quality_led_indicators[MEDIUM_AIR_QUALITY_LEVEL],
+        true, co2_upper_threshold_medium_air_quality_ppm
+    },
+    {
+        LOWER_MODERATE_AIR_QUALITY_LEVEL, moderate_air_quality_description,
+        air_quality_led_indicators[LOWER_MODERATE_AIR_QUALITY_LEVEL], true, co2_mid_threshold_moderate_air_quality_ppm
+    },
+    {
+        UPPER_MODERATE_AIR_QUALITY_LEVEL, moderate_air_quality_description,
+        air_quality_led_indicators[UPPER_MODERATE_AIR_QUALITY_LEVEL], true, co2_upper_threshold_medium_air_quality_ppm
+    },
+    {
+        POOR_AIR_QUALITY_LEVEL, poor_air_quality_description, air_quality_led_indicators[POOR_AIR_QUALITY_LEVEL], false,
+        -1
+    } ///< Poor air quality has no upper limit.
 };
 
 void manage_air_quality(const int co2_measurement_ppm) {
