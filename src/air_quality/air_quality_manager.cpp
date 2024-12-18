@@ -7,46 +7,8 @@
  */
 
 #include "air_quality_manager.h"
-#include "../system/global_constants.h"
 #include "../display/leds.h"
 #include "../display/display.h"
-
-constexpr int NO_UPPER_LIMIT = -1;
-
-struct DisplayLines {
-    char line_1[display_line_1_size] = ""; ///< first line to display on the LCD1602 Module
-    char line_2[display_line_2_size] = ""; ///< second line to display on the LCD1602 Module
-};
-
-enum AirQualityLevel {
-    HIGH_AIR_QUALITY_LEVEL,
-    MEDIUM_AIR_QUALITY_LEVEL,
-    LOWER_MODERATE_AIR_QUALITY_LEVEL,
-    UPPER_MODERATE_AIR_QUALITY_LEVEL,
-    POOR_AIR_QUALITY_LEVEL
-};
-
-struct LEDIndicator {
-    AirQualityLevel air_quality_level;
-    bool is_green_led_1_on;
-    bool is_green_led_2_on;
-    bool is_yellow_led_1_on;
-    bool is_yellow_led_2_on;
-    bool is_red_led_1_on;
-    bool is_red_led_2_on;
-};
-
-struct AirQualityRule {
-    const AirQualityLevel air_quality_level;
-    const char *description;
-    ///< Pointer to a description char array (string). That allows storing and referencing a text description for
-    ///< an air quality level without copying the entire string
-    const LEDIndicator led_indicator;
-    const bool is_level_acceptable;
-    ///< If level is not acceptable, there are further steps following.
-    const int upper_threshold_ppm;
-    ///< Upper co2 threshold for level; -1 indicates "no upper limit" (poor air quality)
-};
 
 LEDIndicator air_quality_led_indicators[] = {
     {
@@ -134,7 +96,7 @@ AirQualityRule air_quality_rules[] = {
     }
 };
 
-const AirQualityRule *get_air_quality_rule_for_co2_measurement(const int co2_measurement_ppm) {
+const AirQualityRule *get_air_quality_rule(const int co2_measurement_ppm) {
     for (const AirQualityRule &air_quality_rule: air_quality_rules) {
         if (co2_measurement_ppm <= air_quality_rule.upper_threshold_ppm) {
             return &air_quality_rule;
@@ -153,8 +115,7 @@ DisplayLines get_air_quality_display_text(const int co2_measurement_ppm, const c
     return display_lines;
 }
 
-void manage_air_quality(const int co2_measurement_ppm) {
-    const AirQualityRule *air_quality_rule = get_air_quality_rule_for_co2_measurement(co2_measurement_ppm);
+void manage_air_quality(const int co2_measurement_ppm, const AirQualityRule *air_quality_rule) {
     DisplayLines display_lines = get_air_quality_display_text(co2_measurement_ppm, air_quality_rule->description);
     set_leds(air_quality_rule->led_indicator.is_green_led_1_on,
              air_quality_rule->led_indicator.is_green_led_2_on,

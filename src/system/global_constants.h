@@ -14,23 +14,6 @@ constexpr unsigned int waiting_period_initialization_s = 2000;
 constexpr unsigned int waiting_period_loop_iteration_s = 3000;
 ///< Wait after each loop iteration to prevent overlapping device triggering.
 
-constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
-///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
-///< in parts per million (ppm)
-
-constexpr int co2_upper_threshold_medium_air_quality_ppm = 1000;
-///< Upper CO2 threshold (less than or equal to) for medium indoor air quality (IDA 2 DIN EN 13779)
-///< in parts per million (ppm)
-
-constexpr int co2_mid_threshold_moderate_air_quality_ppm = 1200;
-///< Upper CO2 threshold (less than or equal to) for lower half (mid) of moderate indoor air quality
-///< (IDA 3 DIN EN 13779) parts per million (ppm). The IDA 3 bandwidth is double the size of the IDA 2 bandwidth,
-///< which is why it is divided into two halves here.
-
-constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400;
-///< Upper CO2 threshold (less than or equal to) for moderate indoor air quality (IDA 3 DIN EN 13779)
-///< parts per million (ppm). At the same time, this value represents the lower threshold (greater than) value
-///< for poor indoor air quality (IDA 4 DIN EN 13779)
 
 constexpr int max_consecutive_warnings = 5; ///< Max consecutive audio warnings before reset
 
