@@ -115,7 +115,7 @@ DisplayLines get_air_quality_display_text(const int co2_measurement_ppm, const c
     return display_lines;
 }
 
-void manage_air_quality(const int co2_measurement_ppm, const AirQualityRule *air_quality_rule) {
+void update_air_quality_output(const int co2_measurement_ppm, const AirQualityRule *air_quality_rule) {
     DisplayLines display_lines = get_air_quality_display_text(co2_measurement_ppm, air_quality_rule->description);
     set_leds(air_quality_rule->led_indicator.is_green_led_1_on,
              air_quality_rule->led_indicator.is_green_led_2_on,

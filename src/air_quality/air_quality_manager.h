@@ -93,6 +93,6 @@ const AirQualityRule *get_air_quality_rule(int co2_measurement_ppm);
  *              - poor indoor air quality: Both red LEDs light up.
  * @param co2_measurement_ppm CO2 value.
  */
-void manage_air_quality(int co2_measurement_ppm, const AirQualityRule *air_quality_rule);
+void update_air_quality_output(int co2_measurement_ppm, const AirQualityRule *air_quality_rule);
 
 #endif //AIR_QUALITY_MANAGER_H
