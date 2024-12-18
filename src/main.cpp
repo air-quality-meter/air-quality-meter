@@ -47,7 +47,8 @@ void setup() {
 void loop() {
     current_time_s = get_current_time_in_s();
     current_co2_measurement_ppm = get_co2_measurement_in_ppm();
-    manage_air_quality(current_co2_measurement_ppm);
+    const AirQualityRule *current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
+    manage_air_quality(current_co2_measurement_ppm, current_air_quality_rule);
     if (current_co2_measurement_ppm > co2_upper_threshold_moderate_air_quality_ppm) {
         /**
          * @brief   check if the CO2 threshold value has already been exceeded for
