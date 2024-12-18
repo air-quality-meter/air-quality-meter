@@ -14,8 +14,8 @@
 constexpr int NO_UPPER_LIMIT = -1;
 
 struct DisplayLines {
-    char line_1[display_line_1_size]; ///< first line to display on the LCD1602 Module
-    char line_2[display_line_2_size]; ///< second line to display on the LCD1602 Module
+    char line_1[display_line_1_size] = ""; ///< first line to display on the LCD1602 Module
+    char line_2[display_line_2_size] = ""; ///< second line to display on the LCD1602 Module
 };
 
 enum AirQualityLevel {
