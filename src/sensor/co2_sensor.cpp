@@ -6,7 +6,7 @@
  */
 
 #include "co2_sensor.h"
-#include "pin_configuration.h"
+#include "../system/pin_configuration.h"
 
 void initialize_co2_sensor() {
     Serial1.begin(9600);

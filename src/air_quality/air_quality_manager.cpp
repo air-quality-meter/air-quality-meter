@@ -7,9 +7,9 @@
  */
 
 #include "air_quality_manager.h"
-#include "global_constants.h"
-#include "leds.h"
-#include "display.h"
+#include "../system/global_constants.h"
+#include "../display/leds.h"
+#include "../display/display.h"
 
 constexpr int NO_UPPER_LIMIT = -1;
 
