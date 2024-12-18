@@ -22,6 +22,6 @@ void initialize_display();
  * @param line_1 Pointer to the text to display on the first line of the LCD1602 Module.
  * @param line_2 Pointer to the text to display on the second line of the LCD1602 Module.
  */
-void display_out(const char *line_1, const char *line_2);
+void display_out(const String &line_1, const String &line_2);
 
 #endif //DISPLAY_H

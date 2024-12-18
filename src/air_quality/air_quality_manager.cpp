@@ -10,118 +10,80 @@
 #include "../display/leds.h"
 #include "../display/display.h"
 
-LEDIndicator air_quality_led_indicators[] = {
-    {
-        HIGH_AIR_QUALITY_LEVEL,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false
-    },
-    {
-        MEDIUM_AIR_QUALITY_LEVEL,
-        false,
-        true,
-        true,
-        false,
-        false,
-        false
-    },
-    {
-        LOWER_MODERATE_AIR_QUALITY_LEVEL,
-        false,
-        false,
-        true,
-        true,
-        false,
-        false
-    },
-    {
-        UPPER_MODERATE_AIR_QUALITY_LEVEL,
-        false,
-        false,
-        false,
-        true,
-        true,
-        false
-    },
-    {
-        POOR_AIR_QUALITY_LEVEL,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-    }
+const String co2_prefix = "CO2: "; ///< Prefix to display CO2 value
+const String ppm_suffix = " ppm"; ///< Suffix to display a value with ppm as the unit
+const String high_air_quality_description = "High air quality"; ///< Text for IDA 1
+const String medium_air_quality_description = "Medium air quality"; ///< Text for IDA 2
+const String moderate_air_quality_description = "Moderate air quality"; ///< Text for IDA 3
+const String poor_air_quality_description = "Poor air quality"; ///< Text for IDA 4
+
+const AirQualityRule high_air_quality_rule = {
+    HIGH_AIR_QUALITY_LEVEL,
+    high_air_quality_led_indicator,
+    high_air_quality_description,
+    true,
+    co2_upper_threshold_high_air_quality_ppm
 };
 
-AirQualityRule air_quality_rules[] = {
-    {
-        HIGH_AIR_QUALITY_LEVEL,
-        high_air_quality_description,
-        air_quality_led_indicators[HIGH_AIR_QUALITY_LEVEL],
-        true,
-        co2_upper_threshold_high_air_quality_ppm
-    },
-    {
-        MEDIUM_AIR_QUALITY_LEVEL,
-        medium_air_quality_description,
-        air_quality_led_indicators[MEDIUM_AIR_QUALITY_LEVEL],
-        true,
-        co2_upper_threshold_medium_air_quality_ppm
-    },
-    {
-        LOWER_MODERATE_AIR_QUALITY_LEVEL,
-        moderate_air_quality_description,
-        air_quality_led_indicators[LOWER_MODERATE_AIR_QUALITY_LEVEL],
-        true,
-        co2_mid_threshold_moderate_air_quality_ppm
-    },
-    {
-        UPPER_MODERATE_AIR_QUALITY_LEVEL,
-        moderate_air_quality_description,
-        air_quality_led_indicators[UPPER_MODERATE_AIR_QUALITY_LEVEL],
-        true,
-        co2_upper_threshold_medium_air_quality_ppm
-    },
-    {
-        POOR_AIR_QUALITY_LEVEL,
-        poor_air_quality_description,
-        air_quality_led_indicators[POOR_AIR_QUALITY_LEVEL],
-        false,
-        NO_UPPER_LIMIT
-    }
+const AirQualityRule medium_air_quality_rule = {
+    MEDIUM_AIR_QUALITY_LEVEL,
+    medium_air_quality_led_indicator,
+    medium_air_quality_description,
+    true,
+    co2_upper_threshold_medium_air_quality_ppm
 };
 
-const AirQualityRule *get_air_quality_rule(const int co2_measurement_ppm) {
+const AirQualityRule lower_moderate_air_quality_rule = {
+    LOWER_MODERATE_AIR_QUALITY_LEVEL,
+    lower_moderate_air_quality_led_indicator,
+    moderate_air_quality_description,
+    true,
+    co2_mid_threshold_moderate_air_quality_ppm
+};
+
+const AirQualityRule upper_moderate_air_quality_rule = {
+    UPPER_MODERATE_AIR_QUALITY_LEVEL,
+    upper_moderate_air_quality_led_indicator,
+    moderate_air_quality_description,
+    true,
+    co2_upper_threshold_moderate_air_quality_ppm
+};
+
+const AirQualityRule poor_air_quality_rule = {
+    POOR_AIR_QUALITY_LEVEL,
+    poor_air_quality_led_indicator,
+    poor_air_quality_description,
+    false,
+    NO_UPPER_LIMIT // No upper limit for poor air quality.
+};
+
+const AirQualityRule air_quality_rules[] = {
+    high_air_quality_rule,
+    medium_air_quality_rule,
+    lower_moderate_air_quality_rule,
+    upper_moderate_air_quality_rule,
+    poor_air_quality_rule
+};
+
+AirQualityRule get_air_quality_rule(const int co2_measurement_ppm) {
     for (const AirQualityRule &air_quality_rule: air_quality_rules) {
         if (co2_measurement_ppm <= air_quality_rule.upper_threshold_ppm) {
-            return &air_quality_rule;
+            return air_quality_rule;
         }
     }
-    return &air_quality_rules[POOR_AIR_QUALITY_LEVEL];
+    return air_quality_rules[POOR_AIR_QUALITY_LEVEL];
 }
 
-DisplayLines get_air_quality_display_text(const int co2_measurement_ppm, const char *line_2) {
-    DisplayLines display_lines;
-    snprintf(display_lines.line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
-    ///< Formatting the text (concatenate).
-    display_lines.line_1[display_line_1_size - 1] = '\0'; // Ensure there is a null termination at the end.
-    strncpy(display_lines.line_2, line_2, display_line_2_size - 1);
-    display_lines.line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
-    return display_lines;
+void update_display_air_quality_output(const int co2_measurement_ppm, const String &air_quality_description) {
+    const String line_1 = co2_prefix + co2_measurement_ppm + ppm_suffix;
+    display_out(line_1, air_quality_description);
 }
 
-void update_air_quality_output(const int co2_measurement_ppm, const AirQualityRule *air_quality_rule) {
-    DisplayLines display_lines = get_air_quality_display_text(co2_measurement_ppm, air_quality_rule->description);
-    set_leds(air_quality_rule->led_indicator.is_green_led_1_on,
-             air_quality_rule->led_indicator.is_green_led_2_on,
-             air_quality_rule->led_indicator.is_yellow_led_1_on,
-             air_quality_rule->led_indicator.is_yellow_led_2_on,
-             air_quality_rule->led_indicator.is_red_led_1_on,
-             air_quality_rule->led_indicator.is_red_led_2_on);
-    display_out(display_lines.line_1, display_lines.line_2);
+void update_led_air_quality_output(const LEDIndicator &led_indicator) {
+    set_leds(led_indicator.is_green_led_1_on,
+             led_indicator.is_green_led_2_on,
+             led_indicator.is_yellow_led_1_on,
+             led_indicator.is_yellow_led_2_on,
+             led_indicator.is_red_led_1_on,
+             led_indicator.is_red_led_2_on);
 }
