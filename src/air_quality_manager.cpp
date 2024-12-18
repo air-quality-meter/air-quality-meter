@@ -40,40 +40,112 @@ struct AirQualityRule {
     ///< an air quality level without copying the entire string
     constexpr LEDIndicator led_indicator;
     const bool is_level_acceptable;
+    ///< If level is not acceptable, there are further steps following.
     constexpr int upper_threshold_ppm;
     ///< Upper co2 threshold for level; -1 indicates "no upper limit" (poor air quality)
 };
 
 LEDIndicator air_quality_led_indicators[] = {
-    {HIGH_AIR_QUALITY_LEVEL, true, true, false, false, false, false},
-    {MEDIUM_AIR_QUALITY_LEVEL, false, true, true, false, false, false},
-    {LOWER_MODERATE_AIR_QUALITY_LEVEL, false, false, true, true, false, false},
-    {UPPER_MODERATE_AIR_QUALITY_LEVEL, false, false, false, true, true, false},
-    {POOR_AIR_QUALITY_LEVEL, false, false, false, false, true, true}
+    {
+        HIGH_AIR_QUALITY_LEVEL,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+    },
+    {
+        MEDIUM_AIR_QUALITY_LEVEL,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false
+    },
+    {
+        LOWER_MODERATE_AIR_QUALITY_LEVEL,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+    },
+    {
+        UPPER_MODERATE_AIR_QUALITY_LEVEL,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+    },
+    {
+        POOR_AIR_QUALITY_LEVEL,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+    }
 };
 
 AirQualityRule air_quality_rules[] = {
     {
-        HIGH_AIR_QUALITY_LEVEL, high_air_quality_description, air_quality_led_indicators[HIGH_AIR_QUALITY_LEVEL], true,
+        HIGH_AIR_QUALITY_LEVEL,
+        high_air_quality_description,
+        air_quality_led_indicators[HIGH_AIR_QUALITY_LEVEL],
+        true,
         co2_upper_threshold_high_air_quality_ppm
     },
     {
-        MEDIUM_AIR_QUALITY_LEVEL, medium_air_quality_description, air_quality_led_indicators[MEDIUM_AIR_QUALITY_LEVEL],
-        true, co2_upper_threshold_medium_air_quality_ppm
+        MEDIUM_AIR_QUALITY_LEVEL,
+        medium_air_quality_description,
+        air_quality_led_indicators[MEDIUM_AIR_QUALITY_LEVEL],
+        true,
+        co2_upper_threshold_medium_air_quality_ppm
     },
     {
-        LOWER_MODERATE_AIR_QUALITY_LEVEL, moderate_air_quality_description,
-        air_quality_led_indicators[LOWER_MODERATE_AIR_QUALITY_LEVEL], true, co2_mid_threshold_moderate_air_quality_ppm
+        LOWER_MODERATE_AIR_QUALITY_LEVEL,
+        moderate_air_quality_description,
+        air_quality_led_indicators[LOWER_MODERATE_AIR_QUALITY_LEVEL],
+        true,
+        co2_mid_threshold_moderate_air_quality_ppm
     },
     {
-        UPPER_MODERATE_AIR_QUALITY_LEVEL, moderate_air_quality_description,
-        air_quality_led_indicators[UPPER_MODERATE_AIR_QUALITY_LEVEL], true, co2_upper_threshold_medium_air_quality_ppm
+        UPPER_MODERATE_AIR_QUALITY_LEVEL,
+        moderate_air_quality_description,
+        air_quality_led_indicators[UPPER_MODERATE_AIR_QUALITY_LEVEL],
+        true,
+        co2_upper_threshold_medium_air_quality_ppm
     },
     {
-        POOR_AIR_QUALITY_LEVEL, poor_air_quality_description, air_quality_led_indicators[POOR_AIR_QUALITY_LEVEL], false,
-        -1
-    } ///< Poor air quality has no upper limit.
+        POOR_AIR_QUALITY_LEVEL,
+        poor_air_quality_description,
+        air_quality_led_indicators[POOR_AIR_QUALITY_LEVEL],
+        false,
+        -1 ///< Poor air quality has no upper limit.
+    }
 };
+
+const AirQualityRule *get_air_quality_rule_for_co2_measurement(const int co2_measurement_ppm) {
+    for (const AirQualityRule &air_quality_rule : air_quality_rules) {
+        if (co2_measurement_ppm <= air_quality_rule.upper_threshold_ppm) {
+            return &air_quality_rule;
+        }
+    }
+    return &air_quality_rules[POOR_AIR_QUALITY_LEVEL];
+}
+
+void set_display_text(const char *line_1, const char *line_2) {
+    strncpy(display_line_1, line_1, display_line_1_size - 1);
+    display_line_1[display_line_1_size - 1] = '\0'; // Ensure there is a null termination at the end.
+    strncpy(display_line_2, line_2, display_line_2_size - 1);
+    display_line_2[display_line_2_size - 1] = '\0'; // Ensure there is a null termination at the end.
+}
 
 void manage_air_quality(const int co2_measurement_ppm) {
     snprintf(display_line_1, display_line_1_size, "%s %d %s", co2_prefix, co2_measurement_ppm, ppm_suffix);
