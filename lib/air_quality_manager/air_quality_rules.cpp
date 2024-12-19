@@ -1,3 +1,13 @@
+/**
+ * @file    air_quality_rules.cpp
+ * @brief   Implementation of air quality rules for categorizing indoor air quality based on CO2 levels.
+ * @details This file contains constants, configurations, and rules for determining indoor air
+ *          quality levels based on CO2 concentration in parts per million (ppm) using predefined thresholds
+ *          as per DIN EN 13779 specifications. It also provides LED indicator configurations for each air
+ *          quality category and a function to determine the corresponding air quality rule based
+ *          on measured CO2 levels.
+ */
+
 #include <Arduino.h>
 #include "air_quality_manager.h"
 
@@ -20,34 +30,29 @@ constexpr int CO2_UPPER_THRESHOLD_MODERATE_AIR_QUALITY_PPM = 1400;
 ///< for poor indoor air quality (IDA 4 DIN EN 13779)
 
 constexpr int NO_UPPER_LIMIT = -1;
+///< Indicates that there is no upper limit for a given air quality rule.
 
-const String HIGH_AIR_QUALITY_DESCRIPTION = "High air quality"; ///< Text for IDA 1
-const String MEDIUM_AIR_QUALITY_DESCRIPTION = "Medium air quality"; ///< Text for IDA 2
-const String MODERATE_AIR_QUALITY_DESCRIPTION = "Moderate air quality"; ///< Text for IDA 3
-const String POOR_AIR_QUALITY_DESCRIPTION = "Poor air quality"; ///< Text for IDA 4
+const String HIGH_AIR_QUALITY_DESCRIPTION = "High air quality"; ///< Description for high air quality level.
+const String MEDIUM_AIR_QUALITY_DESCRIPTION = "Medium air quality"; ///< Description for medium air quality level.
+const String MODERATE_AIR_QUALITY_DESCRIPTION = "Moderate air quality"; ///< Description for moderate air quality level.
+const String POOR_AIR_QUALITY_DESCRIPTION = "Poor air quality"; ///< Description for poor air quality level.
 
-constexpr LEDIndicator HIGH_AIR_QUALITY_LED_INDICATOR = {
-    true, true, false, false, false, false
-};
+constexpr LEDIndicator HIGH_AIR_QUALITY_LED_INDICATOR = {true, true, false, false, false, false};
+///< LED indicator state for high air quality (both green LEDs ON).
 
-constexpr LEDIndicator MEDIUM_AIR_QUALITY_LED_INDICATOR = {
-    false, true, true, false, false, false
-};
+constexpr LEDIndicator MEDIUM_AIR_QUALITY_LED_INDICATOR = {false, true, true, false, false, false};
+///< LED indicator state for medium air quality (one green and one yellow LED ON).
 
-constexpr LEDIndicator LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR = {
-    false, false, true, true, false, false
-};
+constexpr LEDIndicator LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR = {false, false, true, true, false, false};
+///< LED indicator state for lower part of moderate air quality (both yellow LEDs ON).
 
-constexpr LEDIndicator UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR = {
-    false, false, false, true, true, false
-};
+constexpr LEDIndicator UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR = {false, false, false, true, true, false};
+///< LED indicator state for upper part of moderate air quality (one yellow and one red LED ON).
 
-constexpr LEDIndicator POOR_AIR_QUALITY_LED_INDICATOR = {
-    false, false, false, false, true, true
-};
+constexpr LEDIndicator POOR_AIR_QUALITY_LED_INDICATOR = {false, false, false, false, true, true};
+///< LED indicator state for poor air quality (both red LEDs ON).
 
 const AirQualityRule HIGH_AIR_QUALITY_RULE = {
-    HIGH_AIR_QUALITY_LEVEL,
     HIGH_AIR_QUALITY_LED_INDICATOR,
     HIGH_AIR_QUALITY_DESCRIPTION,
     true,
@@ -55,7 +60,6 @@ const AirQualityRule HIGH_AIR_QUALITY_RULE = {
 };
 
 const AirQualityRule MEDIUM_AIR_QUALITY_RULE = {
-    MEDIUM_AIR_QUALITY_LEVEL,
     MEDIUM_AIR_QUALITY_LED_INDICATOR,
     MEDIUM_AIR_QUALITY_DESCRIPTION,
     true,
@@ -63,7 +67,6 @@ const AirQualityRule MEDIUM_AIR_QUALITY_RULE = {
 };
 
 const AirQualityRule LOWER_MODERATE_AIR_QUALITY_RULE = {
-    LOWER_MODERATE_AIR_QUALITY_LEVEL,
     LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR,
     MODERATE_AIR_QUALITY_DESCRIPTION,
     true,
@@ -71,7 +74,6 @@ const AirQualityRule LOWER_MODERATE_AIR_QUALITY_RULE = {
 };
 
 const AirQualityRule UPPER_MODERATE_AIR_QUALITY_RULE = {
-    UPPER_MODERATE_AIR_QUALITY_LEVEL,
     UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR,
     MODERATE_AIR_QUALITY_DESCRIPTION,
     true,
@@ -79,7 +81,6 @@ const AirQualityRule UPPER_MODERATE_AIR_QUALITY_RULE = {
 };
 
 const AirQualityRule POOR_AIR_QUALITY_RULE = {
-    POOR_AIR_QUALITY_LEVEL,
     POOR_AIR_QUALITY_LED_INDICATOR,
     POOR_AIR_QUALITY_DESCRIPTION,
     false,
@@ -100,5 +101,5 @@ AirQualityRule get_air_quality_rule(const int co2_measurement_ppm) {
             return air_quality_rule;
         }
     }
-    return AIR_QUALITY_RULES[POOR_AIR_QUALITY_LEVEL];
+    return POOR_AIR_QUALITY_RULE;
 }

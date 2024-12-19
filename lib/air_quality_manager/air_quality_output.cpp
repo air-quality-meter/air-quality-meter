@@ -1,3 +1,13 @@
+/**
+ * @file    air_quality_output.cpp
+ * @brief   This file contains functions and constants to manage the air quality measurements,
+ *          display outputs, LED indicators, and audio warnings for the air quality monitoring system.
+ * 
+ * @details The functions in this file handle updating the display with CO2 levels and air quality
+ *          descriptions, controlling LED indicators based on air quality status, and managing warnings
+ *          when the air quality exceeds acceptable thresholds.
+ */
+
 #include <Arduino.h>
 #include "air_quality_manager.h"
 #include "audio_warning.h"
