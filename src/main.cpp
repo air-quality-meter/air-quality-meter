@@ -11,8 +11,6 @@
  */
 
 // Import header files
-#include "system_state.h"
-#include "global_constants.h"
 #include "system_manager.h"
 #include "co2_sensor.h"
 #include "leds.h"
@@ -20,35 +18,54 @@
 #include "air_quality_manager.h"
 #include "audio_warning.h"
 
-// Import external libraries
+constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
+///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
 
-/// Arduino Sketch functions
+constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
+///< Wait after each loop iteration to prevent overlapping device triggering.
+
+constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial communication for debugging
+
 /**
- * @brief   Initializes the Arduino setup routine.
- * @details Configures initial system states and sets up the interrupt service routine.
- *          Runs once when the board is powered on or reset.
+ * @brief   Sets up the required hardware components and serial communication before the main program loop starts.
+ *
+ * @details This function initializes
+ *           - the serial communication interface,
+ *           - the display,
+ *           - the reset button,
+ *           - the CO2 sensor,
+ *           - the LEDs,
+ *           - and the MP3 module.
+ *          It also adds a delay after initialization to ensure all the hardware is ready for use.
  */
 void setup() {
-    Serial.begin(9600); ///< Initialize serial communication over USB (for debugging)
+    Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     initialize_display();
     initialize_reset_button();
     initialize_co2_sensor();
     initialize_leds();
     initialize_mp3_module();
-    delay(waiting_period_initialization_s); ///< Make sure, hardware is ready to use.
-    reset_co2_below_threshold_and_warning_counter();
+    delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
 
 /**
- * @brief   Main loop for air-quality meter logic.
- * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
+ * @brief   Main system loop responsible for air quality measurement, rule evaluation, and hardware output updates.
+ *
+ * @details This function performs the following:
+ *           - Retrieves the current system time in seconds.
+ *           - Obtains the current CO2 measurement in parts per million (ppm).
+ *           - Evaluates air quality rules based on the CO2 measurement.
+ *           - Updates the display with the air quality status and description.
+ *           - Updates the LED output to reflect air quality level.
+ *           - Manages behavior for unacceptable air quality levels.
+ *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
  */
 void loop() {
-    const unsigned long current_time_s = get_current_time_in_s();
+    const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
     const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
     const AirQualityRule current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_rule.description);
     update_led_air_quality_output(current_air_quality_rule.led_indicator);
-    manage_unacceptable_air_quality_level(current_time_s, current_air_quality_rule.is_level_acceptable);
-    delay(waiting_period_loop_iteration_s); ///< Make sure, hardware is ready for next loop iteration.
+    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_rule.is_level_acceptable);
+    delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }
