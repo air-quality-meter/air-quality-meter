@@ -7,6 +7,11 @@
  */
 
 #include "air_quality_manager.h"
+
+#include <global_constants.h>
+#include "audio_warning.h"
+#include "system_state.h"
+#include "system_manager.h"
 #include "leds.h"
 #include "display.h"
 
@@ -86,4 +91,28 @@ void update_led_air_quality_output(const LEDIndicator &led_indicator) {
              led_indicator.is_yellow_led_2_on,
              led_indicator.is_red_led_1_on,
              led_indicator.is_red_led_2_on);
+}
+
+void manage_unacceptable_air_quality_level(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
+    if (is_air_quality_acceptable) {
+        reset_co2_below_threshold_and_warning_counter();
+        return;
+    }
+    const unsigned long time_since_co2_level_not_acceptable_s = current_time_s - system_state.last_co2_below_threshold_time_s;
+    ///< Time delta since air quality is not acceptable.
+    ///< @note As all time variables and constants are unsigned, a possible time overflow will still be handled correctly.
+    ///< A potentially very high value for the variable last_co2_below_threshold_time_s of almost the maximum of the unsigned
+    ///< long type still leads to a correct result of the subraction (current_time_s - last_co2_below_threshold_time_s) even
+    ///< after an overflow of millis(), when current_time_s has a very small value again.
+    ///< @see  https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
+    if (time_since_co2_level_not_acceptable_s > max_co2_above_threshold_time_s) {
+        issue_audio_warning();
+        // Wait until the next audio warning to prevent uninterrupted audio output.
+        system_state.last_co2_below_threshold_time_s =
+                system_state.last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
+        system_state.warning_counter++;
+        if (system_state.warning_counter >= max_consecutive_warnings) {
+            reset_co2_below_threshold_and_warning_counter();
+        }
+    }
 }

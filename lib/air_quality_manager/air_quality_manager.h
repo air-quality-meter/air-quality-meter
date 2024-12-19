@@ -6,6 +6,7 @@
 
 #ifndef AIR_QUALITY_MANAGER_H
 #define AIR_QUALITY_MANAGER_H
+#include <system_state.h>
 
 constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
 ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
@@ -103,5 +104,7 @@ AirQualityRule get_air_quality_rule(int co2_measurement_ppm);
 void update_display_air_quality_output(int co2_measurement_ppm, const String &air_quality_description);
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator);
+
+void manage_unacceptable_air_quality_level(unsigned long current_time_s, bool is_air_quality_acceptable);
 
 #endif //AIR_QUALITY_MANAGER_H
