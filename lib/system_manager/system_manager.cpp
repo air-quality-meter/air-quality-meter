@@ -6,7 +6,7 @@
  */
 
 #include "system_manager.h"
-#include "global_variables.h"
+#include "system_state.h"
 #include "pin_configuration.h"
 
 void initialize_reset_button() {
@@ -15,8 +15,8 @@ void initialize_reset_button() {
 
 void reset_co2_below_threshold_and_warning_counter() {
     //TODO: debounce reset button.
-    last_co2_below_threshold_time_s = current_time_s;
-    warning_counter = 0;
+    system_state.last_co2_below_threshold_time_s = get_current_time_in_s();
+    system_state.warning_counter = 0;
 }
 
 unsigned long get_current_time_in_s() {
