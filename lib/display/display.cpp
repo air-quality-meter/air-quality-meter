@@ -6,7 +6,7 @@
  */
 
 #include "display.h"
-#include "../system/pin_configuration.h"
+#include "pin_configuration.h"
 
 void initialize_display() {
     //TODO: This function needs to be written. (all the stuff, that should run on device startup)
