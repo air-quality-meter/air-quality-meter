@@ -49,31 +49,6 @@ void loop() {
     const AirQualityRule current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_rule.description);
     update_led_air_quality_output(current_air_quality_rule.led_indicator);
-    if (current_co2_measurement_ppm > co2_upper_threshold_moderate_air_quality_ppm) {
-        /**
-         * @brief   check if the CO2 threshold value has already been exceeded for
-         *          longer than the maximum allowable time.
-         *
-         * @note    As all time variables and constants are unsigned, a possible time overflow will still be handled
-         *          correctly.
-         *          A potentially very high value for the variable last_co2_below_threshold_time_s of almost the
-         *          maximum of the unsigned long type still leads to a correct result of the subraction
-         *          (current_time_s - last_co2_below_threshold_time_s)
-         *          even after an overflow of millis(), when current_time_s has a very small value again.
-         *
-         * @see     https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
-         */
-        if (current_time_s - system_state.last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
-            issue_audio_warning();
-            // Wait until the next audio warning to prevent uninterrupted audio output.
-            system_state.last_co2_below_threshold_time_s = system_state.last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
-            system_state.warning_counter++;
-            if (system_state.warning_counter >= max_consecutive_warnings) {
-                reset_co2_below_threshold_and_warning_counter();
-            }
-        }
-    } else {
-        reset_co2_below_threshold_and_warning_counter();
-    }
+    manage_unacceptable_air_quality_level(current_time_s, current_air_quality_rule.is_level_acceptable);
     delay(waiting_period_loop_iteration_s); ///< Make sure, hardware is ready for next loop iteration.
 }
