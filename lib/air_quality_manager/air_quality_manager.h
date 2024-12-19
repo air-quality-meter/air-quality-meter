@@ -8,25 +8,32 @@
 #define AIR_QUALITY_MANAGER_H
 #include <system_state.h>
 
-constexpr int co2_upper_threshold_high_air_quality_ppm = 800;
+constexpr int CO2_UPPER_THRESHOLD_HIGH_AIR_QUALITY_PPM = 800;
 ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
 ///< in parts per million (ppm)
 
-constexpr int co2_upper_threshold_medium_air_quality_ppm = 1000;
+constexpr int CO2_UPPER_THRESHOLD_MEDIUM_AIR_QUALITY_PPM = 1000;
 ///< Upper CO2 threshold (less than or equal to) for medium indoor air quality (IDA 2 DIN EN 13779)
 ///< in parts per million (ppm)
 
-constexpr int co2_mid_threshold_moderate_air_quality_ppm = 1200;
+constexpr int CO2_MID_THRESHOLD_MODERATE_AIR_QUALITY_PPM = 1200;
 ///< Upper CO2 threshold (less than or equal to) for lower half (mid) of moderate indoor air quality
 ///< (IDA 3 DIN EN 13779) parts per million (ppm). The IDA 3 bandwidth is double the size of the IDA 2 bandwidth,
 ///< which is why it is divided into two halves here.
 
-constexpr int co2_upper_threshold_moderate_air_quality_ppm = 1400;
+constexpr int CO2_UPPER_THRESHOLD_MODERATE_AIR_QUALITY_PPM = 1400;
 ///< Upper CO2 threshold (less than or equal to) for moderate indoor air quality (IDA 3 DIN EN 13779)
 ///< parts per million (ppm). At the same time, this value represents the lower threshold (greater than) value
 ///< for poor indoor air quality (IDA 4 DIN EN 13779)
 
 constexpr int NO_UPPER_LIMIT = -1;
+
+constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before reset
+
+constexpr unsigned int MAX_CO2_ABOVE_THRESHOLD_TIME_S = 3600;
+///< Max time period allowed CO2 above threshold (seconds)
+
+constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period between two warnings (seconds)
 
 enum AirQualityLevel {
     HIGH_AIR_QUALITY_LEVEL,
@@ -54,7 +61,7 @@ struct AirQualityRule {
     ///< Upper co2 threshold for level; -1 indicates "no upper limit" (poor air quality)
 };
 
-constexpr LEDIndicator high_air_quality_led_indicator = {
+constexpr LEDIndicator HIGH_AIR_QUALITY_LED_INDICATOR = {
     true,
     true,
     false,
@@ -63,7 +70,7 @@ constexpr LEDIndicator high_air_quality_led_indicator = {
     false
 };
 
-constexpr LEDIndicator medium_air_quality_led_indicator = {
+constexpr LEDIndicator MEDIUM_AIR_QUALITY_LED_INDICATOR = {
     false,
     true,
     true,
@@ -72,7 +79,7 @@ constexpr LEDIndicator medium_air_quality_led_indicator = {
     false
 };
 
-constexpr LEDIndicator lower_moderate_air_quality_led_indicator = {
+constexpr LEDIndicator LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR = {
     false,
     false,
     true,
@@ -81,7 +88,7 @@ constexpr LEDIndicator lower_moderate_air_quality_led_indicator = {
     false
 };
 
-constexpr LEDIndicator upper_moderate_air_quality_led_indicator = {
+constexpr LEDIndicator UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR = {
     false,
     false,
     false,
@@ -90,7 +97,7 @@ constexpr LEDIndicator upper_moderate_air_quality_led_indicator = {
     false
 };
 
-constexpr LEDIndicator poor_air_quality_led_indicator = {
+constexpr LEDIndicator POOR_AIR_QUALITY_LED_INDICATOR = {
     false,
     false,
     false,
