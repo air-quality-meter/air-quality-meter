@@ -11,8 +11,8 @@
  */
 
 // Import header files
+#include "system_state.h"
 #include "global_constants.h"
-#include "global_variables.h"
 #include "system_manager.h"
 #include "co2_sensor.h"
 #include "leds.h"
@@ -36,7 +36,6 @@ void setup() {
     initialize_leds();
     initialize_mp3_module();
     delay(waiting_period_initialization_s); ///< Make sure, hardware is ready to use.
-    current_time_s = get_current_time_in_s();
     reset_co2_below_threshold_and_warning_counter();
 }
 
@@ -45,8 +44,8 @@ void setup() {
  * @details Continuously reads CO2 levels, updates the display and LEDs and triggers warnings if necessary.
  */
 void loop() {
-    current_time_s = get_current_time_in_s();
-    current_co2_measurement_ppm = get_co2_measurement_in_ppm();
+    const unsigned long current_time_s = get_current_time_in_s();
+    const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
     const AirQualityRule current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_rule.description);
     update_led_air_quality_output(current_air_quality_rule.led_indicator);
@@ -64,12 +63,12 @@ void loop() {
          *
          * @see     https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
          */
-        if (current_time_s - last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
+        if (current_time_s - system_state.last_co2_below_threshold_time_s > max_co2_above_threshold_time_s) {
             issue_audio_warning();
             // Wait until the next audio warning to prevent uninterrupted audio output.
-            last_co2_below_threshold_time_s = last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
-            warning_counter++;
-            if (warning_counter >= max_consecutive_warnings) {
+            system_state.last_co2_below_threshold_time_s = system_state.last_co2_below_threshold_time_s + waiting_period_between_warnings_s;
+            system_state.warning_counter++;
+            if (system_state.warning_counter >= max_consecutive_warnings) {
                 reset_co2_below_threshold_and_warning_counter();
             }
         }
