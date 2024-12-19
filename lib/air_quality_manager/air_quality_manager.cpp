@@ -7,8 +7,8 @@
  */
 
 #include "air_quality_manager.h"
-#include "../display/leds.h"
-#include "../display/display.h"
+#include "leds.h"
+#include "display.h"
 
 const String co2_prefix = "CO2: "; ///< Prefix to display CO2 value
 const String ppm_suffix = " ppm"; ///< Suffix to display a value with ppm as the unit
