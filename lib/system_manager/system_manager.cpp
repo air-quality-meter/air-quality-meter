@@ -12,7 +12,10 @@
 constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
 
 void initialize_reset_button() {
-    attachInterrupt(TIME_COUNTER_RESET_BUTTON_PIN, reset_co2_below_threshold_and_warning_counter,FALLING);
+    pinMode(TIME_COUNTER_RESET_BUTTON_PIN, INPUT);
+    attachInterrupt(
+        digitalPinToInterrupt(TIME_COUNTER_RESET_BUTTON_PIN),
+        reset_co2_below_threshold_and_warning_counter, RISING);
 }
 
 void reset_co2_below_threshold_and_warning_counter() {

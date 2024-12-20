@@ -12,7 +12,6 @@
 #include "air_quality_manager.h"
 #include "audio_warning.h"
 #include "system_state.h"
-#include "system_manager.h"
 #include "leds.h"
 #include "display.h"
 
@@ -42,8 +41,9 @@ void update_led_air_quality_output(const LEDIndicator &led_indicator) {
 
 void manage_unacceptable_air_quality_level(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
     if (is_air_quality_acceptable) {
-        noInterrupts(); ///< prevent interrupts while calling reset function
-        reset_co2_below_threshold_and_warning_counter();
+        noInterrupts(); ///< prevent interrupts while writing on system state
+        system_state.last_co2_below_threshold_time_s = current_time_s;
+        system_state.warning_counter = 0;
         interrupts();
         return;
     }
@@ -61,8 +61,9 @@ void manage_unacceptable_air_quality_level(const unsigned long current_time_s, c
                 system_state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
         system_state.warning_counter++;
         if (system_state.warning_counter >= MAX_CONSECUTIVE_WARNINGS) {
-            noInterrupts(); ///< prevent interrupts while calling reset function
-            reset_co2_below_threshold_and_warning_counter();
+            noInterrupts(); ///< prevent interrupts while writing on system state
+            system_state.last_co2_below_threshold_time_s = current_time_s;
+            system_state.warning_counter = 0;
             interrupts();
         }
     }
