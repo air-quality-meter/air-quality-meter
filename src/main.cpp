@@ -11,13 +11,16 @@
  */
 
 // Import header files
-#include "system_manager.h"
+#include "system_state.h"
+#include "acknowledge_button.h"
 #include "system_time.h"
 #include "co2_sensor.h"
 #include "leds.h"
 #include "display.h"
 #include "air_quality_manager.h"
 #include "audio_warning.h"
+
+SystemState system_state = {0, 0, 0};
 
 constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
 ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
@@ -42,7 +45,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     initialize_display();
-    acknowledge_button();
+    initialize_acknowledge_button();
     initialize_co2_sensor();
     initialize_leds();
     initialize_mp3_module();

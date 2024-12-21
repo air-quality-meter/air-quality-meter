@@ -1,17 +1,17 @@
 /**
- * @file    system_manager.h
+ * @file    acknowledge_button.h
  * @brief   This file contains the function declarations for system management functions.
  */
 
-#ifndef SYSTEM_MANAGER_H
-#define SYSTEM_MANAGER_H
+#ifndef ACKNOWLEDGE_BUTTON_H
+#define ACKNOWLEDGE_BUTTON_H
 
 /**
  * @brief   Initializes acknowledge button.
  * @details Initializes interrupt service routine for acknowledge button pin.
  *          Device reacts on pressing acknowledge button (rising).
  */
-void acknowledge_button();
+void initialize_acknowledge_button();
 
 /**
  * @brief   Resets last_co2_below_threshold_time_s and warning_counter.
@@ -21,4 +21,4 @@ void acknowledge_button();
 void acknowledge_warning();
 
 
-#endif //SYSTEM_MANAGER_H
+#endif //ACKNOWLEDGE_BUTTON_H

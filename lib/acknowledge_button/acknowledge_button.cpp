@@ -1,18 +1,18 @@
 #include <Arduino.h>
 
 /**
- * @file    system_manager.cpp
- * @brief   This file contains the function definitions for system management functions.
+ * @file    acknowledge_button.cpp
+ * @brief   This file contains the functions for the acknowledge button.
  */
 
-#include "system_manager.h"
+#include "acknowledge_button.h"
 #include "system_state.h"
 #include "../system_time/system_time.h"
 #include "pin_configuration.h"
 
 constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
 
-void acknowledge_button() {
+void initialize_acknowledge_button() {
     pinMode(ACKNOWLEDGE_BUTTON_PIN, INPUT);
     attachInterrupt(
         digitalPinToInterrupt(ACKNOWLEDGE_BUTTON_PIN),
