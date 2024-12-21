@@ -11,14 +11,14 @@
 
 constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
 
-void initialize_reset_button() {
-    pinMode(TIME_COUNTER_RESET_BUTTON_PIN, INPUT);
+void acknowledge_button() {
+    pinMode(ACKNOWLEDGE_BUTTON_PIN, INPUT);
     attachInterrupt(
-        digitalPinToInterrupt(TIME_COUNTER_RESET_BUTTON_PIN),
-        reset_co2_below_threshold_and_warning_counter, RISING);
+        digitalPinToInterrupt(ACKNOWLEDGE_BUTTON_PIN),
+        acknowledge_warning, RISING);
 }
 
-void reset_co2_below_threshold_and_warning_counter() {
+void acknowledge_warning() {
     // Debounce: If elapsed time since last interrupt is less than debounce time, ignore this and return
     const unsigned long interrupt_time_ms = millis(); ///< timestamp in milliseconds
     if (interrupt_time_ms - system_state.last_interrupt_time_ms < DEBOUNCE_DELAY_MS) {

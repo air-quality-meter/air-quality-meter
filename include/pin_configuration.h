@@ -6,8 +6,8 @@
 #ifndef PIN_CONFIGURATION_H
 #define PIN_CONFIGURATION_H
 
-// Reset Button
-constexpr int TIME_COUNTER_RESET_BUTTON_PIN = 2; ///< Interrupt functionality on Pin2 (Int0)
+// Acknowledge Button
+constexpr int ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality on Pin2 (Int0)
 
 // LEDs
 constexpr int GREEN_LED_1_PIN = 22; ///< LED to indicate high air quality on Pin 22

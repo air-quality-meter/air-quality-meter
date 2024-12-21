@@ -7,18 +7,18 @@
 #define SYSTEM_MANAGER_H
 
 /**
- * @brief   Initializes reset button.
- * @details Initializes interrupt service routine for reset button pin.
- *          Device reacts on releasing reset button after pressing it.
+ * @brief   Initializes acknowledge button.
+ * @details Initializes interrupt service routine for acknowledge button pin.
+ *          Device reacts on pressing acknowledge button (rising).
  */
-void initialize_reset_button();
+void acknowledge_button();
 
 /**
  * @brief   Resets last_co2_below_threshold_time_s and warning_counter.
  * @details Resets the timestamp of the last CO2 measurement that was below the threshold
  *          and the counter for consecutive warnings.
  */
-void reset_co2_below_threshold_and_warning_counter();
+void acknowledge_warning();
 
 /**
  * @brief   Retrieves the elapsed time since the board was powered on.

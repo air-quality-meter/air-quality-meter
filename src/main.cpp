@@ -7,7 +7,7 @@
  *          air quality meter. That device monitors the CO2 concentration in indoor air and shows the current value in
  *          ppm on a display. The interpretation of the values is assisted by a series of 6 LEDs in three different
  *          colors. CO2 values above the threshold value trigger an acoustic warning after a defined period of time.
- *          A reset button can be used to cancel the warning.
+ *          An acknowledge button can be used to cancel the warning.
  */
 
 // Import header files
@@ -32,7 +32,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
  * @details This function initializes
  *           - the serial communication interface,
  *           - the display,
- *           - the reset button,
+ *           - the acknowledge button,
  *           - the CO2 sensor,
  *           - the LEDs,
  *           - and the MP3 module.
@@ -41,7 +41,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     initialize_display();
-    initialize_reset_button();
+    acknowledge_button();
     initialize_co2_sensor();
     initialize_leds();
     initialize_mp3_module();
