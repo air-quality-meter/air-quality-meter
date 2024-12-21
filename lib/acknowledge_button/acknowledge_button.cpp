@@ -25,6 +25,9 @@ void acknowledge_warning() {
     if (interrupt_time_ms - system_state.last_interrupt_time_ms < DEBOUNCE_DELAY_MS) {
         return;
     }
+    noInterrupts(); // Temporarily disable interrupts while updating system state
     system_state.last_co2_below_threshold_time_s = get_current_time_in_s();
     system_state.warning_counter = 0;
+    system_state.last_interrupt_time_ms = interrupt_time_ms; // Save the time of this interrupt for debouncing logic
+    interrupts(); // Re-enable interrupts
 }
