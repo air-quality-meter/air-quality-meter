@@ -12,6 +12,7 @@
 
 // Import header files
 #include "system_manager.h"
+#include "system_time.h"
 #include "co2_sensor.h"
 #include "leds.h"
 #include "display.h"

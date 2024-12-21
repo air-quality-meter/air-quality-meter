@@ -20,11 +20,5 @@ void acknowledge_button();
  */
 void acknowledge_warning();
 
-/**
- * @brief   Retrieves the elapsed time since the board was powered on.
- * @details Converts the internal millis() value from milliseconds to seconds to provide a time reference.
- * @return  The elapsed time since the board was powered on in seconds.
- */
-unsigned long get_current_time_in_s();
 
 #endif //SYSTEM_MANAGER_H
