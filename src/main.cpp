@@ -7,16 +7,20 @@
  *          air quality meter. That device monitors the CO2 concentration in indoor air and shows the current value in
  *          ppm on a display. The interpretation of the values is assisted by a series of 6 LEDs in three different
  *          colors. CO2 values above the threshold value trigger an acoustic warning after a defined period of time.
- *          A reset button can be used to cancel the warning.
+ *          An acknowledge button can be used to cancel the warning.
  */
 
 // Import header files
-#include "system_manager.h"
+#include "system_state.h"
+#include "acknowledge_button.h"
+#include "system_time.h"
 #include "co2_sensor.h"
 #include "leds.h"
 #include "display.h"
 #include "air_quality_manager.h"
 #include "audio_warning.h"
+
+SystemState system_state = {0, 0, 0};
 
 constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
 ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
@@ -32,7 +36,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
  * @details This function initializes
  *           - the serial communication interface,
  *           - the display,
- *           - the reset button,
+ *           - the acknowledge button,
  *           - the CO2 sensor,
  *           - the LEDs,
  *           - and the MP3 module.
@@ -41,7 +45,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     initialize_display();
-    initialize_reset_button();
+    initialize_acknowledge_button();
     initialize_co2_sensor();
     initialize_leds();
     initialize_mp3_module();
@@ -49,12 +53,12 @@ void setup() {
 }
 
 /**
- * @brief   Main system loop responsible for air quality measurement, rule evaluation, and hardware output updates.
+ * @brief   Main system loop responsible for air quality measurement, air quality level evaluation, and hardware output updates.
  *
  * @details This function performs the following:
  *           - Retrieves the current system time in seconds.
  *           - Obtains the current CO2 measurement in parts per million (ppm).
- *           - Evaluates air quality rules based on the CO2 measurement.
+ *           - Evaluates air quality levels based on the CO2 measurement.
  *           - Updates the display with the air quality status and description.
  *           - Updates the LED output to reflect air quality level.
  *           - Manages behavior for unacceptable air quality levels.
@@ -63,9 +67,9 @@ void setup() {
 void loop() {
     const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
     const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
-    const AirQualityRule current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
-    update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_rule.description);
-    update_led_air_quality_output(current_air_quality_rule.led_indicator);
-    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_rule.is_level_acceptable);
+    const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
+    update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
+    update_led_air_quality_output(current_air_quality_level.led_indicator);
+    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_level.is_level_acceptable);
     delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }

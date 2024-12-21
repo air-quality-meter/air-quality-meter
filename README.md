@@ -23,9 +23,11 @@ The device operates as follows:
 
 4. **Audio Warning:** If the CO2 level exceeds the threshold for poor air quality (1400 ppm) for a prolonged period, the
    device triggers an audio warning using a Gravity UART MP3 Voice Module and a 3W 8Ω Stereo Enclosed Speaker. The
-   warning is repeated at set intervals until the CO2 level falls below the threshold or the device is reset.
+   warning is repeated at set intervals until the CO2 level falls below the threshold, the max number of consecutive
+   warning is reached, or the warning is acknowledged.
 
-5. **Reset Button:** A reset button allows the user to manually silence the audio warning and reset the warning counter.
+5. **Acknowledge Button:** A acknowledge button allows the user to manually silence the audio warning and reset the
+   warning counter.
 
 ## Hardware Components
 
@@ -35,13 +37,14 @@ The device operates as follows:
 * **Audio Module:** Gravity UART MP3 Voice Module
 * **Speaker:** Stereo Enclosed Speaker - 3W 8Ω
 * **LEDs:** 2x Green, 2x Yellow, 2x Red
-* **Reset Button:** Push button
+* **Acknowledge Button:** Push button
 
 ## Software Logic
 
 The Arduino code implements the following logic:
 
-1. **Initialization:** Sets up the pins, initializes the starting values, and configures the interrupt for the reset
+1. **Initialization:** Sets up the pins, initializes the starting values, and configures the interrupt for the
+   acknowledge
    button.
 
 2. **Measurement:** Continuously reads the CO2 sensor and updates the displayed value.
@@ -56,8 +59,8 @@ The Arduino code implements the following logic:
 - Resets the warning counter after a predefined number of consecutive warnings or when the CO2 level falls below the
   threshold.
 
-5. **Reset Button:**  An interrupt service routine resets the warning counter and the timer when the reset button is
-   pressed.
+5. **Acknowledge Button:**  An interrupt service routine resets the warning counter and the timer when the acknowledge
+   button is pressed.
 
 ## Arduino Pin Configuration
 
@@ -65,7 +68,7 @@ This table details the pin connections for the Arduino Mega 2560 in this project
 
 | Pin Number | Pin Info | Serial Port | Connected Device                   | Device Connection              |
 |------------|----------|-------------|------------------------------------|--------------------------------|
-| 2          | INT0     |             | Reset Button                       | "-"                            | 
+| 2          | INT0     |             | Acknowledge Button                 | "-"                            | 
 | 7          | Digital  |             | LCD1602                            | RS                             |
 | 8          | Digital  |             | LCD1602                            | E                              |
 | 9          | Digital  |             | LCD1602                            | D4                             |
@@ -98,7 +101,7 @@ This table shows the power and ground connections for the various components in 
 | LCD1602                            | K           | GND            |                                               |
 | B103 (10K Potentiometer)           | Outer Pin 1 | GND            |                                               |
 | B103 (10K Potentiometer)           | Outer Pin 2 | 5V             |                                               |
-| Reset Button                       | "-"         | GND            |                                               |
+| Acknowledge Button                 | "-"         | GND            |                                               |
 | Green LED 1                        | Cathode (-) | GND            |                                               |
 | Green LED 2                        | Cathode (-) | GND            |                                               |
 | Yellow LED 1                       | Cathode (-) | GND            |                                               |

@@ -1,10 +1,10 @@
 /**
- * @file    air_quality_rules.cpp
- * @brief   Implementation of air quality rules for categorizing indoor air quality based on CO2 levels.
+ * @file    air_quality_levels.cpp
+ * @brief   Implementation of air quality levels for categorizing indoor air quality based on CO2 levels.
  * @details This file contains constants, configurations, and rules for determining indoor air
  *          quality levels based on CO2 concentration in parts per million (ppm) using predefined thresholds
  *          as per DIN EN 13779 specifications. It also provides LED indicator configurations for each air
- *          quality category and a function to determine the corresponding air quality rule based
+ *          quality category and a function to determine the corresponding air quality level based
  *          on measured CO2 levels.
  */
 
@@ -30,7 +30,7 @@ constexpr int CO2_UPPER_THRESHOLD_MODERATE_AIR_QUALITY_PPM = 1400;
 ///< for poor indoor air quality (IDA 4 DIN EN 13779)
 
 constexpr int NO_UPPER_LIMIT = -1;
-///< Indicates that there is no upper limit for a given air quality rule.
+///< Indicates that there is no upper limit for a given air quality level.
 
 const String HIGH_AIR_QUALITY_DESCRIPTION = "High air quality"; ///< Description for high air quality level.
 const String MEDIUM_AIR_QUALITY_DESCRIPTION = "Medium air quality"; ///< Description for medium air quality level.
@@ -52,54 +52,54 @@ constexpr LEDIndicator UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR = {false, false,
 constexpr LEDIndicator POOR_AIR_QUALITY_LED_INDICATOR = {false, false, false, false, true, true};
 ///< LED indicator state for poor air quality (both red LEDs ON).
 
-const AirQualityRule HIGH_AIR_QUALITY_RULE = {
+const AirQualityLevel HIGH_AIR_QUALITY_LEVEL = {
     HIGH_AIR_QUALITY_LED_INDICATOR,
     HIGH_AIR_QUALITY_DESCRIPTION,
     true,
     CO2_UPPER_THRESHOLD_HIGH_AIR_QUALITY_PPM
 };
 
-const AirQualityRule MEDIUM_AIR_QUALITY_RULE = {
+const AirQualityLevel MEDIUM_AIR_QUALITY_LEVEL = {
     MEDIUM_AIR_QUALITY_LED_INDICATOR,
     MEDIUM_AIR_QUALITY_DESCRIPTION,
     true,
     CO2_UPPER_THRESHOLD_MEDIUM_AIR_QUALITY_PPM
 };
 
-const AirQualityRule LOWER_MODERATE_AIR_QUALITY_RULE = {
+const AirQualityLevel LOWER_MODERATE_AIR_QUALITY_LEVEL = {
     LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR,
     MODERATE_AIR_QUALITY_DESCRIPTION,
     true,
     CO2_MID_THRESHOLD_MODERATE_AIR_QUALITY_PPM
 };
 
-const AirQualityRule UPPER_MODERATE_AIR_QUALITY_RULE = {
+const AirQualityLevel UPPER_MODERATE_AIR_QUALITY_LEVEL = {
     UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR,
     MODERATE_AIR_QUALITY_DESCRIPTION,
     true,
     CO2_UPPER_THRESHOLD_MODERATE_AIR_QUALITY_PPM
 };
 
-const AirQualityRule POOR_AIR_QUALITY_RULE = {
+const AirQualityLevel POOR_AIR_QUALITY_LEVEL = {
     POOR_AIR_QUALITY_LED_INDICATOR,
     POOR_AIR_QUALITY_DESCRIPTION,
     false,
     NO_UPPER_LIMIT // No upper limit for poor air quality.
 };
 
-const AirQualityRule AIR_QUALITY_RULES[] = {
-    HIGH_AIR_QUALITY_RULE,
-    MEDIUM_AIR_QUALITY_RULE,
-    LOWER_MODERATE_AIR_QUALITY_RULE,
-    UPPER_MODERATE_AIR_QUALITY_RULE,
-    POOR_AIR_QUALITY_RULE
+const AirQualityLevel AIR_QUALITY_LEVELS[] = {
+    HIGH_AIR_QUALITY_LEVEL,
+    MEDIUM_AIR_QUALITY_LEVEL,
+    LOWER_MODERATE_AIR_QUALITY_LEVEL,
+    UPPER_MODERATE_AIR_QUALITY_LEVEL,
+    POOR_AIR_QUALITY_LEVEL
 };
 
-AirQualityRule get_air_quality_rule(const int co2_measurement_ppm) {
-    for (const AirQualityRule &air_quality_rule: AIR_QUALITY_RULES) {
-        if (co2_measurement_ppm <= air_quality_rule.upper_threshold_ppm) {
-            return air_quality_rule;
+AirQualityLevel get_air_quality_level(const int co2_measurement_ppm) {
+    for (const AirQualityLevel &air_quality_level: AIR_QUALITY_LEVELS) {
+        if (co2_measurement_ppm <= air_quality_level.upper_threshold_ppm) {
+            return air_quality_level;
         }
     }
-    return POOR_AIR_QUALITY_RULE;
+    return POOR_AIR_QUALITY_LEVEL;
 }

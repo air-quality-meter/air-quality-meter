@@ -15,7 +15,7 @@
 #include "leds.h"
 #include "display.h"
 
-constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before reset
+constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
 
 constexpr unsigned int MAX_CO2_ABOVE_THRESHOLD_TIME_S = 3600;
 ///< Max time period allowed CO2 above threshold (seconds)
