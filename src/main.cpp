@@ -49,12 +49,12 @@ void setup() {
 }
 
 /**
- * @brief   Main system loop responsible for air quality measurement, rule evaluation, and hardware output updates.
+ * @brief   Main system loop responsible for air quality measurement, air quality level evaluation, and hardware output updates.
  *
  * @details This function performs the following:
  *           - Retrieves the current system time in seconds.
  *           - Obtains the current CO2 measurement in parts per million (ppm).
- *           - Evaluates air quality rules based on the CO2 measurement.
+ *           - Evaluates air quality levels based on the CO2 measurement.
  *           - Updates the display with the air quality status and description.
  *           - Updates the LED output to reflect air quality level.
  *           - Manages behavior for unacceptable air quality levels.
@@ -63,9 +63,9 @@ void setup() {
 void loop() {
     const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
     const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
-    const AirQualityRule current_air_quality_rule = get_air_quality_rule(current_co2_measurement_ppm);
-    update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_rule.description);
-    update_led_air_quality_output(current_air_quality_rule.led_indicator);
-    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_rule.is_level_acceptable);
+    const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
+    update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
+    update_led_air_quality_output(current_air_quality_level.led_indicator);
+    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_level.is_level_acceptable);
     delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }

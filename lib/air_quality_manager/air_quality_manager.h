@@ -5,12 +5,12 @@
  *          monitoring system.
  *
  * @details This file includes:
- *           - Definitions for structures representing LED indicators and air quality rules.
- *           - Function prototypes to evaluate air quality rules, update display outputs, and manage
+ *           - Definitions for structures representing LED indicators and air quality levels.
+ *           - Function prototypes to evaluate air quality levels, update display outputs, and manage
  *             unacceptable air quality conditions.
  *
- *           The `AirQualityRule` structure maps CO2 levels to thresholds, descriptions, LED states,
- *           and acceptability statuses. The provided functions allow for determining air quality rules
+ *           The `AirQualityLevel` structure maps CO2 levels to thresholds, descriptions, LED states,
+ *           and acceptability statuses. The provided functions allow for determining air quality levels
  *           based on real-time CO2 measurements while controlling display and LED outputs accordingly.
  */
 
@@ -34,14 +34,14 @@ struct LEDIndicator {
 };
 
 /**
- * @struct  AirQualityRule
+ * @struct  AirQualityLevel
  * @brief   Represents the characteristics and thresholds for a specific air quality level.
  *
  * @details This structure defines a mapping between air quality levels and their associated attributes.
  *          It includes thresholds for CO2 measurements, descriptive labels, LED indicator states,
  *          and an acceptability status.
  */
-struct AirQualityRule {
+struct AirQualityLevel {
     LEDIndicator led_indicator;
     ///< Represents the state of LED indicators used to display air quality levels.
     String description;
@@ -54,17 +54,17 @@ struct AirQualityRule {
 };
 
 /**
- * @brief   Determines the air quality rule based on the provided CO2 measurement in ppm.
+ * @brief   Determines the air quality level based on the provided CO2 measurement in ppm.
  *
- * @details This function evaluates the given CO2 measurement against predefined air quality rules
- *          and returns the corresponding rule. The rules define thresholds, descriptions, and
+ * @details This function evaluates the given CO2 measurement against predefined air quality levels
+ *          and returns the corresponding level. The levels define thresholds, descriptions, and
  *          LED indicator states for various air quality levels.
  *
  * @param   co2_measurement_ppm The CO2 concentration measurement in parts per million (ppm).
  *
- * @return  The air quality rule corresponding to the given CO2 measurement.
+ * @return  The air quality level corresponding to the given CO2 measurement.
  */
-AirQualityRule get_air_quality_rule(int co2_measurement_ppm);
+AirQualityLevel get_air_quality_level(int co2_measurement_ppm);
 
 /**
  * @brief   Updates the display with the air quality measurement and description.
