@@ -6,16 +6,10 @@
 #ifndef PIN_CONFIGURATION_H
 #define PIN_CONFIGURATION_H
 
-// Acknowledge Button
-constexpr int ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality on Pin2 (Int0)
+#include <Arduino.h>
 
-// LEDs
-constexpr int GREEN_LED_1_PIN = 22; ///< LED to indicate high air quality on Pin 22
-constexpr int GREEN_LED_2_PIN = 24; ///< LED to indicate high or medium air quality on Pin 24
-constexpr int YELLOW_LED_1_PIN = 26; ///< LED to indicate medium or moderate air quality on Pin 26
-constexpr int YELLOW_LED_2_PIN = 28; ///< LED to indicate moderate air quality on Pin 28
-constexpr int RED_LED_1_PIN = 30; ///< LED to indicate moderate or poor air quality on Pin 30
-constexpr int RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 32
+// Acknowledge Button
+constexpr byte ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality on Pin2 (Int0)
 
 // CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
@@ -24,7 +18,15 @@ constexpr int RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 3
 // TODO declare PINS for the Display (use constexpr int, since this should not change during runtime)
 
 // MP3 Module: Gravity UART MP3 Voice Module
-constexpr int MP3_MODULE_TX_PIN = 14; ///< MP3 Modul Serial Pin T
-constexpr int MP3_MODULE_RX_PIN = 15; ///< MP3 Modul Serial Pin R
+constexpr byte MP3_MODULE_TX_PIN = 14; ///< MP3 Modul Serial Pin T
+constexpr byte MP3_MODULE_RX_PIN = 15; ///< MP3 Modul Serial Pin R
+
+// LEDs
+constexpr byte GREEN_LED_1_PIN = 22; ///< LED to indicate high air quality on Pin 22
+constexpr byte GREEN_LED_2_PIN = 24; ///< LED to indicate high or medium air quality on Pin 24
+constexpr byte YELLOW_LED_1_PIN = 26; ///< LED to indicate medium or moderate air quality on Pin 26
+constexpr byte YELLOW_LED_2_PIN = 28; ///< LED to indicate moderate air quality on Pin 28
+constexpr byte RED_LED_1_PIN = 30; ///< LED to indicate moderate or poor air quality on Pin 30
+constexpr byte RED_LED_2_PIN = 32; ///< LED to indicate poor air quality on Pin 32
 
 #endif //PIN_CONFIGURATION_H
