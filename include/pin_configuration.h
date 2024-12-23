@@ -12,7 +12,9 @@
 constexpr byte ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality (Int0)
 
 // CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
-// TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
+namespace Co2SensorController {
+    // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
+}
 
 // Display: LCD1602 Module (with pin header)
 namespace DisplayController {
