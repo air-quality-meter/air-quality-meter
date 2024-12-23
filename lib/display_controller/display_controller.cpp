@@ -23,7 +23,7 @@ namespace DisplayController {
     // Initialisierung des LCD-Displays (RS, EN, D4, D5, D6, D7)
     LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
 
-    void initialize_display() {
+    void initialize() {
         lcd.begin(DISPLAY_N_COLS, DISPLAY_N_ROWS); // Initialisiere das LCD mit 16 Zeichen und 2 Zeilen
         lcd.clear(); // delete the display content
 
@@ -37,7 +37,7 @@ namespace DisplayController {
         lcd.clear(); // delete the display content
     }
 
-    void display_out(const String &line_1, const String &line_2) {
+    void output(const String &line_1, const String &line_2) {
         lcd.clear(); // delete the display content
 
         // display line 1
