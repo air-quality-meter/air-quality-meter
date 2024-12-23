@@ -6,18 +6,20 @@
 #ifndef AUDIO_CONTROLLER_H
 #define AUDIO_CONTROLLER_H
 
-/**
- * @brief   Initializes the Gravity UART MP3 Voice Module.
- * @details TODO: Write some more details such as initializes Serial3...
- */
-void initialize_mp3_module();
+namespace AudioController {
+    /**
+     * @brief   Initializes the Gravity UART MP3 Voice Module.
+     * @details TODO: Write some more details such as initializes Serial3...
+     */
+    void initialize_mp3_module();
 
-/**
- * @brief   Issues an audio warning.
- * @details Voice message that calls for the room to be ventilated (output of an MP3 track).
- *          MP3 module used: Gravity UART MP3 Voice Module
- *          Speaker used: Stereo Enclosed Speaker - 3W 8Ω
- */
-void issue_audio_warning();
+    /**
+     * @brief   Issues an audio warning.
+     * @details Voice message that calls for the room to be ventilated (output of an MP3 track).
+     *          MP3 module used: Gravity UART MP3 Voice Module
+     *          Speaker used: Stereo Enclosed Speaker - 3W 8Ω
+     */
+    void issue_audio_warning();
+}
 
 #endif //AUDIO_CONTROLLER_H
