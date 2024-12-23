@@ -16,7 +16,7 @@
 #include "system_time.h"
 #include "co2_sensor.h"
 #include "leds.h"
-#include "display.h"
+#include <display_controller.h>
 #include "air_quality_manager.h"
 #include "audio_warning.h"
 

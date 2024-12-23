@@ -1,11 +1,11 @@
 /**
- * @file    display.cpp
+ * @file    display_controller.cpp
  * @brief   This file contains the function definitions for the display.
  */
 
-#include <display.h>
+#include <display_controller.h>
 #include <Arduino.h>
-#include "pin_configuration.h"
+#include <pin_configuration.h>
 #include <LiquidCrystal.h> // lib for LCD
 
 constexpr int WELCOME_MESSAGE_TIME_MS = 2000;

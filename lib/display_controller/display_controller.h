@@ -1,5 +1,5 @@
 /**
- * @file display.h
+ * @file display_controller.h
  * @brief This file contains the function declarations for the display.
  */
 

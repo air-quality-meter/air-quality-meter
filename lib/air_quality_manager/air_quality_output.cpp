@@ -13,7 +13,7 @@
 #include "audio_warning.h"
 #include "system_state.h"
 #include "leds.h"
-#include "display.h"
+#include <display_controller.h>
 
 constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
 
