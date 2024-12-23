@@ -6,6 +6,8 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include <Arduino.h>
+
 /**
  * @brief   Initializes the LCD1602 Module.
  * @details Prepares the connected LCD1602 display module for operation by configuring its

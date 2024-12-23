@@ -1,11 +1,10 @@
-#include <Arduino.h>
-
 /**
  * @file    display.cpp
  * @brief   This file contains the function definitions for the display.
  */
 
 #include <display.h>
+#include <Arduino.h>
 #include "pin_configuration.h"
 #include <LiquidCrystal.h> // lib for LCD
 
