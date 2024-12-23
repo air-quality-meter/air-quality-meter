@@ -1,12 +1,12 @@
 #include <Arduino.h>
 
 /**
- * @file    audio_warning.cpp
+ * @file    audio_controller.cpp
  * @brief   This file contains the function definitions for the audio warning system.
  */
 
-#include "audio_warning.h"
-#include "pin_configuration.h"
+#include <audio_controller.h>
+#include <pin_configuration.h>
 #include <SoftwareSerial.h>
 
 SoftwareSerial mp3_module(MP3_MODULE_TX_PIN, MP3_MODULE_RX_PIN);

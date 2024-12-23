@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include "air_quality_manager.h"
-#include "audio_warning.h"
+#include <audio_controller.h>
 #include "system_state.h"
 #include "leds.h"
 #include <display_controller.h>

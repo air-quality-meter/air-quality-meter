@@ -16,7 +16,7 @@
 #include "leds.h"
 #include <display_controller.h>
 #include "air_quality_manager.h"
-#include "audio_warning.h"
+#include <audio_controller.h>
 
 SystemState system_state = {0, 0, 0};
 

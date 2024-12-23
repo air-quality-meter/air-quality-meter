@@ -1,10 +1,10 @@
 /**
- * @file    audio_warning.h
+ * @file    audio_controller.h
  * @brief   This file contains the function declarations for the audio warning system.
  */
 
-#ifndef AUDIO_WARNING_H
-#define AUDIO_WARNING_H
+#ifndef AUDIO_CONTROLLER_H
+#define AUDIO_CONTROLLER_H
 
 /**
  * @brief   Initializes the Gravity UART MP3 Voice Module.
@@ -20,4 +20,4 @@ void initialize_mp3_module();
  */
 void issue_audio_warning();
 
-#endif //AUDIO_WARNING_H
+#endif //AUDIO_CONTROLLER_H
