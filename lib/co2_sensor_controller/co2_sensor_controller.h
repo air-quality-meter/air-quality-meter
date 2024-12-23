@@ -1,10 +1,10 @@
 /**
- * @file    co2_sensor.h
+ * @file    co2_sensor_controller.h
  * @brief   This file contains the function declarations for the CO2 sensor.
  */
 
-#ifndef CO2_SENSOR_H
-#define CO2_SENSOR_H
+#ifndef CO2_SENSOR_CONTROLLER_H
+#define CO2_SENSOR_CONTROLLER_H
 
 /**
  * @brief   Initializes the CO2 sensor module.
@@ -20,4 +20,4 @@ void initialize_co2_sensor();
  */
 int get_co2_measurement_in_ppm();
 
-#endif //CO2_SENSOR_H
+#endif //CO2_SENSOR_CONTROLLER_H

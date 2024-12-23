@@ -1,11 +1,10 @@
-#include <Arduino.h>
-
 /**
- * @file    co2_sensor.cpp
+ * @file    co2_sensor_controller.cpp
  * @brief   This file contains the function definitions for the CO2 sensor.
  */
 
-#include "co2_sensor.h"
+#include <Arduino.h>
+#include <co2_sensor_controller.h>
 #include "pin_configuration.h"
 
 void initialize_co2_sensor() {

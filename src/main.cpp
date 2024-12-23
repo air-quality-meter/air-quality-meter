@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 /**
  * @file    main.cpp
  * @brief   Arduino Sketch for the air quality meter.
@@ -10,11 +8,11 @@
  *          An acknowledge button can be used to cancel the warning.
  */
 
-// Import header files
+#include <Arduino.h>
 #include "system_state.h"
 #include "acknowledge_button.h"
 #include "system_time.h"
-#include "co2_sensor.h"
+#include <co2_sensor_controller.h>
 #include "leds.h"
 #include <display_controller.h>
 #include "air_quality_manager.h"
