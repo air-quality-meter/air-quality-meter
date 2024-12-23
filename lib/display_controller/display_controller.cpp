@@ -21,7 +21,7 @@ namespace DisplayController {
     constexpr char INITIALIZING_MESSAGE[] = "Initializing...";
 
     // Initialisierung des LCD-Displays (RS, EN, D4, D5, D6, D7)
-    LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
+    LiquidCrystal lcd(RS_PIN, EN_PIN, D4_PIN, D5_PIN, D6_PIN, D7_PIN);
 
     void initialize() {
         lcd.begin(DISPLAY_N_COLS, DISPLAY_N_ROWS); // Initialisiere das LCD mit 16 Zeichen und 2 Zeilen

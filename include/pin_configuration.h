@@ -15,12 +15,14 @@ constexpr byte ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality (Int0)
 // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
 
 // Display: LCD1602 Module (with pin header)
-constexpr byte LCD_RS_PIN = 7;  ///< LCD Register Select pin
-constexpr byte LCD_EN_PIN = 8;  ///< LCD Enable pin
-constexpr byte LCD_D4_PIN = 9;  ///< LCD Data pin 4
-constexpr byte LCD_D5_PIN = 10; ///< LCD Data pin 5
-constexpr byte LCD_D6_PIN = 11; ///< LCD Data pin 6
-constexpr byte LCD_D7_PIN = 12; ///< LCD Data pin 7
+namespace DisplayController {
+    constexpr byte RS_PIN = 7;  ///< LCD Register Select pin
+    constexpr byte EN_PIN = 8;  ///< LCD Enable pin
+    constexpr byte D4_PIN = 9;  ///< LCD Data pin 4
+    constexpr byte D5_PIN = 10; ///< LCD Data pin 5
+    constexpr byte D6_PIN = 11; ///< LCD Data pin 6
+    constexpr byte D7_PIN = 12; ///< LCD Data pin 7
+}
 
 
 // MP3 Module: Gravity UART MP3 Voice Module
