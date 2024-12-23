@@ -10,7 +10,7 @@
 #include <SoftwareSerial.h>
 
 namespace AudioController {
-    SoftwareSerial mp3_module(MP3_MODULE_TX_PIN, MP3_MODULE_RX_PIN);
+    SoftwareSerial mp3_module(TX_PIN, RX_PIN);
 
     //void setup() {
     void initialize() {

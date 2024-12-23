@@ -28,8 +28,10 @@ namespace DisplayController {
 
 
 // MP3 Module: Gravity UART MP3 Voice Module
-constexpr byte MP3_MODULE_TX_PIN = 14; ///< MP3 Modul Serial Pin T
-constexpr byte MP3_MODULE_RX_PIN = 15; ///< MP3 Modul Serial Pin R
+namespace AudioController {
+    constexpr byte TX_PIN = 14; ///< MP3 Modul Serial Pin T
+    constexpr byte RX_PIN = 15; ///< MP3 Modul Serial Pin R
+}
 
 // LEDs
 constexpr byte GREEN_LED_1_PIN = 22; ///< LED to indicate high air quality
