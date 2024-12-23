@@ -44,7 +44,7 @@ void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     DisplayController::initialize();
     initialize_acknowledge_button();
-    initialize_co2_sensor();
+    Co2SensorController::initialize();
     initialize_leds();
     initialize_mp3_module();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
@@ -64,7 +64,7 @@ void setup() {
  */
 void loop() {
     const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
-    const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
+    const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
     update_led_air_quality_output(current_air_quality_level.led_indicator);
