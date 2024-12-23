@@ -6,23 +6,34 @@
  */
 
 #include <display.h>
-#include <pin_configuration.h>
+#include "pin_configuration.h"
 #include <LiquidCrystal.h> // lib for LCD
 
+constexpr int WELCOME_MESSAGE_TIME_MS = 2000;
+constexpr byte DISPLAY_N_COLS = 16;
+constexpr byte DISPLAY_N_ROWS = 2;
+constexpr byte START_COL = 0;
+enum Rows : byte {
+    ROW_1 = 0,
+    ROW_2 = 1
+};
+constexpr char WELCOME_MESSAGE[] = "Air Quality Meter";
+constexpr char INITIALIZING_MESSAGE[] = "Initializing...";
+
 // Initialisierung des LCD-Displays (RS, EN, D4, D5, D6, D7)
-LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
 
 void initialize_display() {
-    lcd.begin(16, 2); // Initialisiere das LCD mit 16 Zeichen und 2 Zeilen
+    lcd.begin(DISPLAY_N_COLS, DISPLAY_N_ROWS); // Initialisiere das LCD mit 16 Zeichen und 2 Zeilen
     lcd.clear(); // delete the display content
 
     // display Welcome message
-    lcd.setCursor(0, 0); // first line
-    lcd.print("LCD 1602 ready");
-    lcd.setCursor(0, 1); // second line
-    lcd.print("Initializing...");
+    lcd.setCursor(START_COL, ROW_1); // first line
+    lcd.print(WELCOME_MESSAGE);
+    lcd.setCursor(START_COL, ROW_2); // second line
+    lcd.print(INITIALIZING_MESSAGE);
 
-    delay(4000); // show the message for 2 seconds
+    delay(WELCOME_MESSAGE_TIME_MS); // show the message for 2 seconds
     lcd.clear(); // delete the display content
 }
 
@@ -30,10 +41,10 @@ void display_out(const String &line_1, const String &line_2) {
     lcd.clear(); // delete the display content
 
     // display line 1
-    lcd.setCursor(0, 0); // first line
+    lcd.setCursor(START_COL, ROW_1); // first line
     lcd.print(line_1);
 
     // display line 2
-    lcd.setCursor(0, 1); // second line
+    lcd.setCursor(START_COL, ROW_2); // second line
     lcd.print(line_2);
 }

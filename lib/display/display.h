@@ -7,12 +7,6 @@
 #define DISPLAY_H
 
 /**
- * @brief   Initializes the display module.
- * @details TODO: Write some more details
- */
-void initialize_display();
-
-/**
  * @brief   Initializes the LCD1602 Module.
  * @details Prepares the connected LCD1602 display module for operation by configuring its
  *          dimensions (16 characters, 2 lines) and clearing any existing content.
@@ -20,8 +14,8 @@ void initialize_display();
  *          Display used: LCD1602 Module (with pin header).
  *          This function should be called during the setup phase of the Arduino program.
  */
+void initialize_display();
 
-void display_out(const String &line_1, const String &line_2);
 
 /**
  * @brief   Outputs text to the LCD1602 Module.
@@ -33,5 +27,7 @@ void display_out(const String &line_1, const String &line_2);
  * @param line_1 Reference to the text to display on the first line of the LCD1602 Module.
  * @param line_2 Reference to the text to display on the second line of the LCD1602 Module.
  */
+void display_out(const String &line_1, const String &line_2);
+
 
 #endif //DISPLAY_H
