@@ -46,7 +46,7 @@ void setup() {
     initialize_acknowledge_button();
     Co2SensorController::initialize();
     initialize_leds();
-    AudioController::initialize_mp3_module();
+    AudioController::initialize();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
 

@@ -55,7 +55,7 @@ void manage_unacceptable_air_quality_level(const unsigned long current_time_s, c
     ///< after an overflow of millis(), when current_time_s has a very small value again.
     ///< @see  https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
     if (time_since_co2_level_not_acceptable_s > MAX_CO2_ABOVE_THRESHOLD_TIME_S) {
-        AudioController::issue_audio_warning();
+        AudioController::issue_warning();
         // Wait until the next audio warning to prevent uninterrupted audio output.
         system_state.last_co2_below_threshold_time_s =
                 system_state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;

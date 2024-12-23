@@ -11,7 +11,7 @@ namespace AudioController {
      * @brief   Initializes the Gravity UART MP3 Voice Module.
      * @details TODO: Write some more details such as initializes Serial3...
      */
-    void initialize_mp3_module();
+    void initialize();
 
     /**
      * @brief   Issues an audio warning.
@@ -19,7 +19,7 @@ namespace AudioController {
      *          MP3 module used: Gravity UART MP3 Voice Module
      *          Speaker used: Stereo Enclosed Speaker - 3W 8Ω
      */
-    void issue_audio_warning();
+    void issue_warning();
 }
 
 #endif //AUDIO_CONTROLLER_H
