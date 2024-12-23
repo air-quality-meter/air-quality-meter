@@ -27,7 +27,7 @@ const String PPM_SUFFIX = " ppm"; ///< Suffix to display a value with ppm as the
 
 void update_display_air_quality_output(const int co2_measurement_ppm, const String &air_quality_description) {
     const String line_1 = CO2_PREFIX + co2_measurement_ppm + PPM_SUFFIX;
-    display_out(line_1, air_quality_description);
+    DisplayController::display_out(line_1, air_quality_description);
 }
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator) {
