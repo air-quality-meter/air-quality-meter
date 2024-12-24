@@ -45,7 +45,7 @@ void setup() {
     DisplayController::initialize();
     initialize_acknowledge_button();
     Co2SensorController::initialize();
-    LedController::initialize_leds();
+    LedController::initialize();
     AudioController::initialize();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
@@ -68,6 +68,7 @@ void loop() {
     const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
     update_led_air_quality_output(current_air_quality_level.led_indicator);
-    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_level.is_level_acceptable);
+    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s,
+                                          current_air_quality_level.is_level_acceptable);
     delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }

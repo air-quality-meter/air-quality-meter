@@ -10,7 +10,7 @@ namespace LedController {
     /**
      * @brief   Initialize LED PINs (Output)
      */
-    void initialize_leds();
+    void initialize();
 
     /**
      * @brief   Controls the LED indicators.
@@ -25,12 +25,12 @@ namespace LedController {
      * @param is_red_led_1_on  Is the red LED 1 on?
      * @param is_red_led_2_on  Is the red LED 2 on?
      */
-    void set_leds(bool is_green_led_1_on,
-                  bool is_green_led_2_on,
-                  bool is_yellow_led_1_on,
-                  bool is_yellow_led_2_on,
-                  bool is_red_led_1_on,
-                  bool is_red_led_2_on);
+    void output(bool is_green_led_1_on,
+                bool is_green_led_2_on,
+                bool is_yellow_led_1_on,
+                bool is_yellow_led_2_on,
+                bool is_red_led_1_on,
+                bool is_red_led_2_on);
 }
 
 #endif //LEDS_CONTROLLER_H

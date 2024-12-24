@@ -8,7 +8,7 @@
 #include <pin_configuration.h>
 
 namespace LedController {
-    void initialize_leds() {
+    void initialize() {
         pinMode(GREEN_LED_1_PIN, OUTPUT); ///< LED for high air quality
         pinMode(GREEN_LED_2_PIN, OUTPUT); ///< LED for high or medium air quality
         pinMode(YELLOW_LED_1_PIN, OUTPUT); ///< LED for medium or moderate air quality
@@ -17,12 +17,12 @@ namespace LedController {
         pinMode(RED_LED_2_PIN, OUTPUT); ///< LED for poor air quality
     }
 
-    void set_leds(const bool is_green_led_1_on,
-                  const bool is_green_led_2_on,
-                  const bool is_yellow_led_1_on,
-                  const bool is_yellow_led_2_on,
-                  const bool is_red_led_1_on,
-                  const bool is_red_led_2_on) {
+    void output(const bool is_green_led_1_on,
+                const bool is_green_led_2_on,
+                const bool is_yellow_led_1_on,
+                const bool is_yellow_led_2_on,
+                const bool is_red_led_1_on,
+                const bool is_red_led_2_on) {
         digitalWrite(GREEN_LED_1_PIN, is_green_led_1_on);
         digitalWrite(GREEN_LED_2_PIN, is_green_led_2_on);
         digitalWrite(YELLOW_LED_1_PIN, is_yellow_led_1_on);
