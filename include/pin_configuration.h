@@ -9,7 +9,9 @@
 #include <Arduino.h>
 
 // Acknowledge Button
-constexpr byte ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality (Int0)
+namespace AcknowledgeButton {
+    constexpr byte DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
+}
 
 // CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 namespace Co2SensorController {

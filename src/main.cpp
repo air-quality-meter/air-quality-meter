@@ -43,7 +43,7 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     DisplayController::initialize();
-    initialize_acknowledge_button();
+    AcknowledgeButton::initialize_acknowledge_button();
     Co2SensorController::initialize();
     LedArray::initialize();
     AudioController::initialize();
