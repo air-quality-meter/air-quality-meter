@@ -12,7 +12,7 @@
 #include "air_quality_manager.h"
 #include <audio_controller.h>
 #include "system_state.h"
-#include "leds.h"
+#include <led_array.h>
 #include <display_controller.h>
 
 constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
@@ -31,12 +31,12 @@ void update_display_air_quality_output(const int co2_measurement_ppm, const Stri
 }
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator) {
-    set_leds(led_indicator.is_green_led_1_on,
-             led_indicator.is_green_led_2_on,
-             led_indicator.is_yellow_led_1_on,
-             led_indicator.is_yellow_led_2_on,
-             led_indicator.is_red_led_1_on,
-             led_indicator.is_red_led_2_on);
+    LedArray::output(led_indicator.is_green_led_1_on,
+                          led_indicator.is_green_led_2_on,
+                          led_indicator.is_yellow_led_1_on,
+                          led_indicator.is_yellow_led_2_on,
+                          led_indicator.is_red_led_1_on,
+                          led_indicator.is_red_led_2_on);
 }
 
 void manage_unacceptable_air_quality_level(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
@@ -47,7 +47,8 @@ void manage_unacceptable_air_quality_level(const unsigned long current_time_s, c
         interrupts();
         return;
     }
-    const unsigned long time_since_co2_level_not_acceptable_s = current_time_s - system_state.last_co2_below_threshold_time_s;
+    const unsigned long time_since_co2_level_not_acceptable_s =
+            current_time_s - system_state.last_co2_below_threshold_time_s;
     ///< Time delta since air quality is not acceptable.
     ///< @note As all time variables and constants are unsigned, a possible time overflow will still be handled correctly.
     ///< A potentially very high value for the variable last_co2_below_threshold_time_s of almost the maximum of the unsigned

@@ -10,10 +10,10 @@
 
 #include <Arduino.h>
 #include "system_state.h"
-#include "acknowledge_button.h"
-#include "system_time.h"
+#include <acknowledge_button.h>
+#include <time_controller.h>
 #include <co2_sensor_controller.h>
-#include "leds.h"
+#include <led_array.h>
 #include <display_controller.h>
 #include "air_quality_manager.h"
 #include <audio_controller.h>
@@ -43,9 +43,9 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     DisplayController::initialize();
-    initialize_acknowledge_button();
+    AcknowledgeButton::initialize();
     Co2SensorController::initialize();
-    initialize_leds();
+    LedArray::initialize();
     AudioController::initialize();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
@@ -63,11 +63,12 @@ void setup() {
  *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
  */
 void loop() {
-    const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
+    const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
     update_led_air_quality_output(current_air_quality_level.led_indicator);
-    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s, current_air_quality_level.is_level_acceptable);
+    manage_unacceptable_air_quality_level(current_iteration_time_stamp_s,
+                                          current_air_quality_level.is_level_acceptable);
     delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }

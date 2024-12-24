@@ -9,7 +9,9 @@
 #include <Arduino.h>
 
 // Acknowledge Button
-constexpr byte ACKNOWLEDGE_BUTTON_PIN = 2; ///< Interrupt functionality (Int0)
+namespace AcknowledgeButton {
+    constexpr byte DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
+}
 
 // CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 namespace Co2SensorController {
@@ -34,11 +36,13 @@ namespace AudioController {
 }
 
 // LEDs
-constexpr byte GREEN_LED_1_PIN = 22; ///< LED to indicate high air quality
-constexpr byte GREEN_LED_2_PIN = 24; ///< LED to indicate high or medium air quality
-constexpr byte YELLOW_LED_1_PIN = 26; ///< LED to indicate medium or moderate air quality
-constexpr byte YELLOW_LED_2_PIN = 28; ///< LED to indicate moderate air quality
-constexpr byte RED_LED_1_PIN = 30; ///< LED to indicate moderate or poor air quality
-constexpr byte RED_LED_2_PIN = 32; ///< LED to indicate poor air quality
+namespace LedArray {
+    constexpr byte GREEN_1_PIN = 22; ///< LED to indicate high air quality
+    constexpr byte GREEN_2_PIN = 24; ///< LED to indicate high or medium air quality
+    constexpr byte YELLOW_1_PIN = 26; ///< LED to indicate medium or moderate air quality
+    constexpr byte YELLOW_2_PIN = 28; ///< LED to indicate moderate air quality
+    constexpr byte RED_1_PIN = 30; ///< LED to indicate moderate or poor air quality
+    constexpr byte RED_2_PIN = 32; ///< LED to indicate poor air quality
+}
 
 #endif //PIN_CONFIGURATION_H
