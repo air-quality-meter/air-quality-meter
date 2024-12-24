@@ -12,7 +12,7 @@ namespace AcknowledgeButton {
      * @details Initializes interrupt service routine for acknowledge button pin.
      *          Device reacts on pressing acknowledge button (rising).
      */
-    void initialize_acknowledge_button();
+    void initialize();
 
     /**
      * @brief   Resets last_co2_below_threshold_time_s and warning_counter.

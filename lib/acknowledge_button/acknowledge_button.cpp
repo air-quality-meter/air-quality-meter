@@ -12,7 +12,7 @@
 namespace AcknowledgeButton {
     constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
 
-    void initialize_acknowledge_button() {
+    void initialize() {
         pinMode(DIGITAL_PIN, INPUT);
         attachInterrupt(
             digitalPinToInterrupt(DIGITAL_PIN),
