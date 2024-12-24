@@ -1,5 +1,5 @@
 /**
- * @file    air_quality_output.cpp
+ * @file    output_controller.cpp
  * @brief   This file contains functions and constants to manage the air quality measurements,
  *          display outputs, LED indicators, and audio warnings for the air quality monitoring system.
  * 
@@ -9,7 +9,7 @@
  */
 
 #include <Arduino.h>
-#include "air_quality_manager.h"
+#include <output_controller.h>
 #include <audio_controller.h>
 #include "system_state.h"
 #include <led_array.h>
@@ -32,11 +32,11 @@ void update_display_air_quality_output(const int co2_measurement_ppm, const Stri
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator) {
     LedArray::output(led_indicator.is_green_led_1_on,
-                          led_indicator.is_green_led_2_on,
-                          led_indicator.is_yellow_led_1_on,
-                          led_indicator.is_yellow_led_2_on,
-                          led_indicator.is_red_led_1_on,
-                          led_indicator.is_red_led_2_on);
+                     led_indicator.is_green_led_2_on,
+                     led_indicator.is_yellow_led_1_on,
+                     led_indicator.is_yellow_led_2_on,
+                     led_indicator.is_red_led_1_on,
+                     led_indicator.is_red_led_2_on);
 }
 
 void manage_unacceptable_air_quality_level(const unsigned long current_time_s, const bool is_air_quality_acceptable) {

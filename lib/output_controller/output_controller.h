@@ -1,5 +1,5 @@
 /**
- * @file    air_quality_manager.h
+ * @file    output_controller.h
  * @brief   This header file provides the definitions and interfaces for managing air quality levels,
  *          controlling associated LED indicators, and handling CO2 measurements in an air quality
  *          monitoring system.
@@ -14,57 +14,11 @@
  *           based on real-time CO2 measurements while controlling display and LED outputs accordingly.
  */
 
-#ifndef AIR_QUALITY_MANAGER_H
-#define AIR_QUALITY_MANAGER_H
+#ifndef OUTPUT_CONTROLLER_H
+#define OUTPUT_CONTROLLER_H
 
-/**
- * @struct  LEDIndicator
- * @brief   Represents the state of LED indicators used to display air quality levels.
- *
- * @details This structure defines six boolean flags corresponding to the on/off state of different LEDs.
- *          Multiple LEDs can be turned on simultaneously to indicate an air quality status.
- */
-struct LEDIndicator {
-    bool is_green_led_1_on; ///< Indicates if the first green LED is ON (true) or OFF (false).
-    bool is_green_led_2_on; ///< Indicates if the second green LED is ON (true) or OFF (false).
-    bool is_yellow_led_1_on; ///< Indicates if the first yellow LED is ON (true) or OFF (false).
-    bool is_yellow_led_2_on; ///< Indicates if the second yellow LED is ON (true) or OFF (false).
-    bool is_red_led_1_on; ///< Indicates if the first red LED is ON (true) or OFF (false).
-    bool is_red_led_2_on; ///< Indicates if the second red LED is ON (true) or OFF (false).
-};
+#include <air_quality_level.h>
 
-/**
- * @struct  AirQualityLevel
- * @brief   Represents the characteristics and thresholds for a specific air quality level.
- *
- * @details This structure defines a mapping between air quality levels and their associated attributes.
- *          It includes thresholds for CO2 measurements, descriptive labels, LED indicator states,
- *          and an acceptability status.
- */
-struct AirQualityLevel {
-    LEDIndicator led_indicator;
-    ///< Represents the state of LED indicators used to display air quality levels.
-    String description;
-    ///< A string that provides a description of the air quality level.
-    bool is_level_acceptable;
-    ///< indicating whether the air quality level is considered acceptable (true) or not (false).
-    int upper_threshold_ppm;
-    ///< Specifies the upper CO2 threshold (in parts per million) for this air quality level. A value of -1
-    ///< indicates no upper limit, typically representing the poorest air quality.
-};
-
-/**
- * @brief   Determines the air quality level based on the provided CO2 measurement in ppm.
- *
- * @details This function evaluates the given CO2 measurement against predefined air quality levels
- *          and returns the corresponding level. The levels define thresholds, descriptions, and
- *          LED indicator states for various air quality levels.
- *
- * @param   co2_measurement_ppm The CO2 concentration measurement in parts per million (ppm).
- *
- * @return  The air quality level corresponding to the given CO2 measurement.
- */
-AirQualityLevel get_air_quality_level(int co2_measurement_ppm);
 
 /**
  * @brief   Updates the display with the air quality measurement and description.
@@ -103,4 +57,4 @@ void update_led_air_quality_output(const LEDIndicator &led_indicator);
  */
 void manage_unacceptable_air_quality_level(unsigned long current_time_s, bool is_air_quality_acceptable);
 
-#endif //AIR_QUALITY_MANAGER_H
+#endif //OUTPUT_CONTROLLER_H

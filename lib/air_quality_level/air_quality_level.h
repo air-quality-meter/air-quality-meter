@@ -1,15 +1,7 @@
-/**
- * @file    air_quality_levels.cpp
- * @brief   Implementation of air quality levels for categorizing indoor air quality based on CO2 levels.
- * @details This file contains constants, configurations, and rules for determining indoor air
- *          quality levels based on CO2 concentration in parts per million (ppm) using predefined thresholds
- *          as per DIN EN 13779 specifications. It also provides LED indicator configurations for each air
- *          quality category and a function to determine the corresponding air quality level based
- *          on measured CO2 levels.
- */
+#ifndef AIR_QUALITY_LEVEL_H
+#define AIR_QUALITY_LEVEL_H
 
 #include <Arduino.h>
-#include "air_quality_manager.h"
 
 constexpr int CO2_UPPER_THRESHOLD_HIGH_AIR_QUALITY_PPM = 800;
 ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
@@ -37,6 +29,22 @@ const String MEDIUM_AIR_QUALITY_DESCRIPTION = "Medium air quality"; ///< Descrip
 const String MODERATE_AIR_QUALITY_DESCRIPTION = "Moderate air quality"; ///< Description for moderate air quality level.
 const String POOR_AIR_QUALITY_DESCRIPTION = "Poor air quality"; ///< Description for poor air quality level.
 
+/**
+ * @struct  LEDIndicator
+ * @brief   Represents the state of LED indicators used to display air quality levels.
+ *
+ * @details This structure defines six boolean flags corresponding to the on/off state of different LEDs.
+ *          Multiple LEDs can be turned on simultaneously to indicate an air quality status.
+ */
+struct LEDIndicator {
+    bool is_green_led_1_on; ///< Indicates if the first green LED is ON (true) or OFF (false).
+    bool is_green_led_2_on; ///< Indicates if the second green LED is ON (true) or OFF (false).
+    bool is_yellow_led_1_on; ///< Indicates if the first yellow LED is ON (true) or OFF (false).
+    bool is_yellow_led_2_on; ///< Indicates if the second yellow LED is ON (true) or OFF (false).
+    bool is_red_led_1_on; ///< Indicates if the first red LED is ON (true) or OFF (false).
+    bool is_red_led_2_on; ///< Indicates if the second red LED is ON (true) or OFF (false).
+};
+
 constexpr LEDIndicator HIGH_AIR_QUALITY_LED_INDICATOR = {true, true, false, false, false, false};
 ///< LED indicator state for high air quality (both green LEDs ON).
 
@@ -51,6 +59,26 @@ constexpr LEDIndicator UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR = {false, false,
 
 constexpr LEDIndicator POOR_AIR_QUALITY_LED_INDICATOR = {false, false, false, false, true, true};
 ///< LED indicator state for poor air quality (both red LEDs ON).
+
+/**
+ * @struct  AirQualityLevel
+ * @brief   Represents the characteristics and thresholds for a specific air quality level.
+ *
+ * @details This structure defines a mapping between air quality levels and their associated attributes.
+ *          It includes thresholds for CO2 measurements, descriptive labels, LED indicator states,
+ *          and an acceptability status.
+ */
+struct AirQualityLevel {
+    LEDIndicator led_indicator;
+    ///< Represents the state of LED indicators used to display air quality levels.
+    String description;
+    ///< A string that provides a description of the air quality level.
+    bool is_level_acceptable;
+    ///< indicating whether the air quality level is considered acceptable (true) or not (false).
+    int upper_threshold_ppm;
+    ///< Specifies the upper CO2 threshold (in parts per million) for this air quality level. A value of -1
+    ///< indicates no upper limit, typically representing the poorest air quality.
+};
 
 const AirQualityLevel HIGH_AIR_QUALITY_LEVEL = {
     HIGH_AIR_QUALITY_LED_INDICATOR,
@@ -95,11 +123,4 @@ const AirQualityLevel AIR_QUALITY_LEVELS[] = {
     POOR_AIR_QUALITY_LEVEL
 };
 
-AirQualityLevel get_air_quality_level(const int co2_measurement_ppm) {
-    for (const AirQualityLevel &air_quality_level: AIR_QUALITY_LEVELS) {
-        if (co2_measurement_ppm <= air_quality_level.upper_threshold_ppm) {
-            return air_quality_level;
-        }
-    }
-    return POOR_AIR_QUALITY_LEVEL;
-}
+#endif //AIR_QUALITY_LEVEL_H

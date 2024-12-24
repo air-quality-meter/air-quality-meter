@@ -15,7 +15,9 @@
 #include <co2_sensor_controller.h>
 #include <led_array.h>
 #include <display_controller.h>
-#include "air_quality_manager.h"
+#include <output_controller.h>
+#include <air_quality_level.h>
+#include <measurement_interpreter.h>
 #include <audio_controller.h>
 
 SystemState system_state = {0, 0, 0};
