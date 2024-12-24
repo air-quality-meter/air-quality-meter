@@ -34,7 +34,7 @@ namespace AudioController {
 }
 
 // LEDs
-namespace LedController {
+namespace LedArray {
     constexpr byte GREEN_1_PIN = 22; ///< LED to indicate high air quality
     constexpr byte GREEN_2_PIN = 24; ///< LED to indicate high or medium air quality
     constexpr byte YELLOW_1_PIN = 26; ///< LED to indicate medium or moderate air quality

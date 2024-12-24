@@ -10,10 +10,10 @@
 
 #include <Arduino.h>
 #include "system_state.h"
-#include <acknowledge_button_controller.h>
+#include <acknowledge_button.h>
 #include "system_time.h"
 #include <co2_sensor_controller.h>
-#include <led_controller.h>
+#include <led_array.h>
 #include <display_controller.h>
 #include "air_quality_manager.h"
 #include <audio_controller.h>
@@ -45,7 +45,7 @@ void setup() {
     DisplayController::initialize();
     initialize_acknowledge_button();
     Co2SensorController::initialize();
-    LedController::initialize();
+    LedArray::initialize();
     AudioController::initialize();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }

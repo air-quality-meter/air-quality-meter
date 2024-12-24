@@ -1,12 +1,12 @@
 /**
- * @file    led_controller.h
+ * @file    led_array.h
  * @brief   This file contains the function declarations for controlling the LEDs.
  */
 
-#ifndef LEDS_CONTROLLER_H
-#define LEDS_CONTROLLER_H
+#ifndef LEDS_ARRAY_H
+#define LEDS_ARRAY_H
 
-namespace LedController {
+namespace LedArray {
     /**
      * @brief   Initialize LED PINs (Output)
      */
@@ -33,4 +33,4 @@ namespace LedController {
                 bool is_red_led_2_on);
 }
 
-#endif //LEDS_CONTROLLER_H
+#endif //LEDS_ARRAY_H

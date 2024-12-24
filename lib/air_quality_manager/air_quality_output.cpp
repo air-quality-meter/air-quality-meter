@@ -12,7 +12,7 @@
 #include "air_quality_manager.h"
 #include <audio_controller.h>
 #include "system_state.h"
-#include <led_controller.h>
+#include <led_array.h>
 #include <display_controller.h>
 
 constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
@@ -31,7 +31,7 @@ void update_display_air_quality_output(const int co2_measurement_ppm, const Stri
 }
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator) {
-    LedController::output(led_indicator.is_green_led_1_on,
+    LedArray::output(led_indicator.is_green_led_1_on,
                           led_indicator.is_green_led_2_on,
                           led_indicator.is_yellow_led_1_on,
                           led_indicator.is_yellow_led_2_on,

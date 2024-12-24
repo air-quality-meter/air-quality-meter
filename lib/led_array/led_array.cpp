@@ -1,13 +1,13 @@
 /**
- * @file    led_controller.cpp
+ * @file    led_array.cpp
  * @brief   This file contains the function definitions for controlling the LEDs.
  */
 
 #include <Arduino.h>
-#include <led_controller.h>
+#include <led_array.h>
 #include <pin_configuration.h>
 
-namespace LedController {
+namespace LedArray {
     void initialize() {
         pinMode(GREEN_1_PIN, OUTPUT); ///< LED for high air quality
         pinMode(GREEN_2_PIN, OUTPUT); ///< LED for high or medium air quality
