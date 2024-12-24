@@ -16,7 +16,7 @@
 #include <led_array.h>
 #include <display_controller.h>
 #include <output_controller.h>
-#include <air_quality_level.h>
+#include <air_quality.h>
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
 
@@ -67,7 +67,7 @@ void setup() {
 void loop() {
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
-    const AirQualityLevel::AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
+    const AirQuality::Level current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
     update_led_air_quality_output(current_air_quality_level.led_indicator);
     manage_unacceptable_air_quality_level(current_iteration_time_stamp_s,

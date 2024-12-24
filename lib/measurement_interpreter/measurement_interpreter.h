@@ -1,7 +1,7 @@
 #ifndef MEASUREMENT_INTERPRETER_H
 #define MEASUREMENT_INTERPRETER_H
 
-#include <air_quality_level.h>
+#include <air_quality.h>
 
 /**
  * @brief   Determines the air quality level based on the provided CO2 measurement in ppm.
@@ -14,6 +14,6 @@
  *
  * @return  The air quality level corresponding to the given CO2 measurement.
  */
-AirQualityLevel::AirQualityLevel get_air_quality_level(int co2_measurement_ppm);
+AirQuality::Level get_air_quality_level(int co2_measurement_ppm);
 
 #endif //MEASUREMENT_INTERPRETER_H

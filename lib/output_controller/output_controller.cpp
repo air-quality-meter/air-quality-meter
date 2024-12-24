@@ -30,7 +30,7 @@ void update_display_air_quality_output(const int co2_measurement_ppm, const Stri
     DisplayController::output(line_1, air_quality_description);
 }
 
-void update_led_air_quality_output(const AirQualityLevel::LEDIndicator &led_indicator) {
+void update_led_air_quality_output(const AirQuality::LEDIndicator &led_indicator) {
     LedArray::output(led_indicator.is_green_led_1_on,
                      led_indicator.is_green_led_2_on,
                      led_indicator.is_yellow_led_1_on,

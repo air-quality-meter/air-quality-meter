@@ -1,9 +1,9 @@
-#ifndef AIR_QUALITY_LEVEL_H
-#define AIR_QUALITY_LEVEL_H
+#ifndef AIR_QUALITY_H
+#define AIR_QUALITY_H
 
 #include <Arduino.h>
 
-namespace AirQualityLevel {
+namespace AirQuality {
     constexpr int CO2_UPPER_THRESHOLD_HIGH_AIR_QUALITY_PPM = 800;
     ///< Upper CO2 threshold (less than or equal to) for high indoor air quality (IDA 1 DIN EN 13779)
     ///< in parts per million (ppm)
@@ -62,14 +62,14 @@ namespace AirQualityLevel {
     ///< LED indicator state for poor air quality (both red LEDs ON).
 
     /**
-     * @struct  AirQualityLevel
+     * @struct  Level
      * @brief   Represents the characteristics and thresholds for a specific air quality level.
      *
      * @details This structure defines a mapping between air quality levels and their associated attributes.
      *          It includes thresholds for CO2 measurements, descriptive labels, LED indicator states,
      *          and an acceptability status.
      */
-    struct AirQualityLevel {
+    struct Level {
         LEDIndicator led_indicator;
         ///< Represents the state of LED indicators used to display air quality levels.
         String description;
@@ -81,48 +81,48 @@ namespace AirQualityLevel {
         ///< indicates no upper limit, typically representing the poorest air quality.
     };
 
-    const AirQualityLevel HIGH_AIR_QUALITY_LEVEL = {
+    const Level HIGH_QUALITY = {
         HIGH_AIR_QUALITY_LED_INDICATOR,
         HIGH_AIR_QUALITY_DESCRIPTION,
         true,
         CO2_UPPER_THRESHOLD_HIGH_AIR_QUALITY_PPM
     };
 
-    const AirQualityLevel MEDIUM_AIR_QUALITY_LEVEL = {
+    const Level MEDIUM_QUALITY = {
         MEDIUM_AIR_QUALITY_LED_INDICATOR,
         MEDIUM_AIR_QUALITY_DESCRIPTION,
         true,
         CO2_UPPER_THRESHOLD_MEDIUM_AIR_QUALITY_PPM
     };
 
-    const AirQualityLevel LOWER_MODERATE_AIR_QUALITY_LEVEL = {
+    const Level LOWER_MODERATE_QUALITY = {
         LOWER_MODERATE_AIR_QUALITY_LED_INDICATOR,
         MODERATE_AIR_QUALITY_DESCRIPTION,
         true,
         CO2_MID_THRESHOLD_MODERATE_AIR_QUALITY_PPM
     };
 
-    const AirQualityLevel UPPER_MODERATE_AIR_QUALITY_LEVEL = {
+    const Level UPPER_MODERATE_QUALITY = {
         UPPER_MODERATE_AIR_QUALITY_LED_INDICATOR,
         MODERATE_AIR_QUALITY_DESCRIPTION,
         true,
         CO2_UPPER_THRESHOLD_MODERATE_AIR_QUALITY_PPM
     };
 
-    const AirQualityLevel POOR_AIR_QUALITY_LEVEL = {
+    const Level POOR_QUALITY = {
         POOR_AIR_QUALITY_LED_INDICATOR,
         POOR_AIR_QUALITY_DESCRIPTION,
         false,
         NO_UPPER_LIMIT // No upper limit for poor air quality.
     };
 
-    const AirQualityLevel AIR_QUALITY_LEVELS[] = {
-        HIGH_AIR_QUALITY_LEVEL,
-        MEDIUM_AIR_QUALITY_LEVEL,
-        LOWER_MODERATE_AIR_QUALITY_LEVEL,
-        UPPER_MODERATE_AIR_QUALITY_LEVEL,
-        POOR_AIR_QUALITY_LEVEL
+    const Level AIR_QUALITY_LEVELS[] = {
+        HIGH_QUALITY,
+        MEDIUM_QUALITY,
+        LOWER_MODERATE_QUALITY,
+        UPPER_MODERATE_QUALITY,
+        POOR_QUALITY
     };
 }
 
-#endif //AIR_QUALITY_LEVEL_H
+#endif //AIR_QUALITY_H
