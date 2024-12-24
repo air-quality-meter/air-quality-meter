@@ -63,7 +63,7 @@ void setup() {
  *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
  */
 void loop() {
-    const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
+    const unsigned long current_iteration_time_stamp_s = TimeController::get_current_time_in_s();
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
