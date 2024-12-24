@@ -1,10 +1,10 @@
 /**
- * @file  system_time.h
+ * @file  time_controller.h
  * @brief Header file provides time-related utility functions for system operations.
  */
 
-#ifndef SYSTEM_TIME_H
-#define SYSTEM_TIME_H
+#ifndef TIME_CONTROLLER_H
+#define TIME_CONTROLLER_H
 
 /**
  * @brief   Retrieves the elapsed time since the board was powered on.
@@ -13,4 +13,4 @@
  */
 unsigned long get_current_time_in_s();
 
-#endif //SYSTEM_TIME_H
+#endif //TIME_CONTROLLER_H

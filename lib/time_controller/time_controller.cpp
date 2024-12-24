@@ -1,10 +1,10 @@
-#include <Arduino.h>
-
 /**
- * @file  system_time.cpp
+ * @file  time_controller.cpp
  * @brief Provides functionality to retrieve the current time in seconds since the Arduino board was powered on.
  */
 
+#include <Arduino.h>
+#include <time_controller.h>
 
 unsigned long get_current_time_in_s() {
     const unsigned long time_since_board_on_ms = millis(); ///< timestamp in milliseconds

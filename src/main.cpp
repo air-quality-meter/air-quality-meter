@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include "system_state.h"
 #include <acknowledge_button.h>
-#include "system_time.h"
+#include <time_controller.h>
 #include <co2_sensor_controller.h>
 #include <led_array.h>
 #include <display_controller.h>

@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <acknowledge_button.h>
 #include <system_state.h>
-#include <../system_time/system_time.h>
+#include <../time_controller/time_controller.h>
 #include <pin_configuration.h>
 
 namespace AcknowledgeButton {
