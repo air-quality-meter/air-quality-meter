@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 /**
  * @file    main.cpp
  * @brief   Arduino Sketch for the air quality meter.
@@ -10,15 +8,15 @@
  *          An acknowledge button can be used to cancel the warning.
  */
 
-// Import header files
+#include <Arduino.h>
 #include "system_state.h"
 #include "acknowledge_button.h"
 #include "system_time.h"
-#include "co2_sensor.h"
+#include <co2_sensor_controller.h>
 #include "leds.h"
-#include "display.h"
+#include <display_controller.h>
 #include "air_quality_manager.h"
-#include "audio_warning.h"
+#include <audio_controller.h>
 
 SystemState system_state = {0, 0, 0};
 
@@ -44,11 +42,11 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
  */
 void setup() {
     Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
-    initialize_display();
+    DisplayController::initialize();
     initialize_acknowledge_button();
-    initialize_co2_sensor();
+    Co2SensorController::initialize();
     initialize_leds();
-    initialize_mp3_module();
+    AudioController::initialize();
     delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
 
@@ -66,7 +64,7 @@ void setup() {
  */
 void loop() {
     const unsigned long current_iteration_time_stamp_s = get_current_time_in_s();
-    const int current_co2_measurement_ppm = get_co2_measurement_in_ppm();
+    const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     const AirQualityLevel current_air_quality_level = get_air_quality_level(current_co2_measurement_ppm);
     update_display_air_quality_output(current_co2_measurement_ppm, current_air_quality_level.description);
     update_led_air_quality_output(current_air_quality_level.led_indicator);

@@ -10,10 +10,10 @@
 
 #include <Arduino.h>
 #include "air_quality_manager.h"
-#include "audio_warning.h"
+#include <audio_controller.h>
 #include "system_state.h"
 #include "leds.h"
-#include "display.h"
+#include <display_controller.h>
 
 constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
 
@@ -27,7 +27,7 @@ const String PPM_SUFFIX = " ppm"; ///< Suffix to display a value with ppm as the
 
 void update_display_air_quality_output(const int co2_measurement_ppm, const String &air_quality_description) {
     const String line_1 = CO2_PREFIX + co2_measurement_ppm + PPM_SUFFIX;
-    display_out(line_1, air_quality_description);
+    DisplayController::output(line_1, air_quality_description);
 }
 
 void update_led_air_quality_output(const LEDIndicator &led_indicator) {
@@ -55,7 +55,7 @@ void manage_unacceptable_air_quality_level(const unsigned long current_time_s, c
     ///< after an overflow of millis(), when current_time_s has a very small value again.
     ///< @see  https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
     if (time_since_co2_level_not_acceptable_s > MAX_CO2_ABOVE_THRESHOLD_TIME_S) {
-        issue_audio_warning();
+        AudioController::issue_warning();
         // Wait until the next audio warning to prevent uninterrupted audio output.
         system_state.last_co2_below_threshold_time_s =
                 system_state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
