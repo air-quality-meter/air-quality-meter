@@ -1,5 +1,5 @@
 /**
- * @file    acknowledge_button.h
+ * @file    acknowledge_button_controller.h
  * @brief   This file contains the function declarations for system management functions.
  */
 

@@ -1,14 +1,13 @@
-#include <Arduino.h>
-
 /**
- * @file    acknowledge_button.cpp
+ * @file    acknowledge_button_controller.cpp
  * @brief   This file contains the functions for the acknowledge button.
  */
 
-#include "acknowledge_button.h"
-#include "system_state.h"
-#include "../system_time/system_time.h"
-#include "pin_configuration.h"
+#include <Arduino.h>
+#include <acknowledge_button_controller.h>
+#include <system_state.h>
+#include <../system_time/system_time.h>
+#include <pin_configuration.h>
 
 constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
 

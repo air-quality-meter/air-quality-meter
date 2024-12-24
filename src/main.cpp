@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include "system_state.h"
-#include "acknowledge_button.h"
+#include <acknowledge_button_controller.h>
 #include "system_time.h"
 #include <co2_sensor_controller.h>
 #include <led_controller.h>
