@@ -41,7 +41,7 @@ void update_display_air_quality_output(int co2_measurement_ppm, const String &ai
  * @param led_indicator A constant reference to the LEDIndicator structure containing
  *                       the on/off states for each individual LED.
  */
-void update_led_air_quality_output(const LEDIndicator &led_indicator);
+void update_led_air_quality_output(const AirQualityLevel::LEDIndicator &led_indicator);
 
 /**
  * @brief Manages the response to unacceptable air quality levels over time.

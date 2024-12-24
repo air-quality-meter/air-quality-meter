@@ -14,6 +14,6 @@
  *
  * @return  The air quality level corresponding to the given CO2 measurement.
  */
-AirQualityLevel get_air_quality_level(int co2_measurement_ppm);
+AirQualityLevel::AirQualityLevel get_air_quality_level(int co2_measurement_ppm);
 
 #endif //MEASUREMENT_INTERPRETER_H
