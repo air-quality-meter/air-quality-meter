@@ -12,7 +12,7 @@
 #include "air_quality_manager.h"
 #include <audio_controller.h>
 #include "system_state.h"
-#include "leds.h"
+#include <led_controller.h>
 #include <display_controller.h>
 
 constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset

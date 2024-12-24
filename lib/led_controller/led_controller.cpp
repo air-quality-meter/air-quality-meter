@@ -1,11 +1,11 @@
 #include <Arduino.h>
 /**
- * @file    leds.cpp
+ * @file    led_controller.cpp
  * @brief   This file contains the function definitions for controlling the LEDs.
  */
 
-#include "leds.h"
-#include "pin_configuration.h"
+#include <led_controller.h>
+#include <pin_configuration.h>
 
 
 void initialize_leds() {

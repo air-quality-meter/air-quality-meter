@@ -13,7 +13,7 @@
 #include "acknowledge_button.h"
 #include "system_time.h"
 #include <co2_sensor_controller.h>
-#include "leds.h"
+#include <led_controller.h>
 #include <display_controller.h>
 #include "air_quality_manager.h"
 #include <audio_controller.h>

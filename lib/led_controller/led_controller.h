@@ -1,10 +1,10 @@
 /**
- * @file    leds.h
+ * @file    led_controller.h
  * @brief   This file contains the function declarations for controlling the LEDs.
  */
 
-#ifndef LEDS_H
-#define LEDS_H
+#ifndef LEDS_CONTROLLER_H
+#define LEDS_CONTROLLER_H
 
 /**
  * @brief   Initialize LED PINs (Output)
@@ -31,4 +31,4 @@ void set_leds(bool is_green_led_1_on,
               bool is_red_led_1_on,
               bool is_red_led_2_on);
 
-#endif //LEDS_H
+#endif //LEDS_CONTROLLER_H
