@@ -31,7 +31,7 @@ namespace OutputController {
         DisplayController::output(line_1, air_quality_description);
     }
 
-    void update_led_array(const AirQuality::LEDIndicator &led_indicator) {
+    void update_led_array(const LEDIndication::Pattern &led_indicator) {
         LedArray::output(led_indicator.is_green_led_1_on,
                          led_indicator.is_green_led_2_on,
                          led_indicator.is_yellow_led_1_on,
