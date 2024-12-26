@@ -70,7 +70,7 @@ void loop() {
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
     OutputController::update_display(current_co2_measurement_ppm, current_air_quality_level.description);
-    OutputController::update_led_array(current_air_quality_level.led_indicator);
+    LedArray::output(current_air_quality_level.led_indicator);
     OutputController::manage_audio_warnings(current_iteration_time_stamp_s,
                                             current_air_quality_level.is_level_acceptable);
     delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
