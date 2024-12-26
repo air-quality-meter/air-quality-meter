@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include <output_controller.h>
 #include <audio_controller.h>
-#include "system_state.h"
+#include <state.h>
 #include <led_array.h>
 #include <display_controller.h>
 
@@ -43,13 +43,13 @@ namespace OutputController {
     void manage_audio_warnings(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
         if (is_air_quality_acceptable) {
             noInterrupts(); ///< prevent interrupts while writing on system state
-            system_state.last_co2_below_threshold_time_s = current_time_s;
-            system_state.warning_counter = 0;
+            AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
+            AirQualityMeter::state.warning_counter = 0;
             interrupts();
             return;
         }
         const unsigned long time_since_co2_level_not_acceptable_s =
-                current_time_s - system_state.last_co2_below_threshold_time_s;
+                current_time_s - AirQualityMeter::state.last_co2_below_threshold_time_s;
         ///< Time delta since air quality is not acceptable.
         ///< @note As all time variables and constants are unsigned, a possible time overflow will still be handled correctly.
         ///< A potentially very high value for the variable last_co2_below_threshold_time_s of almost the maximum of the unsigned
@@ -59,13 +59,13 @@ namespace OutputController {
         if (time_since_co2_level_not_acceptable_s > MAX_CO2_ABOVE_THRESHOLD_TIME_S) {
             AudioController::issue_warning();
             // Wait until the next audio warning to prevent uninterrupted audio output.
-            system_state.last_co2_below_threshold_time_s =
-                    system_state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
-            system_state.warning_counter++;
-            if (system_state.warning_counter >= MAX_CONSECUTIVE_WARNINGS) {
+            AirQualityMeter::state.last_co2_below_threshold_time_s =
+                    AirQualityMeter::state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
+            AirQualityMeter::state.warning_counter++;
+            if (AirQualityMeter::state.warning_counter >= MAX_CONSECUTIVE_WARNINGS) {
                 noInterrupts(); ///< prevent interrupts while writing on system state
-                system_state.last_co2_below_threshold_time_s = current_time_s;
-                system_state.warning_counter = 0;
+                AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
+                AirQualityMeter::state.warning_counter = 0;
                 interrupts();
             }
         }

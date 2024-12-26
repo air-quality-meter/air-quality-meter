@@ -9,7 +9,7 @@
  */
 
 #include <Arduino.h>
-#include "system_state.h"
+#include <state.h>
 #include <acknowledge_button.h>
 #include <time_controller.h>
 #include <co2_sensor_controller.h>
@@ -20,15 +20,15 @@
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
 
-SystemState system_state = {0, 0, 0};
-
-constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
-///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
-
-constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
-///< Wait after each loop iteration to prevent overlapping device triggering.
-
-constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial communication for debugging
+namespace AirQualityMeter {
+    State state = {0, 0, 0};
+    constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
+    ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
+    constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
+    ///< Wait after each loop iteration to prevent overlapping device triggering.
+    constexpr unsigned int SERIAL_BAUD_RATE = 9600;
+    ///< Baud rate for serial communication for debugging
+}
 
 /**
  * @brief   Sets up the required hardware components and serial communication before the main program loop starts.
@@ -43,13 +43,13 @@ constexpr unsigned int SERIAL_BAUD_RATE = 9600; ///< Baud rate for serial commun
  *          It also adds a delay after initialization to ensure all the hardware is ready for use.
  */
 void setup() {
-    Serial.begin(SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
+    Serial.begin(AirQualityMeter::SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
     DisplayController::initialize();
     AcknowledgeButton::initialize();
     Co2SensorController::initialize();
     LedArray::initialize();
     AudioController::initialize();
-    delay(WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
+    delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
 }
 
 /**
@@ -67,10 +67,11 @@ void setup() {
 void loop() {
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
-    const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(current_co2_measurement_ppm);
+    const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
+        current_co2_measurement_ppm);
     OutputController::update_display(current_co2_measurement_ppm, current_air_quality_level.description);
     OutputController::update_led_array(current_air_quality_level.led_indicator);
     OutputController::manage_audio_warnings(current_iteration_time_stamp_s,
-                                          current_air_quality_level.is_level_acceptable);
-    delay(WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
+                                            current_air_quality_level.is_level_acceptable);
+    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
 }
