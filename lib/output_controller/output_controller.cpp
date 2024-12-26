@@ -1,16 +1,5 @@
-/**
- * @file    output_controller.cpp
- * @brief   This file contains functions and constants to manage the air quality measurements,
- *          display outputs, LED indicators, and audio warnings for the air quality monitoring system.
- * 
- * @details The functions in this file handle updating the display with CO2 levels and air quality
- *          descriptions, controlling LED indicators based on air quality status, and managing warnings
- *          when the air quality exceeds acceptable thresholds.
- */
-
 #include <Arduino.h>
 #include <output_controller.h>
-#include <audio_controller.h>
 #include <state.h>
 
 void reset_warning_state(unsigned long current_time_s);
@@ -28,40 +17,34 @@ constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period 
 
 
 namespace OutputController {
-    void manage_audio_warnings(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
-        if (is_air_quality_acceptable) {
-            reset_warning_state(current_time_s);
-            return;
-        }
+    bool is_audio_warning_to_be_issued(const unsigned long current_time_s) {
         const unsigned long time_since_co2_level_not_acceptable_s = get_time_since_co2_level_not_acceptable_s(
             current_time_s);
-        if (time_since_co2_level_not_acceptable_s > MAX_CO2_ABOVE_THRESHOLD_TIME_S) {
-            AudioController::issue_warning();
-            update_warning_state_for_co2_level_not_acceptable(current_time_s);
-        }
+        return time_since_co2_level_not_acceptable_s > MAX_CO2_ABOVE_THRESHOLD_TIME_S;
     }
-}
 
-void update_warning_state_for_co2_level_not_acceptable(const unsigned long current_time_s) {
-    AirQualityMeter::state.warning_counter++;
-    if (AirQualityMeter::state.warning_counter >= MAX_CONSECUTIVE_WARNINGS) {
+    void reset_warning_state(const unsigned long current_time_s) {
         noInterrupts(); ///< prevent interrupts while writing on system state
         AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
         AirQualityMeter::state.warning_counter = 0;
         interrupts();
-        return;
     }
-    // Wait until the next audio warning to prevent uninterrupted audio output.
-    AirQualityMeter::state.last_co2_below_threshold_time_s =
-            AirQualityMeter::state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
+
+    void update_warning_state_for_co2_level_not_acceptable(const unsigned long current_time_s) {
+        AirQualityMeter::state.warning_counter++;
+        if (AirQualityMeter::state.warning_counter >= MAX_CONSECUTIVE_WARNINGS) {
+            noInterrupts(); ///< prevent interrupts while writing on system state
+            AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
+            AirQualityMeter::state.warning_counter = 0;
+            interrupts();
+            return;
+        }
+        // Wait until the next audio warning to prevent uninterrupted audio output.
+        AirQualityMeter::state.last_co2_below_threshold_time_s =
+                AirQualityMeter::state.last_co2_below_threshold_time_s + WAITING_PERIOD_BETWEEN_WARNINGS_S;
+    }
 }
 
-void reset_warning_state(const unsigned long current_time_s) {
-    noInterrupts(); ///< prevent interrupts while writing on system state
-    AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
-    AirQualityMeter::state.warning_counter = 0;
-    interrupts();
-}
 
 unsigned long get_time_since_co2_level_not_acceptable_s(const unsigned long current_time_s) {
     return current_time_s - AirQualityMeter::state.last_co2_below_threshold_time_s;

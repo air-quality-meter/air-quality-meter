@@ -77,10 +77,18 @@ void loop() {
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
-    const String co2_display_row= DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
     DisplayController::output(co2_display_row, current_air_quality_level.description);
     LedArray::output(current_air_quality_level.led_indicator);
-    OutputController::manage_audio_warnings(current_iteration_time_stamp_s,
-                                            current_air_quality_level.is_level_acceptable);
-    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
+    if (current_air_quality_level.is_acceptable) {
+        OutputController::reset_warning_state(current_iteration_time_stamp_s);
+        delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
+        ///< Make sure, hardware is ready for next loop iteration.
+        return;
+    }
+    if (OutputController::is_audio_warning_to_be_issued(current_iteration_time_stamp_s)) {
+        AudioController::issue_warning();
+        OutputController::update_warning_state_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+    }
+    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
 }

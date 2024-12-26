@@ -20,7 +20,7 @@ namespace AirQuality {
         ///< Represents the state of LED indicators used to display air quality levels.
         String description;
         ///< A string that provides a description of the air quality level.
-        bool is_level_acceptable;
+        bool is_acceptable;
         ///< indicating whether the air quality level is considered acceptable (true) or not (false).
         int upper_threshold_ppm;
         ///< Specifies the upper CO2 threshold (in parts per million) for this air quality level. A value of -1
