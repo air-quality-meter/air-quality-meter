@@ -20,16 +20,6 @@
 #include <air_quality.h>
 
 namespace OutputController {
-    /**
-     * @brief   Updates the display with the air quality measurement and description.
-     *
-     * @details This function formats and combines CO2 measurement in ppm and its corresponding air
-     *          quality description. It then outputs the results to the display device.
-     *
-     * @param co2_measurement_ppm The CO2 measurement in parts per million (ppm).
-     * @param air_quality_description A textual description of the current air quality status.
-     */
-    void update_display(int co2_measurement_ppm, const String &air_quality_description);
 
     /**
      * @brief Manages the response to unacceptable air quality levels over time.

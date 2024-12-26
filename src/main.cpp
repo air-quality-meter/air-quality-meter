@@ -16,6 +16,7 @@
 #include <led_array.h>
 #include <display_controller.h>
 #include <output_controller.h>
+#include <display_row_formatter.h>
 #include <air_quality.h>
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
@@ -76,7 +77,8 @@ void loop() {
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
-    OutputController::update_display(current_co2_measurement_ppm, current_air_quality_level.description);
+    const String co2_display_row= DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    DisplayController::output(co2_display_row, current_air_quality_level.description);
     LedArray::output(current_air_quality_level.led_indicator);
     OutputController::manage_audio_warnings(current_iteration_time_stamp_s,
                                             current_air_quality_level.is_level_acceptable);

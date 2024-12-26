@@ -12,7 +12,6 @@
 #include <output_controller.h>
 #include <audio_controller.h>
 #include <state.h>
-#include <display_controller.h>
 
 void reset_warning_state(unsigned long current_time_s);
 
@@ -27,15 +26,8 @@ constexpr unsigned int MAX_CO2_ABOVE_THRESHOLD_TIME_S = 3600;
 
 constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period between two warnings (seconds)
 
-const String CO2_PREFIX = "CO2: "; ///< Prefix to display CO2 value
-const String PPM_SUFFIX = " ppm"; ///< Suffix to display a value with ppm as the unit
 
 namespace OutputController {
-    void update_display(const int co2_measurement_ppm, const String &air_quality_description) {
-        const String line_1 = CO2_PREFIX + co2_measurement_ppm + PPM_SUFFIX;
-        DisplayController::output(line_1, air_quality_description);
-    }
-
     void manage_audio_warnings(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
         if (is_air_quality_acceptable) {
             reset_warning_state(current_time_s);
