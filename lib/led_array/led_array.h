@@ -3,8 +3,8 @@
  * @brief   This file contains the function declarations for controlling the LEDs.
  */
 
-#ifndef LEDS_ARRAY_H
-#define LEDS_ARRAY_H
+#ifndef LED_ARRAY_H
+#define LED_ARRAY_H
 
 namespace LedArray {
     /**
@@ -38,4 +38,4 @@ namespace LedArray {
     void output(Pattern pattern);
 }
 
-#endif //LEDS_ARRAY_H
+#endif //LED_ARRAY_H
