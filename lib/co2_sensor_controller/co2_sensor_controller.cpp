@@ -17,6 +17,9 @@ namespace Co2SensorController {
 
     int get_measurement_in_ppm() {
         //TODO: This function needs to be written. (all the stuff that runs on every loop iteration)
+        //TODO: return -1, if there is an error in the measurement
+        // (afaik: values below 400 or above 10000 ppm are outside detection range and may be an indicator for an error)
+        //see: https://www.winsen-sensor.com/product/mh-z19b.html
         return 1500; //FIXME: this is a placeholder value. Fix when writing this function.
     }
 }
