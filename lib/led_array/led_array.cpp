@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <led_array.h>
+#include <led_patterns.h>
 #include <pin_configuration.h>
 
 namespace LedArray {
@@ -17,7 +18,7 @@ namespace LedArray {
         pinMode(RED_2_PIN, OUTPUT);
     }
 
-    void output(const Pattern pattern) {
+    void output(const LedPattern::Pattern pattern) {
         digitalWrite(GREEN_1_PIN, pattern.is_green_led_1_on);
         digitalWrite(GREEN_2_PIN, pattern.is_green_led_2_on);
         digitalWrite(YELLOW_1_PIN, pattern.is_yellow_led_1_on);
