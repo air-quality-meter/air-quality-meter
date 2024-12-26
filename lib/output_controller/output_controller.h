@@ -32,18 +32,6 @@ namespace OutputController {
     void update_display(int co2_measurement_ppm, const String &air_quality_description);
 
     /**
-     * @brief   Updates the LED indicators to display the current air quality status.
-     *
-     * @details Adjusts the state of the LEDs based on the provided LEDIndicator structure,
-     *          where each field represents the on/off status of a specific LED.
-     *          This is used to visually represent air quality levels.
-     *
-     * @param led_indicator A constant reference to the LEDIndicator structure containing
-     *                       the on/off states for each individual LED.
-     */
-    void update_led_array(const LEDIndication::Pattern &led_indicator);
-
-    /**
      * @brief Manages the response to unacceptable air quality levels over time.
      *
      * @details This function handles actions when air quality levels remain unacceptable for a prolonged period.

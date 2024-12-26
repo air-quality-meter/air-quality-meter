@@ -9,25 +9,20 @@
 
 namespace LedArray {
     void initialize() {
-        pinMode(GREEN_1_PIN, OUTPUT); ///< LED for high air quality
-        pinMode(GREEN_2_PIN, OUTPUT); ///< LED for high or medium air quality
-        pinMode(YELLOW_1_PIN, OUTPUT); ///< LED for medium or moderate air quality
-        pinMode(YELLOW_2_PIN, OUTPUT); ///< LED for moderate air quality
-        pinMode(RED_1_PIN, OUTPUT); ///< LED for moderate or poor air quality
-        pinMode(RED_2_PIN, OUTPUT); ///< LED for poor air quality
+        pinMode(GREEN_1_PIN, OUTPUT);
+        pinMode(GREEN_2_PIN, OUTPUT);
+        pinMode(YELLOW_1_PIN, OUTPUT);
+        pinMode(YELLOW_2_PIN, OUTPUT);
+        pinMode(RED_1_PIN, OUTPUT);
+        pinMode(RED_2_PIN, OUTPUT);
     }
 
-    void output(const bool is_green_led_1_on,
-                const bool is_green_led_2_on,
-                const bool is_yellow_led_1_on,
-                const bool is_yellow_led_2_on,
-                const bool is_red_led_1_on,
-                const bool is_red_led_2_on) {
-        digitalWrite(GREEN_1_PIN, is_green_led_1_on);
-        digitalWrite(GREEN_2_PIN, is_green_led_2_on);
-        digitalWrite(YELLOW_1_PIN, is_yellow_led_1_on);
-        digitalWrite(YELLOW_2_PIN, is_yellow_led_2_on);
-        digitalWrite(RED_1_PIN, is_red_led_1_on);
-        digitalWrite(RED_2_PIN, is_red_led_2_on);
+    void output(const Pattern pattern) {
+        digitalWrite(GREEN_1_PIN, pattern.is_green_led_1_on);
+        digitalWrite(GREEN_2_PIN, pattern.is_green_led_2_on);
+        digitalWrite(YELLOW_1_PIN, pattern.is_yellow_led_1_on);
+        digitalWrite(YELLOW_2_PIN, pattern.is_yellow_led_2_on);
+        digitalWrite(RED_1_PIN, pattern.is_red_led_1_on);
+        digitalWrite(RED_2_PIN, pattern.is_red_led_2_on);
     }
 }

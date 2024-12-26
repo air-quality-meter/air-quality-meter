@@ -12,7 +12,6 @@
 #include <output_controller.h>
 #include <audio_controller.h>
 #include <state.h>
-#include <led_array.h>
 #include <display_controller.h>
 
 void reset_warning_state(unsigned long current_time_s);
@@ -35,15 +34,6 @@ namespace OutputController {
     void update_display(const int co2_measurement_ppm, const String &air_quality_description) {
         const String line_1 = CO2_PREFIX + co2_measurement_ppm + PPM_SUFFIX;
         DisplayController::output(line_1, air_quality_description);
-    }
-
-    void update_led_array(const LEDIndication::Pattern &led_indicator) {
-        LedArray::output(led_indicator.is_green_led_1_on,
-                         led_indicator.is_green_led_2_on,
-                         led_indicator.is_yellow_led_1_on,
-                         led_indicator.is_yellow_led_2_on,
-                         led_indicator.is_red_led_1_on,
-                         led_indicator.is_red_led_2_on);
     }
 
     void manage_audio_warnings(const unsigned long current_time_s, const bool is_air_quality_acceptable) {
