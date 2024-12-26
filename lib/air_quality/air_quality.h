@@ -5,6 +5,7 @@
 #include <co2_thresholds.h>
 #include <led_air_quality_pattern.h>
 #include <description_text.h>
+#include <led_pattern.h>
 
 namespace AirQuality {
     /**
@@ -16,7 +17,7 @@ namespace AirQuality {
      *          and an acceptability status.
      */
     struct Level {
-        LedArray::Pattern led_indicator;
+        LedPattern::Pattern led_indicator;
         ///< Represents the state of LED indicators used to display air quality levels.
         String description;
         ///< A string that provides a description of the air quality level.
