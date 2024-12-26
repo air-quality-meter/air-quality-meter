@@ -5,7 +5,7 @@
 
 #include <Arduino.h>
 #include <led_array.h>
-#include <led_pattern.h>
+#include <led_patterns.h>
 #include <pin_configuration.h>
 
 namespace LedArray {

@@ -6,7 +6,7 @@
 #ifndef LED_ARRAY_H
 #define LED_ARRAY_H
 
-#include <led_pattern.h>
+#include <led_patterns.h>
 
 namespace LedArray {
     /**

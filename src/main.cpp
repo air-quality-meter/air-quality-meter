@@ -19,7 +19,7 @@
 #include <air_quality.h>
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
-#include <error_state.h>
+#include <error_messages.h>
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
@@ -69,8 +69,8 @@ void loop() {
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     if (current_co2_measurement_ppm == -1) {
-        LedArray::output(SensorError::LED_PATTERN);
-        DisplayController::output(ERROR_MESSAGE_LINE_ONE, SensorError::TEXT);
+        LedArray::output(LedErrorPatterns::SENSOR_ERROR);
+        DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         return;
     }

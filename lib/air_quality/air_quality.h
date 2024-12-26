@@ -3,9 +3,8 @@
 
 #include <Arduino.h>
 #include <co2_thresholds.h>
-#include <led_air_quality_pattern.h>
 #include <description_text.h>
-#include <led_pattern.h>
+#include <led_patterns.h>
 
 namespace AirQuality {
     /**
@@ -29,35 +28,35 @@ namespace AirQuality {
     };
 
     const Level HIGH_QUALITY = {
-        LEDIndication::HIGH_QUALITY,
+        LedAirQualityPattern::HIGH_QUALITY,
         DescriptionText::HIGH_QUALITY,
         true,
         CO2Thresholds::HIGH_QUALITY_PPM
     };
 
     const Level MEDIUM_QUALITY = {
-        LEDIndication::MEDIUM_QUALITY,
+        LedAirQualityPattern::MEDIUM_QUALITY,
         DescriptionText::MEDIUM_QUALITY,
         true,
         CO2Thresholds::MEDIUM_QUALITY_PPM
     };
 
     const Level LOWER_MODERATE_QUALITY = {
-        LEDIndication::LOWER_MODERATE_QUALITY,
+        LedAirQualityPattern::LOWER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::LOWER_MODERATE_QUALITY_PPM
     };
 
     const Level UPPER_MODERATE_QUALITY = {
-        LEDIndication::UPPER_MODERATE_QUALITY,
+        LedAirQualityPattern::UPPER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::UPPER_MODERATE_QUALITY_PPM
     };
 
     const Level POOR_QUALITY = {
-        LEDIndication::POOR_QUALITY,
+        LedAirQualityPattern::POOR_QUALITY,
         DescriptionText::POOR_QUALITY,
         false,
         CO2Thresholds::NO_UPPER_LIMIT // No upper limit for poor air quality.
