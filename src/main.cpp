@@ -15,11 +15,14 @@
 #include <co2_sensor_controller.h>
 #include <led_array.h>
 #include <display_controller.h>
-#include <output_controller.h>
+#include <display_row_formatter.h>
 #include <air_quality.h>
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
 #include <error_messages.h>
+#include <warning_controller.h>
+#include <warning_state_controller.h>
+#include <co2_level_time_tracker.h>
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
@@ -76,9 +79,20 @@ void loop() {
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
-    OutputController::update_display(current_co2_measurement_ppm, current_air_quality_level.description);
+    const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    DisplayController::output(co2_display_row, current_air_quality_level.description);
     LedArray::output(current_air_quality_level.led_indicator);
-    OutputController::manage_audio_warnings(current_iteration_time_stamp_s,
-                                            current_air_quality_level.is_level_acceptable);
-    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS); ///< Make sure, hardware is ready for next loop iteration.
+    if (current_air_quality_level.is_acceptable) {
+        WarningStateController::reset(current_iteration_time_stamp_s);
+        delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
+        ///< Make sure, hardware is ready for next loop iteration.
+        return;
+    }
+    const unsigned long time_since_co2_level_not_acceptable_s =
+            Co2LevelTimeTracker::get_time_since_co2_level_not_acceptable_s(current_iteration_time_stamp_s);
+    if (WarningController::is_audio_warning_to_be_issued(time_since_co2_level_not_acceptable_s)) {
+        AudioController::issue_warning();
+        WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+    }
+    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
 }
