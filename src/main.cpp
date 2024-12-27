@@ -21,6 +21,7 @@
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
 #include <error_messages.h>
+#include <warning_controller.h>
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
@@ -86,7 +87,7 @@ void loop() {
         ///< Make sure, hardware is ready for next loop iteration.
         return;
     }
-    if (OutputController::is_audio_warning_to_be_issued(current_iteration_time_stamp_s)) {
+    if (WarningController::is_audio_warning_to_be_issued(current_iteration_time_stamp_s)) {
         AudioController::issue_warning();
         OutputController::update_warning_state_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
     }
