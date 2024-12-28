@@ -23,6 +23,9 @@
 #include <warning_controller.h>
 #include <warning_state_controller.h>
 #include <co2_level_time_tracker.h>
+#include <logging.h>
+
+constexpr char LOG_TAG[5] = "Main"; ///< Tag for logging.
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
@@ -48,12 +51,19 @@ namespace AirQualityMeter {
  */
 void setup() {
     Serial.begin(AirQualityMeter::SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
+    LOG_INFO(LOG_TAG, "Serial communication initialized.");
     DisplayController::initialize();
+    LOG_INFO(LOG_TAG, "Display initialized.");
     AcknowledgeButton::initialize();
+    LOG_INFO(LOG_TAG, "Acknowledge button initialized.");
     Co2SensorController::initialize();
+    LOG_INFO(LOG_TAG, "CO2 sensor initialized.");
     LedArray::initialize();
+    LOG_INFO(LOG_TAG, "LED array initialized.");
     AudioController::initialize();
+    LOG_INFO(LOG_TAG, "MP3 module initialized.");
     delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
+    LOG_INFO(LOG_TAG, "All hardware initialized.");
 }
 
 /**
@@ -70,29 +80,49 @@ void setup() {
  */
 void loop() {
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
+    LOG_DEBUG(LOG_TAG, "current_iteration_time_stamp_s == %lu", current_iteration_time_stamp_s);
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
+    LOG_DEBUG(LOG_TAG, "current_co2_measurement_ppm == %d", current_co2_measurement_ppm);
     if (current_co2_measurement_ppm == -1) {
+        LOG_ERROR(LOG_TAG, "CO2 sensor error.");
         LedArray::output(LedErrorPatterns::SENSOR_ERROR);
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         return;
     }
+    LOG_INFO(LOG_TAG, "CO2 value is valid.");
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
+    LOG_DEBUG(LOG_TAG, "current_air_quality_level.description == %s", current_air_quality_level.description);
     const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    LOG_DEBUG(LOG_TAG, "co2_display_row == %s", co2_display_row);
     DisplayController::output(co2_display_row, current_air_quality_level.description);
+    LOG_INFO(LOG_TAG, "Display output updated");
+    LOG_DEBUG(LOG_TAG, "current_air_quality_level.led_indicator == %d", current_air_quality_level.led_indicator);
     LedArray::output(current_air_quality_level.led_indicator);
+    LOG_INFO(LOG_TAG, "LED output updated");
     if (current_air_quality_level.is_acceptable) {
+        LOG_INFO(LOG_TAG, "Air quality level is acceptable.");
         WarningStateController::reset(current_iteration_time_stamp_s);
+        LOG_INFO(LOG_TAG, "Warning state reset.");
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         ///< Make sure, hardware is ready for next loop iteration.
+        LOG_INFO(LOG_TAG, "Loop iteration finished.");
         return;
     }
+    LOG_INFO(LOG_TAG, "Air quality level is not acceptable.");
     const unsigned long time_since_co2_level_not_acceptable_s =
             Co2LevelTimeTracker::get_time_since_co2_level_not_acceptable_s(current_iteration_time_stamp_s);
+    LOG_DEBUG(LOG_TAG, "time_since_co2_level_not_acceptable_s == %ul", time_since_co2_level_not_acceptable_s);
     if (WarningController::is_audio_warning_to_be_issued(time_since_co2_level_not_acceptable_s)) {
+        LOG_INFO(LOG_TAG, "Audio warning to be issued.");
         AudioController::issue_warning();
+        LOG_INFO(LOG_TAG, "Audio warning issued.");
         WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+        LOG_INFO(LOG_TAG, "Warning state updated.");
     }
+    LOG_INFO(LOG_TAG, "No Audio warning to be issued.");
     delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
+    ///< Make sure, hardware is ready for next loop iteration.
+    LOG_INFO(LOG_TAG, "Loop iteration finished.");
 }
