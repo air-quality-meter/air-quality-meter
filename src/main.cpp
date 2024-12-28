@@ -9,6 +9,8 @@
  */
 
 #include <Arduino.h>
+#include <ArduinoLog.h>
+#include <log_controller.h>
 #include <state.h>
 #include <acknowledge_button.h>
 #include <time_controller.h>
@@ -24,16 +26,13 @@
 #include <warning_state_controller.h>
 #include <co2_level_time_tracker.h>
 
-constexpr char LOG_TAG[5] = "Main"; ///< Tag for logging.
-
 namespace AirQualityMeter {
     State state = {0, 0, 0};
+    constexpr byte LOG_LEVEL = LOG_LEVEL_VERBOSE;
     constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
     ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
     constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
     ///< Wait after each loop iteration to prevent overlapping device triggering.
-    constexpr unsigned int SERIAL_BAUD_RATE = 9600;
-    ///< Baud rate for serial communication for debugging
 }
 
 /**
@@ -49,7 +48,7 @@ namespace AirQualityMeter {
  *          It also adds a delay after initialization to ensure all the hardware is ready for use.
  */
 void setup() {
-    Serial.begin(AirQualityMeter::SERIAL_BAUD_RATE); ///< Initialize serial communication over USB (for debugging)
+    LogController::initialize(AirQualityMeter::LOG_LEVEL);
     DisplayController::initialize();
     AcknowledgeButton::initialize();
     Co2SensorController::initialize();
