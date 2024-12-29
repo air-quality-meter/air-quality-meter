@@ -28,7 +28,7 @@
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
-    constexpr byte LOG_LEVEL = LOG_LEVEL_VERBOSE;
+    constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
     constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
     ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
     constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;

@@ -9,11 +9,11 @@
 #include <LiquidCrystal.h> // lib for LCD
 
 namespace DisplayController {
-    enum Columns : byte {
+    enum Columns : uint8_t {
         COLUMN_1,
         NUMBER_OF_COLUMNS = 16
     };
-    enum Rows : byte {
+    enum Rows : uint8_t {
         ROW_1,
         ROW_2,
         NUMBER_OF_ROWS
