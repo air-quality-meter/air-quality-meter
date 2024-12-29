@@ -49,26 +49,26 @@ namespace AirQualityMeter {
  */
 void setup() {
     LogController::initialize(AirQualityMeter::LOG_LEVEL);
-    Log.notice("Air Quality Meter started.");
-    Log.verboseln("%s LogController", LogController::INIT);
+    LogController::log_welcome_message();
+    LogController::log_initialization(LogController::LOG_CONTROLLER);
 
     DisplayController::initialize();
-    Log.verboseln("%s DisplayController", LogController::INIT);
+    LogController::log_initialization(LogController::DISPLAY_CONTROLLER);
 
     AcknowledgeButton::initialize();
-    Log.verboseln("%s AcknowledgeButton", LogController::INIT);
+    LogController::log_initialization(LogController::ACKNOWLEDGE_BUTTON);
 
     Co2SensorController::initialize();
-    Log.verboseln("%s Co2SensorController", LogController::INIT);
+    LogController::log_initialization(LogController::SENSOR_CONTROLLER);
 
     LedArray::initialize();
-    Log.verboseln("%s LedArray", LogController::INIT);
+    LogController::log_initialization(LogController::LED_ARRAY);
 
     AudioController::initialize();
-    Log.verboseln("%s AudioController", LogController::INIT);
+    LogController::log_initialization(LogController::AUDIO_CONTROLLER);
 
     delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
-    Log.notice("Air Quality Meter initialized.");
+    Log.notice(LogController::SYSTEM_READY);
 }
 
 /**
@@ -84,7 +84,7 @@ void setup() {
  *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
  */
 void loop() {
-    Log.notice("Air Quality Meter loop started.");
+    LogController::log_loop_start();
 
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
     TRACE_LN_u(current_iteration_time_stamp_s);
@@ -93,16 +93,16 @@ void loop() {
     TRACE_LN_d(current_co2_measurement_ppm);
 
     if (current_co2_measurement_ppm == -1) {
-        Log.error("Sensor error.");
+        Log.error(LogController::SENSOR_ERROR);
 
         LedArray::output(LedErrorPatterns::SENSOR_ERROR);
-        Log.verbose("LedArray Sensor Error output");
+        Log.verbose(LogController::LED_UPDATED);
 
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
-        Log.verbose("DisplayController Sensor Error output");
+        Log.verbose(LogController::DISPLAY_UPDATED);
 
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
-        Log.notice("Air Quality Meter loop ended.");
+        LogController::log_loop_end();
         return;
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
@@ -113,19 +113,20 @@ void loop() {
     TRACE_LN_s(co2_display_row);
 
     DisplayController::output(co2_display_row, current_air_quality_level.description);
-    Log.verbose("DisplayController output updated");
+    Log.verbose(LogController::DISPLAY_UPDATED);
 
     LedArray::output(current_air_quality_level.led_indicator);
-    Log.verbose("LedArray output updated");
+    Log.verbose(LogController::LED_UPDATED);
 
     TRACE_LN_T(current_air_quality_level.is_acceptable);
     if (current_air_quality_level.is_acceptable) {
         WarningStateController::reset(current_iteration_time_stamp_s);
-        Log.verbose("WarningStateController reset");
+        Log.verbose(LogController::STATE_UPDATED);
 
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         ///< Make sure, hardware is ready for next loop iteration.
-        Log.notice("Air Quality Meter loop ended.");
+
+        LogController::log_loop_end();
         return;
     }
     const unsigned long time_since_co2_level_not_acceptable_s =
@@ -138,12 +139,12 @@ void loop() {
 
     if (is_audio_warning_to_be_issued) {
         AudioController::issue_warning();
-        Log.verbose("Audio warning issued");
+        Log.verbose(LogController::AUDIO_WARNING_ISSUED);
 
         WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
-        Log.verbose("WarningStateController updated");
+        Log.verbose(LogController::STATE_UPDATED);
     }
     delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
     ///< Make sure, hardware is ready for next loop iteration.
-    Log.notice("Air Quality Meter loop ended.");
+    Log.notice(LogController::LOOP_END);
 }
