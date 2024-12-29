@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ArduinoLog.h>
 #include <log_controller.h>
+#include <state.h>
 
 void print_prefix(Print *_log_output, int log_level);
 
@@ -22,6 +23,37 @@ namespace LogController {
         Log.setSuffix(print_suffix);
         Log.begin(log_level, &Serial);
         Log.setShowLevel(false);
+    }
+
+    void log_welcome_message() {
+        Log.noticeln(DIVIDING_LINE_WELCOME);
+        Log.noticeln(WELCOME_MESSAGE);
+        Log.noticeln(DIVIDING_LINE_WELCOME);
+    }
+
+    void log_initialization(const char *module) {
+        char module_initialized[128];
+        sprintf(module_initialized, "%s %s", module, INIT);
+        Log.verboseln(module_initialized);
+    }
+
+    void log_current_state() {
+        Log.traceln("%s", DIVIDING_LINE_STATE);
+        Log.traceln("%s", STATE);
+        TRACE_LN_u(AirQualityMeter::state.last_co2_below_threshold_time_s);
+        TRACE_LN_d(AirQualityMeter::state.warning_counter);
+        TRACE_LN_u(AirQualityMeter::state.last_interrupt_time_ms);
+        Log.traceln("%s", DIVIDING_LINE_STATE);
+    }
+
+    void log_loop_start() {
+        Log.traceln("%s", DIVIDING_LINE_LOOP);
+        Log.traceln("%s", LOOP_START);
+    }
+
+    void log_loop_end() {
+        log_current_state();
+        Log.traceln(LOOP_END);
     }
 }
 

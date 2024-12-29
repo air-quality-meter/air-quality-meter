@@ -5,9 +5,12 @@
 
 #include <Arduino.h>
 #include <acknowledge_button.h>
+#include <ArduinoLog.h>
 #include <state.h>
 #include <../time_controller/time_controller.h>
 #include <pin_configuration.h>
+
+#include "../log_controller/log_controller.h"
 
 namespace AcknowledgeButton {
     constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
@@ -23,12 +26,21 @@ namespace AcknowledgeButton {
         // Debounce: If elapsed time since last interrupt is less than debounce time, ignore this and return
         const unsigned long interrupt_time_ms = millis(); ///< timestamp in milliseconds
         if (interrupt_time_ms - AirQualityMeter::state.last_interrupt_time_ms < DEBOUNCE_DELAY_MS) {
+
+            Log.verboseln(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
+
             return;
         }
+
+        Log.infoln(LogController::ACKNOWLEDGE_BUTTON_PRESSED);
+
         noInterrupts(); // Temporarily disable interrupts while updating system state
         AirQualityMeter::state.last_co2_below_threshold_time_s = TimeController::get_timestamp_s();
         AirQualityMeter::state.warning_counter = 0;
         AirQualityMeter::state.last_interrupt_time_ms = interrupt_time_ms; // Save the time of this interrupt for debouncing logic
         interrupts(); // Re-enable interrupts
+
+        Log.verboseln(LogController::STATE_UPDATED);
+        LogController::log_current_state();
     }
 }
