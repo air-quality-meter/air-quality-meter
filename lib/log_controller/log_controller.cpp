@@ -28,6 +28,15 @@ namespace LogController {
 void print_prefix(Print *_log_output, const int log_level) {
     print_timestamp(_log_output);
     print_log_level(_log_output, log_level);
+    char filename[50];
+    sprintf(filename, "%s", __FILE__);
+    char line_number[6];
+    sprintf(line_number, "%d", __LINE__);
+    _log_output->print("[");
+    _log_output->print(filename);
+    _log_output->print(":");
+    _log_output->print(line_number);
+    _log_output->print("] ");
 }
 
 void print_timestamp(Print *_log_output) {
