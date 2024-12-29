@@ -27,7 +27,7 @@
 #include <co2_level_time_tracker.h>
 
 namespace AirQualityMeter {
-    State state = {0, 0, 0};
+    State state = {0, 0};
     constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
     constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
     ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.

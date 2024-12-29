@@ -41,7 +41,6 @@ namespace LogController {
         Log.traceln("%s", STATE);
         TRACE_LN_u(AirQualityMeter::state.last_co2_below_threshold_time_s);
         TRACE_LN_d(AirQualityMeter::state.warning_counter);
-        TRACE_LN_u(AirQualityMeter::state.last_interrupt_time_ms);
         Log.traceln("%s", DIVIDING_LINE_STATE);
     }
 
