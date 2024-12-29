@@ -27,12 +27,12 @@ namespace AcknowledgeButton {
         const unsigned long interrupt_time_ms = millis(); ///< timestamp in milliseconds
         if (interrupt_time_ms - AirQualityMeter::state.last_interrupt_time_ms < DEBOUNCE_DELAY_MS) {
 
-            Log.verbose(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
+            Log.verboseln(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
 
             return;
         }
 
-        Log.info(LogController::ACKNOWLEDGE_BUTTON_PRESSED);
+        Log.infoln(LogController::ACKNOWLEDGE_BUTTON_PRESSED);
 
         noInterrupts(); // Temporarily disable interrupts while updating system state
         AirQualityMeter::state.last_co2_below_threshold_time_s = TimeController::get_timestamp_s();
@@ -40,7 +40,7 @@ namespace AcknowledgeButton {
         AirQualityMeter::state.last_interrupt_time_ms = interrupt_time_ms; // Save the time of this interrupt for debouncing logic
         interrupts(); // Re-enable interrupts
 
-        Log.verbose(LogController::STATE_UPDATED);
+        Log.verboseln(LogController::STATE_UPDATED);
         LogController::log_current_state();
     }
 }

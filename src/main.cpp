@@ -68,7 +68,7 @@ void setup() {
     LogController::log_initialization(LogController::AUDIO_CONTROLLER);
 
     delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
-    Log.notice(LogController::SYSTEM_READY);
+    Log.noticeln(LogController::SYSTEM_READY);
 }
 
 /**
@@ -93,13 +93,13 @@ void loop() {
     TRACE_LN_d(current_co2_measurement_ppm);
 
     if (current_co2_measurement_ppm == -1) {
-        Log.error(LogController::SENSOR_ERROR);
+        Log.errorln(LogController::SENSOR_ERROR);
 
         LedArray::output(LedErrorPatterns::SENSOR_ERROR);
-        Log.verbose(LogController::LED_UPDATED);
+        Log.verboseln(LogController::LED_UPDATED);
 
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
-        Log.verbose(LogController::DISPLAY_UPDATED);
+        Log.verboseln(LogController::DISPLAY_UPDATED);
 
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         LogController::log_loop_end();
@@ -113,15 +113,15 @@ void loop() {
     TRACE_LN_s(co2_display_row);
 
     DisplayController::output(co2_display_row, current_air_quality_level.description);
-    Log.verbose(LogController::DISPLAY_UPDATED);
+    Log.verboseln(LogController::DISPLAY_UPDATED);
 
     LedArray::output(current_air_quality_level.led_indicator);
-    Log.verbose(LogController::LED_UPDATED);
+    Log.verboseln(LogController::LED_UPDATED);
 
     TRACE_LN_T(current_air_quality_level.is_acceptable);
     if (current_air_quality_level.is_acceptable) {
         WarningStateController::reset(current_iteration_time_stamp_s);
-        Log.verbose(LogController::STATE_UPDATED);
+        Log.verboseln(LogController::STATE_UPDATED);
 
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         ///< Make sure, hardware is ready for next loop iteration.
@@ -139,12 +139,12 @@ void loop() {
 
     if (is_audio_warning_to_be_issued) {
         AudioController::issue_warning();
-        Log.verbose(LogController::AUDIO_WARNING_ISSUED);
+        Log.verboseln(LogController::AUDIO_WARNING_ISSUED);
 
         WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
-        Log.verbose(LogController::STATE_UPDATED);
+        Log.verboseln(LogController::STATE_UPDATED);
     }
     delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
     ///< Make sure, hardware is ready for next loop iteration.
-    Log.notice(LogController::LOOP_END);
+    Log.noticeln(LogController::LOOP_END);
 }

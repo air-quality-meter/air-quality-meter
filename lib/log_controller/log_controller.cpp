@@ -26,49 +26,40 @@ namespace LogController {
     }
 
     void log_welcome_message() {
-        Log.notice(DIVIDING_LINE_WELCOME);
-        Log.notice(WELCOME_MESSAGE);
-        Log.notice(DIVIDING_LINE_WELCOME);
+        Log.noticeln(DIVIDING_LINE_WELCOME);
+        Log.noticeln(WELCOME_MESSAGE);
+        Log.noticeln(DIVIDING_LINE_WELCOME);
     }
 
     void log_initialization(const char *module) {
         char module_initialized[128];
         sprintf(module_initialized, "%s %s", module, INIT);
-        Log.verbose(module_initialized);
+        Log.verboseln(module_initialized);
     }
 
     void log_current_state() {
-        Log.trace(DIVIDING_LINE_STATE);
-        Log.trace(STATE);
+        Log.traceln("%s", DIVIDING_LINE_STATE);
+        Log.traceln("%s", STATE);
         TRACE_LN_u(AirQualityMeter::state.last_co2_below_threshold_time_s);
         TRACE_LN_d(AirQualityMeter::state.warning_counter);
         TRACE_LN_u(AirQualityMeter::state.last_interrupt_time_ms);
-        Log.trace(DIVIDING_LINE_STATE);
+        Log.traceln("%s", DIVIDING_LINE_STATE);
     }
 
     void log_loop_start() {
-        Log.trace(DIVIDING_LINE_LOOP);
-        Log.trace(LOOP_START);
+        Log.traceln("%s", DIVIDING_LINE_LOOP);
+        Log.traceln("%s", LOOP_START);
     }
 
     void log_loop_end() {
         log_current_state();
-        Log.trace(LOOP_END);
+        Log.traceln(LOOP_END);
     }
 }
 
 void print_prefix(Print *_log_output, const int log_level) {
     print_timestamp(_log_output);
     print_log_level(_log_output, log_level);
-    char filename[50];
-    sprintf(filename, "%s", __FILE__);
-    char line_number[6];
-    sprintf(line_number, "%d", __LINE__);
-    _log_output->print("[");
-    _log_output->print(filename);
-    _log_output->print(":");
-    _log_output->print(line_number);
-    _log_output->print("] ");
 }
 
 void print_timestamp(Print *_log_output) {
