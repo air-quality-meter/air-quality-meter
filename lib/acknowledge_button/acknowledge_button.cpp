@@ -23,21 +23,24 @@ namespace AcknowledgeButton {
     }
 
     void acknowledge_warning() {
-        // Debounce: If elapsed time since last interrupt is less than debounce time, ignore this and return
+        static unsigned long last_interrupt_time_ms = 0;
+        ///< Timestamp of last interrupt initialized with static to persist until next function call.
         const unsigned long interrupt_time_ms = millis(); ///< timestamp in milliseconds
-        if (interrupt_time_ms - AirQualityMeter::state.last_interrupt_time_ms < DEBOUNCE_DELAY_MS) {
-
+        const unsigned long time_delta_between_interrupt_calls = interrupt_time_ms - last_interrupt_time_ms;
+        ///< Time elapsed since last interrupt in milliseconds (handels also potential overflow of millis())
+        if (time_delta_between_interrupt_calls < DEBOUNCE_DELAY_MS) {
+            // Debounce: If elapsed time since last interrupt is less than debounce time, ignore this and return
             Log.verboseln(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
 
             return;
         }
+        last_interrupt_time_ms = interrupt_time_ms; // updated last interrupt time for debouncing
 
         Log.infoln(LogController::ACKNOWLEDGE_BUTTON_PRESSED);
 
         noInterrupts(); // Temporarily disable interrupts while updating system state
         AirQualityMeter::state.last_co2_below_threshold_time_s = TimeController::get_timestamp_s();
         AirQualityMeter::state.warning_counter = 0;
-        AirQualityMeter::state.last_interrupt_time_ms = interrupt_time_ms; // Save the time of this interrupt for debouncing logic
         interrupts(); // Re-enable interrupts
 
         Log.verboseln(LogController::STATE_UPDATED);
