@@ -4,7 +4,6 @@
  */
 
 #include <display_controller.h>
-#include <Arduino.h>
 #include <pin_configuration.h>
 #include <LiquidCrystal.h> // lib for LCD
 

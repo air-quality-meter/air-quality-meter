@@ -6,8 +6,6 @@
 #ifndef DISPLAY_CONTROLLER_H
 #define DISPLAY_CONTROLLER_H
 
-#include <Arduino.h>
-
 namespace DisplayController {
     /**
      * @brief   Initializes the LCD1602 Module.
