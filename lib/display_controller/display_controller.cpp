@@ -39,7 +39,7 @@ namespace DisplayController {
         lcd.clear(); // delete the display content
     }
 
-    void output(const String &line_1, const String &line_2) {
+    void output(const char *line_1, const char *line_2) {
         lcd.clear(); // delete the display content
 
         // display line 1

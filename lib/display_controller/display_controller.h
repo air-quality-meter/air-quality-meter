@@ -30,7 +30,7 @@ namespace DisplayController {
      * @param line_1 Reference to the text to display on the first line of the LCD1602 Module.
      * @param line_2 Reference to the text to display on the second line of the LCD1602 Module.
      */
-    void output(const String &line_1, const String &line_2);
+    void output(const char *line_1, const char *line_2);
 }
 
 #endif //DISPLAY_CONTROLLER_H
