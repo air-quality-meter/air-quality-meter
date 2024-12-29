@@ -1,9 +1,6 @@
 #ifndef LOG_CONTROLLER_H
 #define LOG_CONTROLLER_H
 
-#include <Arduino.h>
-#include <ArduinoLog.h>
-
 namespace LogController {
 #define TRACE_LN_s(variable) Log.traceln("Variable: " #variable " == \"%s\"", variable) ///< Trace variable with name as string (char*).
 
