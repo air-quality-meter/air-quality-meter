@@ -109,7 +109,8 @@ void loop() {
         current_co2_measurement_ppm);
     TRACE_LN_s(current_air_quality_level.description);
 
-    const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    char co2_display_row[DisplayRowFormatter::BUFFER_SIZE];
+    DisplayRowFormatter::set_co2_display_row(co2_display_row, current_co2_measurement_ppm);
     TRACE_LN_s(co2_display_row);
 
     DisplayController::output(co2_display_row, current_air_quality_level.description);
