@@ -1,5 +1,3 @@
-#include <state.h>
-
 constexpr unsigned int MAX_CO2_ABOVE_THRESHOLD_TIME_S = 3600;
 ///< Max time period allowed CO2 above threshold (seconds)
 

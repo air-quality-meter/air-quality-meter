@@ -28,7 +28,7 @@
 
 namespace AirQualityMeter {
     State state = {0, 0, 0};
-    constexpr byte LOG_LEVEL = LOG_LEVEL_VERBOSE;
+    constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
     constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
     ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
     constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
@@ -109,7 +109,8 @@ void loop() {
         current_co2_measurement_ppm);
     TRACE_LN_s(current_air_quality_level.description);
 
-    const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    char co2_display_row[DisplayRowFormatter::BUFFER_SIZE];
+    DisplayRowFormatter::set_co2_display_row(co2_display_row, current_co2_measurement_ppm);
     TRACE_LN_s(co2_display_row);
 
     DisplayController::output(co2_display_row, current_air_quality_level.description);

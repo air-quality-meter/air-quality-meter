@@ -4,16 +4,15 @@
  */
 
 #include <display_controller.h>
-#include <Arduino.h>
 #include <pin_configuration.h>
 #include <LiquidCrystal.h> // lib for LCD
 
 namespace DisplayController {
-    enum Columns : byte {
+    enum Columns : uint8_t {
         COLUMN_1,
         NUMBER_OF_COLUMNS = 16
     };
-    enum Rows : byte {
+    enum Rows : uint8_t {
         ROW_1,
         ROW_2,
         NUMBER_OF_ROWS
@@ -39,7 +38,7 @@ namespace DisplayController {
         lcd.clear(); // delete the display content
     }
 
-    void output(const String &line_1, const String &line_2) {
+    void output(const char *line_1, const char *line_2) {
         lcd.clear(); // delete the display content
 
         // display line 1

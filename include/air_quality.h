@@ -1,7 +1,6 @@
 #ifndef AIR_QUALITY_H
 #define AIR_QUALITY_H
 
-#include <Arduino.h>
 #include <co2_thresholds.h>
 #include <description_text.h>
 #include <led_patterns.h>
@@ -18,7 +17,7 @@ namespace AirQuality {
     struct Level {
         LedPattern::Pattern led_indicator;
         ///< Represents the state of LED indicators used to display air quality levels.
-        String description;
+        const char *description;
         ///< A string that provides a description of the air quality level.
         bool is_acceptable;
         ///< indicating whether the air quality level is considered acceptable (true) or not (false).
@@ -27,42 +26,42 @@ namespace AirQuality {
         ///< indicates no upper limit, typically representing the poorest air quality.
     };
 
-    const Level HIGH_QUALITY = {
+    constexpr Level HIGH_QUALITY = {
         LedAirQualityPattern::HIGH_QUALITY,
         DescriptionText::HIGH_QUALITY,
         true,
         CO2Thresholds::HIGH_QUALITY_PPM
     };
 
-    const Level MEDIUM_QUALITY = {
+    constexpr Level MEDIUM_QUALITY = {
         LedAirQualityPattern::MEDIUM_QUALITY,
         DescriptionText::MEDIUM_QUALITY,
         true,
         CO2Thresholds::MEDIUM_QUALITY_PPM
     };
 
-    const Level LOWER_MODERATE_QUALITY = {
+    constexpr Level LOWER_MODERATE_QUALITY = {
         LedAirQualityPattern::LOWER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::LOWER_MODERATE_QUALITY_PPM
     };
 
-    const Level UPPER_MODERATE_QUALITY = {
+    constexpr Level UPPER_MODERATE_QUALITY = {
         LedAirQualityPattern::UPPER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::UPPER_MODERATE_QUALITY_PPM
     };
 
-    const Level POOR_QUALITY = {
+    constexpr Level POOR_QUALITY = {
         LedAirQualityPattern::POOR_QUALITY,
         DescriptionText::POOR_QUALITY,
         false,
         CO2Thresholds::NO_UPPER_LIMIT // No upper limit for poor air quality.
     };
 
-    const Level AIR_QUALITY_LEVELS[] = {
+    constexpr Level AIR_QUALITY_LEVELS[] = {
         HIGH_QUALITY,
         MEDIUM_QUALITY,
         LOWER_MODERATE_QUALITY,
