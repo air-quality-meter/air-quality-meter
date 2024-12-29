@@ -49,12 +49,26 @@ namespace AirQualityMeter {
  */
 void setup() {
     LogController::initialize(AirQualityMeter::LOG_LEVEL);
+    Log.notice("Air Quality Meter started.");
+    Log.verboseln("%s LogController", LogController::INIT);
+
     DisplayController::initialize();
+    Log.verboseln("%s DisplayController", LogController::INIT);
+
     AcknowledgeButton::initialize();
+    Log.verboseln("%s AcknowledgeButton", LogController::INIT);
+
     Co2SensorController::initialize();
+    Log.verboseln("%s Co2SensorController", LogController::INIT);
+
     LedArray::initialize();
+    Log.verboseln("%s LedArray", LogController::INIT);
+
     AudioController::initialize();
+    Log.verboseln("%s AudioController", LogController::INIT);
+
     delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
+    Log.notice("Air Quality Meter initialized.");
 }
 
 /**
@@ -70,31 +84,66 @@ void setup() {
  *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
  */
 void loop() {
+    Log.notice("Air Quality Meter loop started.");
+
     const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
+    TRACE_LN_u(current_iteration_time_stamp_s);
+
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
+    TRACE_LN_d(current_co2_measurement_ppm);
+
     if (current_co2_measurement_ppm == -1) {
+        Log.error("Sensor error.");
+
         LedArray::output(LedErrorPatterns::SENSOR_ERROR);
+        Log.verbose("LedArray Sensor Error output");
+
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
+        Log.verbose("DisplayController Sensor Error output");
+
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
+        Log.notice("Air Quality Meter loop ended.");
         return;
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
         current_co2_measurement_ppm);
+    TRACE_LN_s(current_air_quality_level.description);
+
     const String co2_display_row = DisplayRowFormatter::get_co2_display_row(current_co2_measurement_ppm);
+    TRACE_LN_s(co2_display_row);
+
     DisplayController::output(co2_display_row, current_air_quality_level.description);
+    Log.verbose("DisplayController output updated");
+
     LedArray::output(current_air_quality_level.led_indicator);
+    Log.verbose("LedArray output updated");
+
+    TRACE_LN_T(current_air_quality_level.is_acceptable);
     if (current_air_quality_level.is_acceptable) {
         WarningStateController::reset(current_iteration_time_stamp_s);
+        Log.verbose("WarningStateController reset");
+
         delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
         ///< Make sure, hardware is ready for next loop iteration.
+        Log.notice("Air Quality Meter loop ended.");
         return;
     }
     const unsigned long time_since_co2_level_not_acceptable_s =
             Co2LevelTimeTracker::get_time_since_co2_level_not_acceptable_s(current_iteration_time_stamp_s);
-    if (WarningController::is_audio_warning_to_be_issued(time_since_co2_level_not_acceptable_s)) {
+    TRACE_LN_u(time_since_co2_level_not_acceptable_s);
+
+    const bool is_audio_warning_to_be_issued = WarningController::is_audio_warning_to_be_issued(
+        time_since_co2_level_not_acceptable_s);
+    TRACE_LN_T(is_audio_warning_to_be_issued);
+
+    if (is_audio_warning_to_be_issued) {
         AudioController::issue_warning();
+        Log.verbose("Audio warning issued");
+
         WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+        Log.verbose("WarningStateController updated");
     }
     delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
     ///< Make sure, hardware is ready for next loop iteration.
+    Log.notice("Air Quality Meter loop ended.");
 }

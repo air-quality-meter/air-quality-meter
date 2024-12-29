@@ -49,26 +49,26 @@ void print_timestamp(Print *_log_output) {
 
     // Time as string
     char timestamp[20];
-    sprintf(timestamp, "%02lu:%02lu:%02lu.%03lu ", hours, minutes, seconds, milli_seconds);
+    sprintf(timestamp, "[%02lu:%02lu:%02lu.%03lu] ", hours, minutes, seconds, milli_seconds);
     _log_output->print(timestamp);
 }
 
 void print_log_level(Print *_log_output, const int log_level) {
     switch (log_level) {
         default:
-        case 0: _log_output->print("SILENT  ");
+        case 0: _log_output->print("[SILENT]  ");
             break;
-        case 1: _log_output->print("FATAL   ");
+        case 1: _log_output->print("[FATAL]   ");
             break;
-        case 2: _log_output->print("ERROR   ");
+        case 2: _log_output->print("[ERROR]   ");
             break;
-        case 3: _log_output->print("WARNING ");
+        case 3: _log_output->print("[WARNING] ");
             break;
-        case 4: _log_output->print("INFO    ");
+        case 4: _log_output->print("[NOTICE]  ");
             break;
-        case 5: _log_output->print("TRACE   ");
+        case 5: _log_output->print("[TRACE]   ");
             break;
-        case 6: _log_output->print("VERBOSE ");
+        case 6: _log_output->print("[VERBOSE] ");
     }
 }
 
