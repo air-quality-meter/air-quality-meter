@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <ArduinoLog.h>
 #include <log_controller.h>
 #include <state.h>

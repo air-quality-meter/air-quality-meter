@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <measurement_interpreter.h>
 #include <air_quality.h>
 
