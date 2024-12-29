@@ -3,7 +3,6 @@
  * @brief   This file contains the function definitions for the audio warning system.
  */
 
-#include <Arduino.h>
 #include <audio_controller.h>
 #include <pin_configuration.h>
 #include <SoftwareSerial.h>

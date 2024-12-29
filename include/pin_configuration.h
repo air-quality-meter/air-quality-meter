@@ -6,6 +6,8 @@
 #ifndef PIN_CONFIGURATION_H
 #define PIN_CONFIGURATION_H
 
+#include <Arduino.h>
+
 // Acknowledge Button
 namespace AcknowledgeButton {
     constexpr uint8_t DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
