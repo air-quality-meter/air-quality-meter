@@ -1,3 +1,5 @@
+#include <MHZ.h>
+
 /**
  * @file    co2_sensor_controller.h
  * @brief   This file contains the function declarations for the CO2 sensor.
@@ -6,10 +8,15 @@
 #ifndef CO2_SENSOR_CONTROLLER_H
 #define CO2_SENSOR_CONTROLLER_H
 
-namespace Co2SensorController {
+namespace Co2SensorController
+{
+
+#define CO2_IN 4
+
+	extern MHZ co2;
+
 	/**
 	 * @brief   Initializes the CO2 sensor module.
-	 * @details TODO: Write some more details such as initializes Serial1...
 	 */
 	void initialize();
 
@@ -22,4 +29,4 @@ namespace Co2SensorController {
 	int get_measurement_in_ppm();
 }
 
-#endif //CO2_SENSOR_CONTROLLER_H
+#endif // CO2_SENSOR_CONTROLLER_H

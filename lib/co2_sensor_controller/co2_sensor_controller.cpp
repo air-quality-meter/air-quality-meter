@@ -1,25 +1,73 @@
-/**
- * @file    co2_sensor_controller.cpp
- * @brief   This file contains the function definitions for the CO2 sensor.
- */
-
 #include <Arduino.h>
+#include <SoftwareSerial.h>
+#include <MHZ.h>
 #include <co2_sensor_controller.h>
 #include "pin_configuration.h"
 
-namespace Co2SensorController {
-    //TODO: declare variables and objects, that are only used in this file here.
+namespace Co2SensorController
+{
+#define CO2_IN 4
 
-    void initialize() {
-        //TODO: This function needs to be finalized. (all the stuff, that should run on device startup)
+  MHZ co2(CO2_IN, MHZ::MHZ19B);
+
+  unsigned long previousMillis = 0;
+  const unsigned long delayInterval = 5000;
+
+  void initialize()
+  {
+    Serial.begin(9600);
+    Serial1.begin(9600);
+    Serial1.println("Serial1 initialized successfully!");
+
+    pinMode(CO2_IN, INPUT);
+    delay(100);
+    Serial.println("Initializing MHZ 19B sensor...");
+
+    co2.setDebug(true);
+
+    if (co2.isPreHeating())
+    {
+      Serial.println("Preheating");
+      while (co2.isPreHeating())
+      {
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= delayInterval)
+        {
+          previousMillis = currentMillis;
+          Serial.print(".");
+        }
+      }
+      Serial.println("\nPreheating complete.");
     }
+  }
 
+  int get_measurement_in_ppm()
+  {
+    unsigned long currentMillis = millis();
 
-    int get_measurement_in_ppm() {
-        //TODO: This function needs to be written. (all the stuff that runs on every loop iteration)
-        //TODO: return -1, if there is an error in the measurement
-        // (afaik: values below 400 or above 10000 ppm are outside detection range and may be an indicator for an error)
-        //see: https://www.winsen-sensor.com/product/mh-z19b.html
-        return 1500; //FIXME: this is a placeholder value. Fix when writing this function.
+    if (currentMillis - previousMillis >= delayInterval)
+    {
+      previousMillis = currentMillis;
+
+      Serial.print("\n----- Time from start: ");
+      Serial.print(millis() / 1000);
+      Serial.println(" s");
+
+      int ppm_pwm = co2.readCO2PWM();
+
+      if (ppm_pwm < 400 || ppm_pwm > 10000)
+      {
+        Serial.println("Error: Measurement out of range!");
+        return -1;
+      }
+
+      Serial.print(", PPMpwm: ");
+      Serial.print(ppm_pwm);
+
+      Serial.println("\n------------------------------");
+
+      return ppm_pwm;
     }
+    return 0;
+  }
 }
