@@ -16,8 +16,6 @@ namespace Co2SensorController
   void initialize()
   {
     Serial.begin(9600);
-    Serial1.begin(9600);
-    Serial1.println("Serial1 initialized successfully!");
 
     pinMode(CO2_IN, INPUT);
     delay(100);

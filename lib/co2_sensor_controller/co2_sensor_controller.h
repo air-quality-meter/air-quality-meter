@@ -17,6 +17,7 @@ namespace Co2SensorController
 
 	/**
 	 * @brief   Initializes the CO2 sensor module.
+	 * @details Initializes the CO2 sensor module through PWM, pin no. 4
 	 */
 	void initialize();
 
