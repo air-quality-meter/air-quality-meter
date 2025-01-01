@@ -3,6 +3,8 @@
 #include <../lib/display_controller/display_controller.h>
 #include <MHZ.h>
 #include <state.h>
+#include <ArduinoLog.h>
+#include "../log_controller/log_controller.h"
 
 void set_sensor_use_time_stamp();
 
@@ -70,6 +72,7 @@ namespace Co2SensorController {
             if (ppm_pwm >= MIN_VALID_CO2_VALUE_PPM && ppm_pwm <= MAX_VALID_CO2_VALUE_PPM) {
                 return ppm_pwm;
             }
+            TRACE_LN_d(ppm_pwm);
         }
         return -1;
     }
