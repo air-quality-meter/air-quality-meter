@@ -73,6 +73,8 @@ namespace LogController {
     constexpr char ACKNOWLEDGE_BUTTON_DEBOUNCED[] = "Acknowledge button debounced";
     constexpr char ACKNOWLEDGE_BUTTON_PRESSED[] = "Acknowledge button pressed";
 
+    constexpr char DELAY_TIME[] = "Delay time: ";
+
     constexpr char DIVIDING_LINE_WELCOME[] = "*********************************************************";
     constexpr char DIVIDING_LINE_LOOP[] = "#########################################################";
     constexpr char DIVIDING_LINE_STATE[] = "---------------------------------------------------------";
