@@ -10,7 +10,7 @@
 namespace DisplayController {
     enum Columns : uint8_t {
         COLUMN_1,
-        NUMBER_OF_COLUMNS = 16
+        NUMBER_OF_COLUMNS = DISPLAY_WIDTH
     };
     enum Rows : uint8_t {
         ROW_1,

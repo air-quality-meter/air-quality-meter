@@ -15,7 +15,7 @@ namespace AcknowledgeButton {
 
 // CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 namespace Co2SensorController {
-    // TODO CO2 Sensor is on Serial1 and probably don't need PIN declaration?
+    constexpr uint8_t PWM_PIN = 4; ///< PWM pin for CO2 sensor
 }
 
 // Display: LCD1602 Module (with pin header)

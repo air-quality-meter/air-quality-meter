@@ -5,8 +5,10 @@
 
 #ifndef DISPLAY_CONTROLLER_H
 #define DISPLAY_CONTROLLER_H
+#include <Arduino.h>
 
 namespace DisplayController {
+    constexpr uint8_t DISPLAY_WIDTH = 16;
     /**
      * @brief   Initializes the LCD1602 Module.
      * @details Prepares the connected LCD1602 display module for operation by configuring its

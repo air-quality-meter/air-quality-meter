@@ -69,6 +69,7 @@ This table details the pin connections for the Arduino Mega 2560 in this project
 | Pin Number | Pin Info | Serial Port | Connected Device                   | Device Connection              |
 |------------|----------|-------------|------------------------------------|--------------------------------|
 | 2          | INT0     |             | Acknowledge Button                 | "-"                            | 
+| 4          | Digital  |             | MH-Z19B Infrared CO2 Sensor Module |                                |
 | 7          | Digital  |             | LCD1602                            | RS                             |
 | 8          | Digital  |             | LCD1602                            | E                              |
 | 9          | Digital  |             | LCD1602                            | D4                             |
@@ -77,8 +78,6 @@ This table details the pin connections for the Arduino Mega 2560 in this project
 | 12         | Digital  |             | LCD1602                            | D7                             |
 | 14         | TX3      | Serial3     | Gravity UART MP3 Voice Module      | TX                             |
 | 15         | RX3      | Serial3     | Gravity UART MP3 Voice Module      | RX                             |
-| 18         | TX1      | Serial1     | MH-Z19B Infrared CO2 Sensor Module | TX                             |
-| 19         | RX1      | Serial1     | MH-Z19B Infrared CO2 Sensor Module | RX                             |
 | 22         | Digital  |             | Green LED 1                        | Anode (+) through 1KΩ resistor |
 | 24         | Digital  |             | Green LED 2                        | Anode (+) through 1KΩ resistor |
 | 26         | Digital  |             | Yellow LED 1                       | Anode (+) through 1KΩ resistor |
