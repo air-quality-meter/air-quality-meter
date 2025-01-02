@@ -1,3 +1,10 @@
+/**
+ * @file measurement_interpreter.cpp
+ * @brief Implementation of the air quality measurement interpreter.
+ * @details This file contains the implementation of functions declared
+ *          in measurement_interpreter.h.
+ */
+
 #include <measurement_interpreter.h>
 #include <air_quality.h>
 

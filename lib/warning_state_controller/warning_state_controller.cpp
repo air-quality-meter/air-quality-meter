@@ -1,3 +1,9 @@
+/**
+ * @file warning_state_controller.cpp
+ * @brief Implements warning state handling related to CO2 level monitoring.
+ * @details Contains the logic for resetting warnings and managing the timing and frequency of warning alerts.
+ */
+
 #include <Arduino.h>
 #include <warning_state_controller.h>
 #include <state.h>
