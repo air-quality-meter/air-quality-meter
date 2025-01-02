@@ -16,7 +16,6 @@ namespace Co2SensorController {
 
     void preheat_sensor();
 
-    void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, uint8_t *progress_bar_counter);
     void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, uint8_t bar_with,
                                       int *progress_bar_counter);
 
@@ -102,7 +101,6 @@ namespace Co2SensorController {
             char display_row_2[DisplayController::DISPLAY_WIDTH + 1] = "";
             do {
                 set_sensor_use_time_stamp();
-                display_preheat_progress_bar(preheat_message, display_row_2, &progress_bar_counter);
                 display_preheat_progress_bar(preheat_message, display_row_2, DisplayController::DISPLAY_WIDTH,
                                              &progress_bar_counter);
                 wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms,
@@ -112,8 +110,6 @@ namespace Co2SensorController {
         }
     }
 
-    void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, uint8_t *progress_bar_counter) {
-        if (*progress_bar_counter < sizeof(row_2_buffer)) {
     void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, const uint8_t bar_with,
                                       int *progress_bar_counter) {
         TRACE_LN_d(*progress_bar_counter);
@@ -122,9 +118,6 @@ namespace Co2SensorController {
             (*progress_bar_counter)++;
         }
         DisplayController::output(row_1, row_2_buffer);
-        TRACE_LN_d(*progress_bar_counter);
-        TRACE_LN_s(*row_1);
-        TRACE_LN_s(*row_2_buffer);
         TRACE_LN_s(row_1);
         TRACE_LN_s(row_2_buffer);
     }
