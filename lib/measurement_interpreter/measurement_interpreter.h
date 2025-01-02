@@ -1,3 +1,10 @@
+/**
+ * @file measurement_interpreter.h
+ * @brief Header file for air quality measurement interpreter.
+ * @details This file declares the functions used for interpreting air
+ *          quality levels based on CO2 measurements.
+ */
+
 #ifndef MEASUREMENT_INTERPRETER_H
 #define MEASUREMENT_INTERPRETER_H
 
