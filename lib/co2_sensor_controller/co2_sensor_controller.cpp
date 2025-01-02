@@ -5,6 +5,9 @@
 #include <state.h>
 #include <ArduinoLog.h>
 #include "../log_controller/log_controller.h"
+#include <error_messages.h>
+#include <../led_array/led_array.h>
+#include <led_patterns.h>
 
 
 namespace Co2SensorController {
@@ -18,6 +21,10 @@ namespace Co2SensorController {
 
     void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, uint8_t bar_with,
                                       int *progress_bar_counter);
+
+    void invalid_measurement_error_handler();
+
+    bool is_sensor_connected();
 
     constexpr char SENSOR_NAME[] = "MHZ 19B";
     constexpr char INIT[] = "Initializing";
@@ -33,17 +40,21 @@ namespace Co2SensorController {
     constexpr unsigned long CYCLE_TIME_MS = 1004; // See data sheet.
     constexpr uint8_t CYCLE_TIME_MARGIN_PERCENT = 5; // See data sheet.
     constexpr unsigned long MIN_CYCLE_WAIT_TIME_MS = CYCLE_TIME_MS + (CYCLE_TIME_MS * CYCLE_TIME_MARGIN_PERCENT) / 100;
-    constexpr unsigned long WAITING_PERIOD_AFTER_PWM_INIT_MS = 500;
+    constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES = 2000;
     constexpr unsigned long PREHEAT_PROGRESS_BAR_UNIT_PROGRESS_MS =
             PREHEATING_TIME_MS / DisplayController::DISPLAY_WIDTH;
     constexpr uint8_t MAX_FAULTY_MEASUREMENT_ATTEMPTS = 3;
     constexpr int MIN_VALID_CO2_VALUE_PPM = 400; // See data sheet.
     constexpr int MAX_VALID_CO2_VALUE_PPM = 10000; // See data sheet.
 
+
     MHZ co2_sensor(PWM_PIN, MHZ::MHZ19B);
 
-    void initialize() {
+    SensorErrorCode initialize() {
         pinMode(PWM_PIN, INPUT); // Set pin Mode for sensor.
+        if (!is_sensor_connected()) {
+            return NOT_CONNECTED_ERROR;
+        }
         co2_sensor.setAutoCalibrate(false);
         set_sensor_use_time_stamp(); // Set time stamp, for sensor use.
         char init_message[INIT_MESSAGE_LENGTH] = "";
@@ -52,12 +63,16 @@ namespace Co2SensorController {
         DisplayController::output(init_message, ""); // Display init message.
         wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, MIN_CYCLE_WAIT_TIME_MS);
         preheat_sensor();
+        return SUCCESS;
     }
 
     int get_measurement_in_ppm() {
         for (int attempt = 0; attempt < MAX_FAULTY_MEASUREMENT_ATTEMPTS; attempt++) {
             TRACE_LN_d(attempt);
             wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, MIN_CYCLE_WAIT_TIME_MS);
+            if (!is_sensor_connected()) {
+                return NOT_CONNECTED_ERROR;
+            }
             const int ppm_pwm = co2_sensor.readCO2PWM();
             set_sensor_use_time_stamp();
             if (ppm_pwm >= MIN_VALID_CO2_VALUE_PPM && ppm_pwm <= MAX_VALID_CO2_VALUE_PPM) {
@@ -65,7 +80,8 @@ namespace Co2SensorController {
             }
             TRACE_LN_d(ppm_pwm);
         }
-        return -1;
+        invalid_measurement_error_handler();
+        return MEASUREMENT_NOT_VALID_ERROR;
     }
 
     void set_sensor_use_time_stamp() {
@@ -120,5 +136,27 @@ namespace Co2SensorController {
         DisplayController::output(row_1, row_2_buffer);
         TRACE_LN_s(row_1);
         TRACE_LN_s(row_2_buffer);
+    }
+
+    void invalid_measurement_error_handler() {
+        Log.errorln(SensorError::MEASUREMENT_NOT_VALID);
+        LedArray::output(LedErrorPatterns::SENSOR_ERROR_MEASUREMENT_NOT_VALID);
+        Log.verboseln(LogController::LED_UPDATED);
+        DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::MEASUREMENT_NOT_VALID);
+        Log.verboseln(LogController::DISPLAY_UPDATED);
+        delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES);
+    }
+
+    bool is_sensor_connected() {
+        if (!co2_sensor.isReady()) {
+            Log.errorln(SensorError::NOT_CONNECTED);
+            LedArray::output(LedErrorPatterns::SENSOR_ERROR_NOT_CONNECTED);
+            Log.verboseln(LogController::LED_UPDATED);
+            DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::NOT_CONNECTED);
+            Log.verboseln(LogController::DISPLAY_UPDATED);
+            delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES);
+            return false;
+        }
+        return true;
     }
 }

@@ -7,11 +7,17 @@
 #define CO2_SENSOR_CONTROLLER_H
 
 namespace Co2SensorController {
+    enum SensorErrorCode : int{
+        SUCCESS = 0,
+        NOT_CONNECTED_ERROR = -1,
+        MEASUREMENT_NOT_VALID_ERROR = -2
+    };
+
     /**
      * @brief   Initializes the CO2 sensor module.
      * @details Initializes the CO2 sensor module through PWM, pin no. 4
      */
-    void initialize();
+    SensorErrorCode initialize();
 
     /**
      * @brief   Retrieves a CO2 measurement.

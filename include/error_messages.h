@@ -6,7 +6,8 @@ namespace GeneralError {
 }
 
 namespace SensorError {
-    constexpr char ERROR_MESSAGE_ROW_TWO[] = "Sensor error";
+    constexpr char NOT_CONNECTED[] = "Sensor not connected";
+    constexpr char MEASUREMENT_NOT_VALID[] = "Measurement not valid";
 }
 
 #endif //ERROR_MESSAGES_H

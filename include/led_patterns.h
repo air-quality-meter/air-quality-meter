@@ -37,6 +37,7 @@ namespace LedAirQualityPattern {
 }
 
 namespace LedErrorPatterns {
-    constexpr LedPattern::Pattern SENSOR_ERROR = {true, true, true, true, true, true};
+    constexpr LedPattern::Pattern SENSOR_ERROR_NOT_CONNECTED = {false, false, true, true, true, true};
+    constexpr LedPattern::Pattern SENSOR_ERROR_MEASUREMENT_NOT_VALID = {true, true, true, true, true, true};
 }
 #endif //LED_PATTERNS_H
