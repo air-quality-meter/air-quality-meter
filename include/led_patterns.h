@@ -1,3 +1,11 @@
+/**
+   * @file led_patterns.h
+   * @brief LED indicator states for air quality and error patterns.
+   *
+   * @details This file defines the mapping of LED states to air quality categories or
+   * sensor errors.
+   */
+
 #ifndef LED_PATTERNS_H
 #define LED_PATTERNS_H
 namespace LedPattern {
@@ -19,6 +27,7 @@ namespace LedPattern {
 }
 
 namespace LedAirQualityPattern {
+    // LED patterns to represent air quality levels.
 
     constexpr LedPattern::Pattern HIGH_QUALITY = {true, true, false, false, false, false};
     ///< LED indicator state for high air quality (both green LEDs ON).
@@ -37,7 +46,12 @@ namespace LedAirQualityPattern {
 }
 
 namespace LedErrorPatterns {
+    // LED patterns to represent errors.
+
     constexpr LedPattern::Pattern SENSOR_ERROR_NOT_CONNECTED = {false, false, true, true, true, true};
+    ///< LED error pattern to represent, that no sensor is connected.
+
     constexpr LedPattern::Pattern SENSOR_ERROR_MEASUREMENT_NOT_VALID = {true, true, true, true, true, true};
+    ///< LED error pattern to represent, that the measurement is not valid.
 }
 #endif //LED_PATTERNS_H
