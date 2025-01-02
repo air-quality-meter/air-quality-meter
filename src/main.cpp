@@ -21,7 +21,6 @@
 #include <air_quality.h>
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
-#include <error_messages.h>
 #include <warning_controller.h>
 #include <warning_state_controller.h>
 #include <co2_level_time_tracker.h>

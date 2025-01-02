@@ -1,3 +1,10 @@
+/**
+   * @file description_text.h
+   * @brief Descriptions for air quality levels.
+   *
+   * @details This file contains constant string descriptions for different air quality levels.
+   */
+
 #ifndef DESCRIPTION_TEXT_H
 #define DESCRIPTION_TEXT_H
 

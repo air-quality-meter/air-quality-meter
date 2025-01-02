@@ -1,3 +1,11 @@
+/**
+   * @file air_quality.h
+   * @brief Defines air quality levels and their characteristics.
+   *
+   * @details This file contains the `Level` structure and its associated constants for representing and categorizing
+   *          air quality levels based on LED patterns, descriptive text, acceptability, and CO2 upper thresholds.
+   */
+
 #ifndef AIR_QUALITY_H
 #define AIR_QUALITY_H
 
@@ -31,35 +39,35 @@ namespace AirQuality {
         DescriptionText::HIGH_QUALITY,
         true,
         CO2Thresholds::HIGH_QUALITY_PPM
-    };
+    }; ///< Configuration for high air quality level.
 
     constexpr Level MEDIUM_QUALITY = {
         LedAirQualityPattern::MEDIUM_QUALITY,
         DescriptionText::MEDIUM_QUALITY,
         true,
         CO2Thresholds::MEDIUM_QUALITY_PPM
-    };
+    }; ///< Configuration for medium air quality level.
 
     constexpr Level LOWER_MODERATE_QUALITY = {
         LedAirQualityPattern::LOWER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::LOWER_MODERATE_QUALITY_PPM
-    };
+    }; ///< Configuration for lower moderate air quality level.
 
     constexpr Level UPPER_MODERATE_QUALITY = {
         LedAirQualityPattern::UPPER_MODERATE_QUALITY,
         DescriptionText::MODERATE_QUALITY,
         true,
         CO2Thresholds::UPPER_MODERATE_QUALITY_PPM
-    };
+    }; ///< Configuration for upper moderate air quality level.
 
     constexpr Level POOR_QUALITY = {
         LedAirQualityPattern::POOR_QUALITY,
         DescriptionText::POOR_QUALITY,
         false,
         CO2Thresholds::NO_UPPER_LIMIT // No upper limit for poor air quality.
-    };
+    }; ///< Configuration for poor air quality level
 
     constexpr Level AIR_QUALITY_LEVELS[] = {
         HIGH_QUALITY,
@@ -67,7 +75,7 @@ namespace AirQuality {
         LOWER_MODERATE_QUALITY,
         UPPER_MODERATE_QUALITY,
         POOR_QUALITY
-    };
+    }; ///< Array of all predefined air quality levels for iteration or mapping.
 }
 
 #endif //AIR_QUALITY_H
