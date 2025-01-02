@@ -1,3 +1,11 @@
+/**
+   * @file co2_thresholds.h
+   * @brief Constants for indoor CO2 thresholds based on air quality standards.
+   *
+   * @details These constants define upper limits for various air quality levels, following
+   * DIN EN 13779 standards. Ranges are categorized into high, medium, moderate, and poor air quality.
+   */
+
 #ifndef CO2_THRESHOLDS_H
 #define CO2_THRESHOLDS_H
 namespace CO2Thresholds {
