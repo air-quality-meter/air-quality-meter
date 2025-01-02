@@ -1,17 +1,49 @@
+/**
+ * @file log_controller.cpp
+ * @brief Implements the logging functionality for the Air Quality Meter project.
+ *
+ * This file defines methods to initialize logging, log system events, and
+ * manage log prefixes and suffixes. It also provides helper functions to
+ * format timestamps and log levels.
+ */
+
 #include <ArduinoLog.h>
 #include <log_controller.h>
 #include <state.h>
 
+/**
+ * @brief Prints the prefix for each log message, including the timestamp and log level.
+ *
+ * @param _log_output The output stream to print to.
+ * @param log_level The level of the log message.
+ */
 void print_prefix(Print *_log_output, int log_level);
 
+/**
+ * @brief Generates and prints the current timestamp for the log message.
+ *
+ * @param _log_output The output stream to print to.
+ */
 void print_timestamp(Print *_log_output);
 
+/**
+ * @brief Prints the log level for a log message (e.g., NOTICE, TRACE).
+ *
+ * @param _log_output The output stream to print to.
+ * @param log_level The level of the log message.
+ */
 void print_log_level(Print *_log_output, int log_level);
 
+/**
+ * @brief Adds a suffix to each log message.
+ *
+ * @param _log_output The output stream to print to.
+ * @param log_level The level of the log message.
+ */
 void print_suffix(Print *_log_output, int log_level);
 
 constexpr unsigned int SERIAL_BAUD_RATE = 9600;
-///< Baud rate for serial communication for debugging
+///< Defines the baud rate used for serial communication during debugging.
 
 namespace LogController {
     void initialize(const int log_level) {
@@ -48,6 +80,7 @@ namespace LogController {
         Log.traceln("%s", STATE);
         TRACE_LN_u(AirQualityMeter::state.last_co2_below_threshold_time_s);
         TRACE_LN_d(AirQualityMeter::state.warning_counter);
+        TRACE_LN_u(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms);
         Log.traceln("%s", DIVIDING_LINE_STATE);
     }
 
@@ -69,23 +102,23 @@ void print_prefix(Print *_log_output, const int log_level) {
 
 void print_timestamp(Print *_log_output) {
     // Division constants
-    constexpr unsigned long MSECS_PER_SEC = 1000;
-    constexpr unsigned long SECS_PER_MIN = 60;
-    constexpr unsigned long SECS_PER_HOUR = 3600;
-    constexpr unsigned long SECS_PER_DAY = 86400;
+    constexpr unsigned long MSECS_PER_SEC = 1000; ///< Number of milliseconds per second.
+    constexpr unsigned long SECS_PER_MIN = 60; ///< Number of seconds per minute.
+    constexpr unsigned long SECS_PER_HOUR = 3600; ///< Number of seconds per hour.
+    constexpr unsigned long SECS_PER_DAY = 86400; ///< Number of seconds per day.
 
     // Total time
-    const unsigned long msecs = millis();
-    const unsigned long secs = msecs / MSECS_PER_SEC;
+    const unsigned long msecs = millis(); ///< Total milliseconds elapsed since the program started.
+    const unsigned long secs = msecs / MSECS_PER_SEC; ///< Total seconds elapsed since the program started.
 
     // Time in components
-    const unsigned long milli_seconds = msecs % MSECS_PER_SEC;
-    const unsigned long seconds = secs % SECS_PER_MIN;
-    const unsigned long minutes = (secs / SECS_PER_MIN) % SECS_PER_MIN;
-    const unsigned long hours = (secs % SECS_PER_DAY) / SECS_PER_HOUR;
+    const unsigned long milli_seconds = msecs % MSECS_PER_SEC; ///< Milliseconds component of the current time.
+    const unsigned long seconds = secs % SECS_PER_MIN; ///< Seconds component of the current time.
+    const unsigned long minutes = (secs / SECS_PER_MIN) % SECS_PER_MIN; ///< Minutes component of the current time.
+    const unsigned long hours = (secs % SECS_PER_DAY) / SECS_PER_HOUR; ///< Hours component of the current time.
 
     // Time as string
-    char timestamp[20];
+    char timestamp[20]; ///< Buffer to store the formatted timestamp.
     sprintf(timestamp, "[%02lu:%02lu:%02lu.%03lu] ", hours, minutes, seconds, milli_seconds);
     _log_output->print(timestamp);
 }
