@@ -1,3 +1,8 @@
+/**
+ * @file display_row_formatter.cpp
+ * @brief Implementation of display row formatting for CO2 measurement values.
+ */
+
 #include <Arduino.h>
 #include <display_row_formatter.h>
 
