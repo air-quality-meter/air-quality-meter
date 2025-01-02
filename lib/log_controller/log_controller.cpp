@@ -36,6 +36,13 @@ namespace LogController {
         Log.verboseln(module_initialized);
     }
 
+    void log_initialization_failed(const char *module) {
+        char module_failed[128];
+        sprintf(module_failed, "%s %s", module, INIT_FAILED);
+        Log.verboseln(module_failed);
+    }
+
+
     void log_current_state() {
         Log.traceln("%s", DIVIDING_LINE_STATE);
         Log.traceln("%s", STATE);

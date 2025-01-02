@@ -29,10 +29,6 @@
 namespace AirQualityMeter {
     State state = {0, 0};
     constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
-    constexpr unsigned int WAITING_PERIOD_INITIALIZATION_MS = 2000;
-    ///< Wait after initializing the board and all other hardware modules to make sure, they are ready.
-    constexpr unsigned int WAITING_PERIOD_LOOP_ITERATION_MS = 3000;
-    ///< Wait after each loop iteration to prevent overlapping device triggering.
 }
 
 /**
@@ -55,19 +51,25 @@ void setup() {
     DisplayController::initialize();
     LogController::log_initialization(LogController::DISPLAY_CONTROLLER);
 
-    AcknowledgeButton::initialize();
-    LogController::log_initialization(LogController::ACKNOWLEDGE_BUTTON);
-
-    Co2SensorController::initialize();
-    LogController::log_initialization(LogController::SENSOR_CONTROLLER);
-
     LedArray::initialize();
     LogController::log_initialization(LogController::LED_ARRAY);
+
+    const Co2SensorController::SensorErrorCode sensor_error_code = Co2SensorController::initialize();
+    if (
+        sensor_error_code == Co2SensorController::NOT_CONNECTED_ERROR ||
+        sensor_error_code == Co2SensorController::MEASUREMENT_NOT_VALID_ERROR
+    ) {
+        LogController::log_initialization_failed(LogController::SENSOR_CONTROLLER);
+        return;
+    }
+    LogController::log_initialization(LogController::SENSOR_CONTROLLER);
 
     AudioController::initialize();
     LogController::log_initialization(LogController::AUDIO_CONTROLLER);
 
-    delay(AirQualityMeter::WAITING_PERIOD_INITIALIZATION_MS); ///< Make sure, hardware is ready to use.
+    AcknowledgeButton::initialize();
+    LogController::log_initialization(LogController::ACKNOWLEDGE_BUTTON);
+
     Log.noticeln(LogController::SYSTEM_READY);
 }
 
@@ -92,17 +94,10 @@ void loop() {
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     TRACE_LN_d(current_co2_measurement_ppm);
 
-    if (current_co2_measurement_ppm == -1) {
-        Log.errorln(LogController::SENSOR_ERROR);
-
-        LedArray::output(LedErrorPatterns::SENSOR_ERROR);
-        Log.verboseln(LogController::LED_UPDATED);
-
-        DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::ERROR_MESSAGE_ROW_TWO);
-        Log.verboseln(LogController::DISPLAY_UPDATED);
-
-        delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
-        LogController::log_loop_end();
+    if (
+        current_co2_measurement_ppm == Co2SensorController::NOT_CONNECTED_ERROR ||
+        current_co2_measurement_ppm == Co2SensorController::MEASUREMENT_NOT_VALID_ERROR
+    ) {
         return;
     }
     const AirQuality::Level current_air_quality_level = MeasurementInterpreter::get_air_quality_level(
@@ -124,9 +119,6 @@ void loop() {
         WarningStateController::reset(current_iteration_time_stamp_s);
         Log.verboseln(LogController::STATE_UPDATED);
 
-        delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
-        ///< Make sure, hardware is ready for next loop iteration.
-
         LogController::log_loop_end();
         return;
     }
@@ -145,7 +137,5 @@ void loop() {
         WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
         Log.verboseln(LogController::STATE_UPDATED);
     }
-    delay(AirQualityMeter::WAITING_PERIOD_LOOP_ITERATION_MS);
-    ///< Make sure, hardware is ready for next loop iteration.
     Log.noticeln(LogController::LOOP_END);
 }

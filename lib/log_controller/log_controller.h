@@ -49,6 +49,7 @@ namespace LogController {
 
     constexpr char WELCOME_MESSAGE[] = "*           Welcome to the Air Quality Meter!           *";
     constexpr char INIT[] = "initialized";
+    constexpr char INIT_FAILED[] = "initialization failed";
 
     constexpr char LOG_CONTROLLER[] = "Log controller";
     constexpr char DISPLAY_CONTROLLER[] = "Display controller";
@@ -63,8 +64,6 @@ namespace LogController {
 
     constexpr char LOOP_START[] = "Loop start";
     constexpr char LOOP_END[] = "Loop end";
-
-    constexpr char SENSOR_ERROR[] = "Sensor error";
 
     constexpr char LED_UPDATED[] = "LED array updated";
     constexpr char DISPLAY_UPDATED[] = "Display updated";
@@ -84,6 +83,8 @@ namespace LogController {
     void log_welcome_message();
 
     void log_initialization(const char *module);
+
+    void log_initialization_failed(const char *module);
 
     void log_current_state();
 
