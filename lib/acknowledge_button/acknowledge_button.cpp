@@ -34,8 +34,8 @@ namespace AcknowledgeButton {
         TRACE_LN_u(time_delta_between_interrupt_calls);
         if (time_delta_between_interrupt_calls < DEBOUNCE_DELAY_MS) {
             // Debounce: If elapsed time since last interrupt is less than debounce time, ignore this and return
+            // Avoid false triggers caused by mechanical bouncing of the button.
             Log.verboseln(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
-
             return;
         }
         last_interrupt_time_ms = interrupt_time_ms; // updated last interrupt time for debouncing
