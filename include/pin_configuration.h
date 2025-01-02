@@ -8,35 +8,35 @@
 
 #include <Arduino.h>
 
-// Acknowledge Button
 namespace AcknowledgeButton {
+    // Pin configuration for the Acknowledge Button
     constexpr uint8_t DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
 }
 
-// CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
 namespace Co2SensorController {
+    // Pin configuration for the CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
     constexpr uint8_t PWM_PIN = 4; ///< PWM pin for CO2 sensor
 }
 
-// Display: LCD1602 Module (with pin header)
 namespace DisplayController {
-    constexpr uint8_t RS_PIN = 7;  ///< LCD Register Select pin
-    constexpr uint8_t EN_PIN = 8;  ///< LCD Enable pin
-    constexpr uint8_t D4_PIN = 9;  ///< LCD Data pin 4
+    // Pin configuration for the Display: LCD1602 Module (with pin header)
+    constexpr uint8_t RS_PIN = 7; ///< LCD Register Select pin
+    constexpr uint8_t EN_PIN = 8; ///< LCD Enable pin
+    constexpr uint8_t D4_PIN = 9; ///< LCD Data pin 4
     constexpr uint8_t D5_PIN = 10; ///< LCD Data pin 5
     constexpr uint8_t D6_PIN = 11; ///< LCD Data pin 6
     constexpr uint8_t D7_PIN = 12; ///< LCD Data pin 7
 }
 
 
-// MP3 Module: Gravity UART MP3 Voice Module
 namespace AudioController {
+    // Pin configuration for the MP3 Module: Gravity UART MP3 Voice Module
     constexpr uint8_t TX_PIN = 14; ///< MP3 Modul Serial Pin T
     constexpr uint8_t RX_PIN = 15; ///< MP3 Modul Serial Pin R
 }
 
-// LEDs
 namespace LedArray {
+    // Pin configuration for the LEDs
     constexpr uint8_t GREEN_1_PIN = 22; ///< LED to indicate high air quality
     constexpr uint8_t GREEN_2_PIN = 24; ///< LED to indicate high or medium air quality
     constexpr uint8_t YELLOW_1_PIN = 26; ///< LED to indicate medium or moderate air quality
