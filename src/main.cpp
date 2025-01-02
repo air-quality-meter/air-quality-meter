@@ -26,21 +26,22 @@
 #include <co2_level_time_tracker.h>
 
 namespace AirQualityMeter {
-    State state = {0, 0};
-    constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
+    State state = {0, 0, 0}; ///< Holds the system's current state variables.
+    constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE; ///< Default log level for the air quality meter system.
 }
 
 /**
- * @brief   Sets up the required hardware components and serial communication before the main program loop starts.
+ * @brief   Sets up and initializes all system components.
  *
- * @details This function initializes
- *           - the serial communication interface,
- *           - the display,
- *           - the acknowledge button,
- *           - the CO2 sensor,
- *           - the LEDs,
- *           - and the MP3 module.
- *          It also adds a delay after initialization to ensure all the hardware is ready for use.
+ * @details This function is executed once during system startup to initialize all required controllers and hardware modules.
+ *          It performs the following actions:
+ *           - Initializes the logging controller with the system's log level, logs a welcome message, and registers its own initialization.
+ *           - Initializes the display controller and logs its successful setup.
+ *           - Initializes the LED array hardware and logs its successful setup.
+ *           - Initializes the CO2 sensor controller and handles potential errors during its setup, logging failures and terminating initialization if errors occur.
+ *           - Initializes the audio controller and logs its successful setup.
+ *           - Sets up the acknowledge button and logs its successful initialization.
+ *           - Logs a message indicating that the system is ready after all components are successfully initialized.
  */
 void setup() {
     LogController::initialize(AirQualityMeter::LOG_LEVEL);
@@ -73,16 +74,22 @@ void setup() {
 }
 
 /**
- * @brief   Main system loop responsible for air quality measurement, air quality level evaluation, and hardware output updates.
+ * @brief   Executes the main operational loop for the system.
  *
- * @details This function performs the following:
- *           - Retrieves the current system time in seconds.
- *           - Obtains the current CO2 measurement in parts per million (ppm).
- *           - Evaluates air quality levels based on the CO2 measurement.
- *           - Updates the display with the air quality status and description.
- *           - Updates the LED output to reflect air quality level.
- *           - Manages behavior for unacceptable air quality levels.
- *           - Introduces a delay to ensure hardware modules are ready for the next iteration.
+ * @details This function manages the continuous monitoring and response cycle performed by the system. It executes during
+ *          runtime to gather sensor data, interpret the measurements, and update outputs accordingly. The actions include:
+ *           - Logging the start of the loop iteration.
+ *           - Retrieving the current system timestamp and logging it.
+ *           - Obtaining the CO2 measurement in parts per million (ppm) from the sensor and checking for errors (disconnection or invalid measurement).
+ *           - Determining the air quality level corresponding to the CO2 measurement and logging its description.
+ *           - Formatting the CO2 data into a display row for output to the system's display controller.
+ *           - Updating the visual interface with CO2 measurement data and air quality information.
+ *           - Activating the corresponding LED indicators based on the detected air quality level.
+ *           - Checking if the air quality is within acceptable limits and resetting the warning state if conditions are safe.
+ *           - Calculating the elapsed time since the air quality level was deemed unacceptable.
+ *           - Evaluating whether an audio warning should be issued based on the elapsed time and triggering it when needed.
+ *           - Updating the system's warning state when an audio warning is issued for unacceptable air quality.
+ *           - Logging the end of the main loop iteration.
  */
 void loop() {
     LogController::log_loop_start();
