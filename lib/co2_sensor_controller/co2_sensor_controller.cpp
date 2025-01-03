@@ -73,15 +73,6 @@ namespace Co2SensorController {
      */
     void invalid_measurement_error_handler();
 
-    /**
-     * @brief   Checks if the CO2 sensor is properly connected and operational.
-     * @details This function verifies the connection and readiness of the sensor. If the sensor is not connected,
-     *          error messages are logged, a visual warning is displayed on the LED array and screen, and the function
-     *          returns `false`.
-     * @return  `true` if the sensor is connected and ready, otherwise `false`.
-     */
-    bool is_sensor_connected();
-
     constexpr char SENSOR_NAME[] = "MHZ 19B"; ///< Name of the CO2 sensor module used in this implementation.
     constexpr char INIT[] = "Initializing"; ///< Status message for the sensor initialization process
     constexpr char PREHEAT[] = "Preheating"; ///< Status message displayed during sensor preheating.
@@ -98,14 +89,10 @@ namespace Co2SensorController {
     ///< Combined length of the sensor name and initialization message, including a space.
     constexpr size_t PREHEAT_MESSAGE_LENGTH = SENSOR_NAME_LENGTH + PREHEAT_LENGTH + 1;
     ///< Combined length of the sensor name and preheating message, including a space.
+    constexpr unsigned long RESPONSE_TIME_MS = 2000;
+    ///< Waiting period between readings
     constexpr unsigned long PREHEATING_TIME_MS = 180000;
     ///< Preheating duration for MH-Z19B sensor in milliseconds (3 minutes as per the datasheet).
-    constexpr unsigned long CYCLE_TIME_MS = 1004;
-    ///< Sensor's cycle interval for CO2 measurements (in milliseconds, as per datasheet).
-    constexpr uint8_t CYCLE_TIME_MARGIN_PERCENT = 5;
-    ///< Margin percentage added to the sensor's cycle time for safety (5% as per datasheet).
-    constexpr unsigned long MIN_CYCLE_WAIT_TIME_MS = CYCLE_TIME_MS + (CYCLE_TIME_MS * CYCLE_TIME_MARGIN_PERCENT) / 100;
-    ///< Minimum wait time between sensor cycles, considering the margin.
     constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES = 2000;
     ///< Time to show error or status messages on the display (in milliseconds).
     constexpr unsigned long PREHEAT_PROGRESS_BAR_UNIT_PROGRESS_MS =
@@ -122,21 +109,16 @@ namespace Co2SensorController {
     MHZ co2_sensor(PWM_PIN, MHZ::MHZ19B);
     ///< The CO2 sensor object instance initialized with the appropriate pin and sensor type.
 
-    SensorErrorCode initialize() {
+    void initialize() {
         pinMode(PWM_PIN, INPUT); // Set pin Mode for sensor.
-        if (!is_sensor_connected()) {
-            return NOT_CONNECTED_ERROR;
-        }
-        co2_sensor.setAutoCalibrate(false);
         set_sensor_use_time_stamp(); // Set time stamp, for sensor use.
         char init_message[INIT_MESSAGE_LENGTH] = "";
         ///< Buffer to store the initialization message that combines the sensor name and status.
         concat_strings(init_message, INIT_MESSAGE_LENGTH, SENSOR_NAME, INIT);
         TRACE_LN_s(init_message);
         DisplayController::output(init_message, ""); // Display init message.
-        wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, MIN_CYCLE_WAIT_TIME_MS);
+        wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, RESPONSE_TIME_MS);
         preheat_sensor();
-        return SUCCESS;
     }
 
     int get_measurement_in_ppm() {
@@ -145,11 +127,7 @@ namespace Co2SensorController {
             TRACE_LN_d(attempt);
 
             // Wait for the minimum cycle time to ensure valid readings
-            wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, MIN_CYCLE_WAIT_TIME_MS);
-
-            if (!is_sensor_connected()) {
-                return NOT_CONNECTED_ERROR;
-            }
+            wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, RESPONSE_TIME_MS);
 
             // Read CO2 value through PWM and return if valid, otherwise retry
             const int ppm_pwm = co2_sensor.readCO2PWM();
@@ -230,18 +208,5 @@ namespace Co2SensorController {
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::MEASUREMENT_NOT_VALID);
         Log.verboseln(LogController::DISPLAY_UPDATED);
         delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES);
-    }
-
-    bool is_sensor_connected() {
-        if (!co2_sensor.isReady()) {
-            Log.errorln(SensorError::NOT_CONNECTED);
-            LedArray::output(LedErrorPatterns::SENSOR_ERROR_NOT_CONNECTED);
-            Log.verboseln(LogController::LED_UPDATED);
-            DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::NOT_CONNECTED);
-            Log.verboseln(LogController::DISPLAY_UPDATED);
-            delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES);
-            return false;
-        }
-        return true;
     }
 }

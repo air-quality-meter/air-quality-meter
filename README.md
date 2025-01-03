@@ -57,7 +57,6 @@ If the sensor encounters a problem, specific LED patterns indicate the type of e
 
 | **G1** | **G2** | **Y1** | **Y2** | **R1** | **R2** | **Error Pattern Name**    | **Description**                                                              |
 |--------|--------|--------|--------|--------|--------|---------------------------|------------------------------------------------------------------------------|
-| ⚫️     | ⚫️     | 🟡     | 🟡     | 🔴     | 🔴     | **Sensor Not Connected**  | Indicates the sensor is not physically connected to the system.              |
 | 🟢     | 🟢     | 🟡     | 🟡     | 🔴     | 🔴     | **Measurement Not Valid** | The system is unable to retrieve a valid measurement from the sensor module. |
 
 ### 💡 Legend for LED Colors

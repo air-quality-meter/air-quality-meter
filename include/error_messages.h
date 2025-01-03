@@ -17,8 +17,6 @@ namespace GeneralError {
 
 namespace SensorError {
     // Error messages for the sensor.
-    constexpr char NOT_CONNECTED[] = "Sensor not connected";
-    ///< Error message, which indicates, that the sensor is not connected.
     constexpr char MEASUREMENT_NOT_VALID[] = "Measurement not valid";
     ///< Error message, which indicates, that the measurement is not valid.
 }

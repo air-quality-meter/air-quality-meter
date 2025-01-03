@@ -8,6 +8,7 @@
 
 #ifndef LED_PATTERNS_H
 #define LED_PATTERNS_H
+
 namespace LedPattern {
     /**
      * @struct  Pattern
@@ -47,9 +48,6 @@ namespace LedAirQualityPattern {
 
 namespace LedErrorPatterns {
     // LED patterns to represent errors.
-
-    constexpr LedPattern::Pattern SENSOR_ERROR_NOT_CONNECTED = {false, false, true, true, true, true};
-    ///< LED error pattern to represent, that no sensor is connected.
 
     constexpr LedPattern::Pattern SENSOR_ERROR_MEASUREMENT_NOT_VALID = {true, true, true, true, true, true};
     ///< LED error pattern to represent, that the measurement is not valid.

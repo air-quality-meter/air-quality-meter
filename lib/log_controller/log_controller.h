@@ -125,7 +125,6 @@ namespace LogController {
     ///< Message displayed during system startup.
 
     constexpr char INIT[] = "initialized"; ///< Indicates a module has been successfully initialized.
-    constexpr char INIT_FAILED[] = "initialization failed"; ///< Indicates that a module's initialization has failed.
 
     constexpr char LOG_CONTROLLER[] = "Log controller"; ///< Label for the Log Controller module.
     constexpr char DISPLAY_CONTROLLER[] = "Display controller"; ///< Label for the Display Controller module.
@@ -177,13 +176,6 @@ namespace LogController {
      * @param module Name of the module being initialized.
      */
     void log_initialization(const char *module);
-
-    /**
-     * @brief Logs the failure to initialize a specific module.
-     *
-     * @param module Name of the module that failed initialization.
-     */
-    void log_initialization_failed(const char *module);
 
     /**
      * @brief Logs the system's current operational state.
