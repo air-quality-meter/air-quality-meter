@@ -54,14 +54,7 @@ void setup() {
     LedArray::initialize();
     LogController::log_initialization(LogController::LED_ARRAY);
 
-    const Co2SensorController::SensorErrorCode sensor_error_code = Co2SensorController::initialize();
-    if (
-        sensor_error_code == Co2SensorController::NOT_CONNECTED_ERROR ||
-        sensor_error_code == Co2SensorController::MEASUREMENT_NOT_VALID_ERROR
-    ) {
-        LogController::log_initialization_failed(LogController::SENSOR_CONTROLLER);
-        return;
-    }
+    Co2SensorController::initialize();
     LogController::log_initialization(LogController::SENSOR_CONTROLLER);
 
     AudioController::initialize();
@@ -101,7 +94,6 @@ void loop() {
     TRACE_LN_d(current_co2_measurement_ppm);
 
     if (
-        current_co2_measurement_ppm == Co2SensorController::NOT_CONNECTED_ERROR ||
         current_co2_measurement_ppm == Co2SensorController::MEASUREMENT_NOT_VALID_ERROR
     ) {
         return;
