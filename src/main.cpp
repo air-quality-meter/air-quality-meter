@@ -38,7 +38,7 @@ namespace AirQualityMeter {
  *           - Initializes the logging controller with the system's log level, logs a welcome message, and registers its own initialization.
  *           - Initializes the display controller and logs its successful setup.
  *           - Initializes the LED array hardware and logs its successful setup.
- *           - Initializes the CO2 sensor controller and handles potential errors during its setup, logging failures and terminating initialization if errors occur.
+ *           - Initializes the CO2 sensor controller and logs its successful setup.
  *           - Initializes the audio controller and logs its successful setup.
  *           - Sets up the acknowledge button and logs its successful initialization.
  *           - Logs a message indicating that the system is ready after all components are successfully initialized.

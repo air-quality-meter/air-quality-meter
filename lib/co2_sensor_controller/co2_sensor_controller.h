@@ -19,8 +19,7 @@ namespace Co2SensorController {
 
     /**
      * @brief   Initializes the CO2 sensor module.
-     * @details Sets up the MH-Z19B sensor by configuring pins, checking connection, and preheating it.
-     * @return  SensorErrorCode representing the status of the initialization.
+     * @details Sets up the MH-Z19B sensor by configuring pins, and preheating it.
      */
     void initialize();
 
