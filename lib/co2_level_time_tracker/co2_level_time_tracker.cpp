@@ -9,8 +9,8 @@
 
 namespace Co2LevelTimeTracker {
 
-    unsigned long get_time_since_co2_level_not_acceptable_s(const unsigned long current_time_s) {
-        return current_time_s - AirQualityMeter::state.last_co2_below_threshold_time_s;
+    unsigned long get_time_since_co2_level_not_acceptable_ms(const unsigned long current_time_ms) {
+        return current_time_ms - AirQualityMeter::state.last_co2_below_threshold_time_ms;
         ///< Time since the last acceptable CO2 level, adjusted for overflow.
     }
 }

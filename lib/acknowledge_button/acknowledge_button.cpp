@@ -7,7 +7,6 @@
 #include <acknowledge_button.h>
 #include <ArduinoLog.h>
 #include <state.h>
-#include <../time_controller/time_controller.h>
 #include <pin_configuration.h>
 
 #include "../log_controller/log_controller.h"
@@ -41,7 +40,7 @@ namespace AcknowledgeButton {
         last_interrupt_time_ms = interrupt_time_ms; // updated last interrupt time for debouncing
 
         noInterrupts(); // Temporarily disable interrupts while updating system state
-        AirQualityMeter::state.last_co2_below_threshold_time_s = TimeController::get_timestamp_s();
+        AirQualityMeter::state.last_co2_below_threshold_time_ms = millis();
         AirQualityMeter::state.warning_counter = 0;
         interrupts(); // Re-enable interrupts
 

@@ -13,7 +13,6 @@
 #include <log_controller.h>
 #include <state.h>
 #include <acknowledge_button.h>
-#include <time_controller.h>
 #include <co2_sensor_controller.h>
 #include <led_array.h>
 #include <display_controller.h>
@@ -86,8 +85,8 @@ void setup() {
 void loop() {
     LogController::log_loop_start();
 
-    const unsigned long current_iteration_time_stamp_s = TimeController::get_timestamp_s();
-    TRACE_LN_u(current_iteration_time_stamp_s);
+    const unsigned long current_iteration_time_stamp_ms = millis();
+    TRACE_LN_u(current_iteration_time_stamp_ms);
 
     const int current_co2_measurement_ppm = Co2SensorController::get_measurement_in_ppm();
     TRACE_LN_d(current_co2_measurement_ppm);
@@ -113,14 +112,14 @@ void loop() {
 
     TRACE_LN_T(current_air_quality_level.is_acceptable);
     if (current_air_quality_level.is_acceptable) {
-        WarningController::reset(current_iteration_time_stamp_s);
+        WarningController::reset(current_iteration_time_stamp_ms);
         Log.verboseln(LogController::STATE_UPDATED);
 
         LogController::log_loop_end();
         return;
     }
     const unsigned long time_since_co2_level_not_acceptable_s =
-            Co2LevelTimeTracker::get_time_since_co2_level_not_acceptable_s(current_iteration_time_stamp_s);
+            Co2LevelTimeTracker::get_time_since_co2_level_not_acceptable_ms(current_iteration_time_stamp_ms);
     TRACE_LN_u(time_since_co2_level_not_acceptable_s);
 
     const bool is_audio_warning_to_be_issued = WarningController::is_audio_warning_to_be_issued(
@@ -131,7 +130,7 @@ void loop() {
         AudioController::issue_warning();
         Log.verboseln(LogController::AUDIO_WARNING_ISSUED);
 
-        WarningController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+        WarningController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_ms);
         Log.verboseln(LogController::STATE_UPDATED);
     }
     Log.noticeln(LogController::LOOP_END);

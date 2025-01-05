@@ -13,7 +13,7 @@ namespace DisplayController {
      * @brief   Initializes the LCD1602 Module.
      * @details Prepares the connected LCD1602 display module for operation by configuring its
      *          dimensions (16 characters, 2 lines) and clearing any existing content.
-     *          Displays an initialization message for 2 seconds to indicate system readiness.
+     *          Displays an initialization message to indicate system readiness.
      *          Display used: LCD1602 Module (with pin header).
      *          This function should be called during the setup phase of the Arduino program.
      */

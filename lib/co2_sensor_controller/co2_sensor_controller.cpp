@@ -93,7 +93,7 @@ namespace Co2SensorController {
     ///< Waiting period between readings
     constexpr unsigned long PREHEATING_TIME_MS = 180000;
     ///< Preheating duration for MH-Z19B sensor in milliseconds (3 minutes as per the datasheet).
-    constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES = 2000;
+    constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS = 2000;
     ///< Time to show error or status messages on the display (in milliseconds).
     constexpr unsigned long PREHEAT_PROGRESS_BAR_UNIT_PROGRESS_MS =
             PREHEATING_TIME_MS / DisplayController::DISPLAY_WIDTH;
@@ -209,6 +209,6 @@ namespace Co2SensorController {
         Log.verboseln(LogController::LED_UPDATED);
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::MEASUREMENT_NOT_VALID);
         Log.verboseln(LogController::DISPLAY_UPDATED);
-        delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES);
+        delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS);
     }
 }

@@ -13,7 +13,7 @@
 
 namespace AirQualityMeter {
   struct State {
-    volatile unsigned long last_co2_below_threshold_time_s; ///< Last time (in sec) when CO2 was below threshold.
+    volatile unsigned long last_co2_below_threshold_time_ms; ///< Last time (in ms) when CO2 was below threshold.
     volatile int warning_counter; ///< Counter tracking the number of warnings triggered.
     volatile unsigned long last_co2_sensor_used_time_stamp_ms; ///< Last time (in ms) the CO2 sensor was activated.
   };
