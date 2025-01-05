@@ -5,12 +5,14 @@
  *          how long the CO2 level has been above the acceptable threshold.
  */
 
+#include <Arduino.h>
 #include <state.h>
 
 namespace Co2LevelTimeTracker {
 
-    unsigned long get_time_since_co2_level_not_acceptable_ms(const unsigned long current_time_ms) {
-        return current_time_ms - AirQualityMeter::state.last_co2_below_threshold_time_ms;
+    unsigned long get_time_since_co2_level_not_acceptable_ms() {
+        const unsigned long current_time = millis();
+        return current_time - AirQualityMeter::state.last_co2_below_threshold_time_ms;
         ///< Time since the last acceptable CO2 level, adjusted for overflow.
     }
 }

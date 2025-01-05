@@ -15,11 +15,10 @@ namespace Co2LevelTimeTracker {
      *          the last acceptable CO2 level time. The implementation ensures correctness, even
      *          when millis() overflow occurs.
      *          For details about unsigned arithmetic overflow, check the C++ standard documentation.
-     * @param current_time_ms The current time in milliseconds (unsigned long).
      * @return Elapsed time in milliseconds (unsigned long) since the CO2 level was last below the threshold.
      * @see https://en.cppreference.com/w/cpp/language/operator_arithmetic#:~:text=conversions%20are%20applied.-,Overflows,-Unsigned%20integer%20arithmetic
      */
-    unsigned long get_time_since_co2_level_not_acceptable_ms(unsigned long current_time_ms);
+    unsigned long get_time_since_co2_level_not_acceptable_ms();
 }
 
 #endif //CO2_LEVEL_TIME_TRACKER_H

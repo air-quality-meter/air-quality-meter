@@ -18,18 +18,18 @@ namespace WarningController {
         return time_since_co2_level_not_acceptable_ms > WarningThresholds::MAX_TIME_ABOVE_CO2_THRESHOLD_MS;
     }
 
-    void reset(const unsigned long current_time_ms) {
+    void reset() {
         noInterrupts(); ///< prevent interrupts while writing on system state
-        AirQualityMeter::state.last_co2_below_threshold_time_ms = current_time_ms;
+        AirQualityMeter::state.last_co2_below_threshold_time_ms = millis();
         AirQualityMeter::state.warning_counter = 0;
         interrupts();
     }
 
-    void update_for_co2_level_not_acceptable(const unsigned long current_time_ms) {
+    void update_for_co2_level_not_acceptable() {
         AirQualityMeter::state.warning_counter++;
         if (AirQualityMeter::state.warning_counter >= WarningThresholds::MAX_CONSECUTIVE_WARNINGS) {
             noInterrupts(); ///< prevent interrupts while writing on system state
-            AirQualityMeter::state.last_co2_below_threshold_time_ms = current_time_ms;
+            AirQualityMeter::state.last_co2_below_threshold_time_ms = millis();
             AirQualityMeter::state.warning_counter = 0;
             interrupts();
             return;
