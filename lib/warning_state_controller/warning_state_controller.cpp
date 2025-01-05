@@ -8,11 +8,11 @@
 #include <warning_state_controller.h>
 #include <state.h>
 
-constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
-
-constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period between two warnings (seconds)
-
 namespace WarningStateController {
+    constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
+
+    constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period between two warnings (seconds)
+
     void reset(const unsigned long current_time_s) {
         noInterrupts(); ///< prevent interrupts while writing on system state
         AirQualityMeter::state.last_co2_below_threshold_time_s = current_time_s;
