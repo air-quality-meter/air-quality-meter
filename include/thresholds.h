@@ -35,9 +35,9 @@ namespace CO2Thresholds {
 namespace WarningThresholds {
     constexpr int MAX_CONSECUTIVE_WARNINGS = 5; ///< Max consecutive audio warnings before auto reset
 
-    constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 60; ///< Time period between two warnings (seconds)
+    constexpr unsigned int WAITING_PERIOD_BETWEEN_WARNINGS_S = 10; ///< Time period between two warnings (seconds)
 
-    constexpr unsigned int MAX_TIME_ABOVE_CO2_THRESHOLD_S = 3600;
+    constexpr unsigned int MAX_TIME_ABOVE_CO2_THRESHOLD_S = 60;
     ///< The maximum duration (in seconds) for CO2 levels to remain above the threshold
     ///< before triggering a warning.
 }
