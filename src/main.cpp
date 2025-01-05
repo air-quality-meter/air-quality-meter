@@ -22,7 +22,6 @@
 #include <measurement_interpreter.h>
 #include <audio_controller.h>
 #include <warning_controller.h>
-#include <warning_state_controller.h>
 #include <co2_level_time_tracker.h>
 
 namespace AirQualityMeter {
@@ -114,7 +113,7 @@ void loop() {
 
     TRACE_LN_T(current_air_quality_level.is_acceptable);
     if (current_air_quality_level.is_acceptable) {
-        WarningStateController::reset(current_iteration_time_stamp_s);
+        WarningController::reset(current_iteration_time_stamp_s);
         Log.verboseln(LogController::STATE_UPDATED);
 
         LogController::log_loop_end();
@@ -132,7 +131,7 @@ void loop() {
         AudioController::issue_warning();
         Log.verboseln(LogController::AUDIO_WARNING_ISSUED);
 
-        WarningStateController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
+        WarningController::update_for_co2_level_not_acceptable(current_iteration_time_stamp_s);
         Log.verboseln(LogController::STATE_UPDATED);
     }
     Log.noticeln(LogController::LOOP_END);
