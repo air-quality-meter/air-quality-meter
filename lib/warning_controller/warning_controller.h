@@ -28,10 +28,8 @@ namespace WarningController {
      * @brief Resets the audio warning state variables.
      * @details Sets the CO2 threshold timestamp to the current time and resets the warning counter to zero.
      * This halts any ongoing warnings and starts over.
-     *
-     * @param current_time_ms Current time in milliseconds (used to update the warning state).
      */
-    void reset(unsigned long current_time_ms);
+    void reset();
 
     /**
      * @brief Updates the warning state for unacceptable CO2 levels.
@@ -40,7 +38,7 @@ namespace WarningController {
      *
      * @param current_time_ms Current time in milliseconds (used for timing warnings and resets).
      */
-    void update_for_co2_level_not_acceptable(unsigned long current_time_ms);
+    void update_for_co2_level_not_acceptable();
 }
 
 #endif //WARNING_CONTROLLER_H

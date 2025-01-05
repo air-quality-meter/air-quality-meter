@@ -15,6 +15,7 @@
 #include <error_messages.h>
 #include <../led_array/led_array.h>
 #include <led_patterns.h>
+#include <not_blocking_time_handler.h>
 
 
 namespace Co2SensorController {
@@ -158,7 +159,7 @@ namespace Co2SensorController {
             const unsigned long time_to_wait_ms = time_to_pass_ms - time_passed_ms;
             ///< Remaining time to wait (in milliseconds) if the required interval has not yet passed.
             Log.traceln("%s%u", LogController::DELAY_TIME, time_to_wait_ms);
-            delay(time_to_wait_ms);
+            NotBlockingTimeHandler::wait_ms(time_to_wait_ms);
         }
     }
 
@@ -209,6 +210,6 @@ namespace Co2SensorController {
         Log.verboseln(LogController::LED_UPDATED);
         DisplayController::output(GeneralError::ERROR_MESSAGE_ROW_ONE, SensorError::MEASUREMENT_NOT_VALID);
         Log.verboseln(LogController::DISPLAY_UPDATED);
-        delay(WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS);
+        NotBlockingTimeHandler::wait_ms(WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS);
     }
 }
