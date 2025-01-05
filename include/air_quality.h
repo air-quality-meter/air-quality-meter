@@ -9,9 +9,19 @@
 #ifndef AIR_QUALITY_H
 #define AIR_QUALITY_H
 
-#include <co2_thresholds.h>
-#include <description_text.h>
+#include <thresholds.h>
 #include <led_patterns.h>
+
+namespace AirQualityDescription {
+    constexpr char HIGH_QUALITY[] = "High air quality";
+    ///< Description for high air quality level.
+    constexpr char MEDIUM_QUALITY[] = "Medium air quality";
+    ///< Description for medium air quality level.
+    constexpr char MODERATE_QUALITY[] = "Moderate air quality";
+    ///< Description for moderate air quality level.
+    constexpr char POOR_QUALITY[] = "Poor air quality";
+    ///< Description for poor air quality level.
+}
 
 namespace AirQuality {
     /**
@@ -36,35 +46,35 @@ namespace AirQuality {
 
     constexpr Level HIGH_QUALITY = {
         LedAirQualityPattern::HIGH_QUALITY,
-        DescriptionText::HIGH_QUALITY,
+        AirQualityDescription::HIGH_QUALITY,
         true,
         CO2Thresholds::HIGH_QUALITY_PPM
     }; ///< Configuration for high air quality level.
 
     constexpr Level MEDIUM_QUALITY = {
         LedAirQualityPattern::MEDIUM_QUALITY,
-        DescriptionText::MEDIUM_QUALITY,
+        AirQualityDescription::MEDIUM_QUALITY,
         true,
         CO2Thresholds::MEDIUM_QUALITY_PPM
     }; ///< Configuration for medium air quality level.
 
     constexpr Level LOWER_MODERATE_QUALITY = {
         LedAirQualityPattern::LOWER_MODERATE_QUALITY,
-        DescriptionText::MODERATE_QUALITY,
+        AirQualityDescription::MODERATE_QUALITY,
         true,
         CO2Thresholds::LOWER_MODERATE_QUALITY_PPM
     }; ///< Configuration for lower moderate air quality level.
 
     constexpr Level UPPER_MODERATE_QUALITY = {
         LedAirQualityPattern::UPPER_MODERATE_QUALITY,
-        DescriptionText::MODERATE_QUALITY,
+        AirQualityDescription::MODERATE_QUALITY,
         true,
         CO2Thresholds::UPPER_MODERATE_QUALITY_PPM
     }; ///< Configuration for upper moderate air quality level.
 
     constexpr Level POOR_QUALITY = {
         LedAirQualityPattern::POOR_QUALITY,
-        DescriptionText::POOR_QUALITY,
+        AirQualityDescription::POOR_QUALITY,
         false,
         CO2Thresholds::NO_UPPER_LIMIT // No upper limit for poor air quality.
     }; ///< Configuration for poor air quality level

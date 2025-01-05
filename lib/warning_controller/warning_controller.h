@@ -2,9 +2,9 @@
  * @file warning_controller.h
  * @brief Header file for the WarningController namespace.
  *
- * This file includes declarations of functions that manage warning logic
- * based on CO2 threshold exceedance. It serves as the interface for
- * implementing warning controllers.
+ * This file provides declarations for functionalities to manage warning mechanisms
+ * triggered by CO2 threshold exceedance. It defines the interfaces required for
+ * implementing warning control logic, including audio alerts and state resets.
  */
 
 #ifndef WARNING_CONTROLLER_H
