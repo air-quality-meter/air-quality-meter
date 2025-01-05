@@ -191,11 +191,13 @@ namespace Co2SensorController {
     void display_preheat_progress_bar(const char *row_1, char *row_2_buffer, const uint8_t bar_with,
                                       int *progress_bar_counter) {
         TRACE_LN_d(*progress_bar_counter);
-        if (*progress_bar_counter < bar_with) {
-            row_2_buffer[*progress_bar_counter] = *PROGRESS_BAR_SYMBOL;
+        if (*progress_bar_counter > 0 && *progress_bar_counter <= bar_with) {
+            ///< Start showing progress only, when there is a progress (> 0)
+            ///< Show progress until progress bar is 'full' (<= bar_with)
+            row_2_buffer[*progress_bar_counter - 1] = *PROGRESS_BAR_SYMBOL;
             ///< Updates the progress bar buffer with the next progress symbol.
-            (*progress_bar_counter)++; ///< Increments the progress bar counter by one for the next step.
         }
+        (*progress_bar_counter)++; ///< Increments the progress bar counter by one for the next step.
         DisplayController::output(row_1, row_2_buffer);
         TRACE_LN_s(row_1);
         TRACE_LN_s(row_2_buffer);
