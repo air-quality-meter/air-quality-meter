@@ -7,6 +7,8 @@
 #include "../log_controller/log_controller.h"
 
 namespace MuteButton {
+    constexpr unsigned long DEBOUNCE_DELAY_MS = 1000; ///< Time between two interrupts to debounce.
+
     void initialize() {
         pinMode(DIGITAL_PIN, INPUT);
         attachInterrupt(
