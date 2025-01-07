@@ -129,8 +129,10 @@ namespace LogController {
     constexpr char LOG_CONTROLLER[] = "Log controller"; ///< Label for the Log Controller module.
     constexpr char DISPLAY_CONTROLLER[] = "Display controller"; ///< Label for the Display Controller module.
     constexpr char ACKNOWLEDGE_BUTTON[] = "Acknowledge button"; ///< Label for the Acknowledge Button in the system.
+    constexpr char MUTE_BUTTON[] = "Mute button"; ///< Label for the Acknowledge Button in the system.
     constexpr char SENSOR_CONTROLLER[] = "Sensor controller"; ///< Label for the Sensor Controller module.
     constexpr char LED_ARRAY[] = "LED array"; ///< Label for the LED Array module.
+    constexpr char MUTE_INDICATOR[] = "Mute indicator"; ///< Label for the Mute indicator (LED).
     constexpr char AUDIO_CONTROLLER[] = "Audio controller"; ///< Label for the Audio Controller module.
 
     constexpr char SYSTEM_READY[] = "System ready"; ///< Message logged when the system is ready to operate.
@@ -141,6 +143,8 @@ namespace LogController {
     constexpr char LOOP_END[] = "Loop end"; ///< Message logged at the end of the main system loop.
 
     constexpr char LED_UPDATED[] = "LED array updated"; ///< Message indicating the LED array has been updated.
+    constexpr char MUTE_INDICATOR_UPDATED[] = "Mute indicator updated";
+    ///< Message indicating the Mute indicator has been updated.
     constexpr char DISPLAY_UPDATED[] = "Display updated"; ///< Message indicating the display module has been updated.
     constexpr char AUDIO_WARNING_ISSUED[] = "Audio warning issued"; ///< Message indicating an audio warning was issued.
     constexpr char STATE_UPDATED[] = "State updated"; ///< Message indicating the current state has been updated.
@@ -148,6 +152,10 @@ namespace LogController {
     ///< Message indicating the acknowledge button has been debounced.
     constexpr char ACKNOWLEDGE_BUTTON_PRESSED[] = "Acknowledge button pressed";
     ///< Message logged when the acknowledge button is pressed.
+    constexpr char MUTE_BUTTON_DEBOUNCED[] = "Mute button debounced";
+    ///< Message indicating the mute button has been debounced.
+    constexpr char MUTE_BUTTON_PRESSED[] = "Mute button pressed";
+    ///< Message logged when the mute button is pressed.
 
     constexpr char DELAY_TIME[] = "Delay time: "; ///< Prefix for displaying the delay time.
 

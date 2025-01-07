@@ -13,6 +13,10 @@ namespace AcknowledgeButton {
     constexpr uint8_t DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
 }
 
+namespace MuteButton {
+    constexpr uint8_t DIGITAL_PIN = 3; ///< Interrupt functionality (Int1)
+}
+
 namespace Co2SensorController {
     // Pin configuration for the CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
     constexpr uint8_t PWM_PIN = 4; ///< PWM pin for CO2 sensor
@@ -43,6 +47,11 @@ namespace LedArray {
     constexpr uint8_t YELLOW_2_PIN = 28; ///< LED to indicate moderate air quality
     constexpr uint8_t RED_1_PIN = 30; ///< LED to indicate moderate or poor air quality
     constexpr uint8_t RED_2_PIN = 32; ///< LED to indicate poor air quality
+}
+
+namespace MuteIndicator {
+    // Pin configuration for the Mute indicator LED
+    constexpr uint8_t BLUE_PIN = 34; ///< LED to indicate the System is muted
 }
 
 #endif //PIN_CONFIGURATION_H
