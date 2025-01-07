@@ -49,4 +49,9 @@ namespace LedArray {
     constexpr uint8_t RED_2_PIN = 32; ///< LED to indicate poor air quality
 }
 
+namespace MuteIndicator {
+    // Pin configuration for the Mute indicator LED
+    constexpr uint8_t BLUE_PIN = 34; ///< LED to indicate the System is muted
+}
+
 #endif //PIN_CONFIGURATION_H

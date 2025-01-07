@@ -14,6 +14,7 @@
 #include <state.h>
 #include <acknowledge_button.h>
 #include <mute_button.h>
+#include <mute_indicator.h>
 #include <co2_sensor_controller.h>
 #include <led_array.h>
 #include <display_controller.h>
@@ -23,7 +24,6 @@
 #include <audio_controller.h>
 #include <warning_controller.h>
 #include <co2_level_time_tracker.h>
-#include <pin_configuration.h>
 
 namespace AirQualityMeter {
     State state = {0, 0, 0}; ///< Holds the system's current state variables.
@@ -59,6 +59,9 @@ void setup() {
 
     AudioController::initialize();
     LogController::log_initialization(LogController::AUDIO_CONTROLLER);
+
+    MuteIndicator::initialize();
+    LogController::log_initialization(LogController::MUTE_INDICATOR);
 
     AcknowledgeButton::initialize();
     LogController::log_initialization(LogController::ACKNOWLEDGE_BUTTON);

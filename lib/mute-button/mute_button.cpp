@@ -3,6 +3,7 @@
 #include <ArduinoLog.h>
 #include <state.h>
 #include <pin_configuration.h>
+#include <mute_indicator.h>
 
 #include "../log_controller/log_controller.h"
 
@@ -37,6 +38,8 @@ namespace MuteButton {
         noInterrupts(); // Temporarily disable interrupts while updating system state
         AirQualityMeter::state.is_system_muted = !AirQualityMeter::state.is_system_muted;
         interrupts(); // Re-enable interrupts
+
+        MuteIndicator::indicate_system_mute(AirQualityMeter::state.is_system_muted);
 
         Log.verboseln(LogController::STATE_UPDATED);
         LogController::log_current_state();
