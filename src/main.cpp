@@ -26,7 +26,7 @@
 #include <co2_level_time_tracker.h>
 
 namespace AirQualityMeter {
-    State state = {0, 0, 0}; ///< Holds the system's current state variables.
+    State state = {0, 0, 0, false}; ///< Holds the system's current state variables.
     constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE; ///< Default log level for the air quality meter system.
 }
 

@@ -1,3 +1,12 @@
+/**
+ * @file    mute_button.cpp
+ * @brief   Implementation of the mute button functionality for the system.
+ *
+ * @details This file defines the methods to initialize and handle the mute button, including debouncing
+ *          logic and updating the system state when the button is pressed. It uses interrupts to efficiently
+ *          detect button presses and toggles the mute state of the system accordingly.
+ */
+
 #include <Arduino.h>
 #include <mute_button.h>
 #include <ArduinoLog.h>
@@ -14,10 +23,10 @@ namespace MuteButton {
         pinMode(DIGITAL_PIN, INPUT);
         attachInterrupt(
             digitalPinToInterrupt(DIGITAL_PIN),
-            switchMuteState, RISING);
+            toggle_mute_state, RISING);
     }
 
-    void switchMuteState() {
+    void toggle_mute_state() {
         Log.infoln(LogController::MUTE_BUTTON_PRESSED);
         static unsigned long last_interrupt_time_ms = 0;
         ///< Timestamp of last interrupt initialized with static to persist until next function call.

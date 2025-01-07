@@ -1,3 +1,12 @@
+/**
+ * @file    mute_indicator.cpp
+ * @brief   Implementation of the Mute Indicator functionality.
+ *
+ * @details This file contains the implementation of the functions related to
+ *          controlling the mute indicator, which visually indicates whether the system
+ *          is in a muted state.
+ */
+
 #include <Arduino.h>
 #include <mute_indicator.h>
 #include <pin_configuration.h>
