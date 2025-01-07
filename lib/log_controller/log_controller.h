@@ -129,6 +129,7 @@ namespace LogController {
     constexpr char LOG_CONTROLLER[] = "Log controller"; ///< Label for the Log Controller module.
     constexpr char DISPLAY_CONTROLLER[] = "Display controller"; ///< Label for the Display Controller module.
     constexpr char ACKNOWLEDGE_BUTTON[] = "Acknowledge button"; ///< Label for the Acknowledge Button in the system.
+    constexpr char MUTE_BUTTON[] = "Mute button"; ///< Label for the Acknowledge Button in the system.
     constexpr char SENSOR_CONTROLLER[] = "Sensor controller"; ///< Label for the Sensor Controller module.
     constexpr char LED_ARRAY[] = "LED array"; ///< Label for the LED Array module.
     constexpr char AUDIO_CONTROLLER[] = "Audio controller"; ///< Label for the Audio Controller module.
@@ -148,6 +149,10 @@ namespace LogController {
     ///< Message indicating the acknowledge button has been debounced.
     constexpr char ACKNOWLEDGE_BUTTON_PRESSED[] = "Acknowledge button pressed";
     ///< Message logged when the acknowledge button is pressed.
+    constexpr char MUTE_BUTTON_DEBOUNCED[] = "Mute button debounced";
+    ///< Message indicating the mute button has been debounced.
+    constexpr char MUTE_BUTTON_PRESSED[] = "Mute button pressed";
+    ///< Message logged when the mute button is pressed.
 
     constexpr char DELAY_TIME[] = "Delay time: "; ///< Prefix for displaying the delay time.
 

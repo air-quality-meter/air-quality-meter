@@ -13,6 +13,10 @@ namespace AcknowledgeButton {
     constexpr uint8_t DIGITAL_PIN = 2; ///< Interrupt functionality (Int0)
 }
 
+namespace MuteButton {
+    constexpr uint8_t DIGITAL_PIN = 3; ///< Interrupt functionality (Int1)
+}
+
 namespace Co2SensorController {
     // Pin configuration for the CO2 Sensor: MH-Z19B Infrared CO2 Sensor Module.
     constexpr uint8_t PWM_PIN = 4; ///< PWM pin for CO2 sensor
