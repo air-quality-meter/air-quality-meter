@@ -133,8 +133,9 @@ void loop() {
     const bool is_audio_warning_to_be_issued = WarningController::is_audio_warning_to_be_issued(
         time_since_co2_level_not_acceptable_ms);
     TRACE_LN_T(is_audio_warning_to_be_issued);
+    TRACE_LN_T(AirQualityMeter::state.is_system_muted);
 
-    if (is_audio_warning_to_be_issued) {
+    if (is_audio_warning_to_be_issued && !AirQualityMeter::state.is_system_muted) {
         AudioController::issue_warning();
         Log.verboseln(LogController::AUDIO_WARNING_ISSUED);
 
