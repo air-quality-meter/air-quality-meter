@@ -46,6 +46,17 @@ namespace LedAirQualityPattern {
     ///< LED indicator state for poor air quality (both red LEDs ON).
 }
 
+namespace LedInfoPattern {
+    constexpr LedPattern::Pattern INFO_PATTERN_SEQUENCE[] = {
+        {true, false,false,false,false,false},
+        {false, true, false, false, false, false},
+        {false, false, true, false, false, false},
+        {false, false, false, true, false, false},
+        {false, false, false, false, true, false},
+        {false, false, false, false, false, true}
+    }; ///< Sequence of LED patterns to show consecutively.
+}
+
 namespace LedErrorPatterns {
     // LED patterns to represent errors.
 

@@ -9,9 +9,21 @@
 #include <ArduinoLog.h>
 #include <state.h>
 #include <pin_configuration.h>
+#include <led_patterns.h>
+#include <not_blocking_time_handler.h>
+#include <led_array.h>
 #include "../log_controller/log_controller.h"
 
 namespace AcknowledgeButton {
+    constexpr unsigned long INDICATION_SEQUENCE_DELAY_MS = 100;
+
+    /**
+     * @brief   Indicates acknowledgment through LED pattern.
+     * @details This function outputs a predefined LED indication sequence
+     *          to acknowledge the warning. It utilizes a non-blocking delay
+     *          between the LED outputs to ensure a fluid sequence pattern.
+     */
+    void indicate_acknowledge();
 
     void initialize() {
         pinMode(DIGITAL_PIN, INPUT);
@@ -35,7 +47,17 @@ namespace AcknowledgeButton {
         AirQualityMeter::state.warning_counter = 0;
         interrupts(); // Re-enable interrupts
 
+        indicate_acknowledge();
+
         Log.verboseln(LogController::STATE_UPDATED);
         LogController::log_current_state();
+
+    }
+
+    void indicate_acknowledge() {
+        for (const auto i: LedInfoPattern::INFO_PATTERN_SEQUENCE) {
+            LedArray::output(i);
+            NotBlockingTimeHandler::wait_ms(INDICATION_SEQUENCE_DELAY_MS);
+        }
     }
 }
