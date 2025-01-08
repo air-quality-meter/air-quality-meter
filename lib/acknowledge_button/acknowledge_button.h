@@ -1,6 +1,6 @@
 /**
  * @file    acknowledge_button.h
- * @brief   This file contains the function declarations for system management functions.
+ * @brief   This file contains the function declarations for acknowledge button functions.
  */
 
 #ifndef ACKNOWLEDGE_BUTTON_H
