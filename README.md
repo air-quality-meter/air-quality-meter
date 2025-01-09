@@ -25,7 +25,7 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
         - [⚡ Power and Ground Connections Table](#-power-and-ground-connections-table)
         - [🔗 Other Component Connections Table](#-other-component-connections-table)
         - [💡 Notes and Recommendations](#-notes-and-recommendations)
-        - [⚠️ Important Safety Note ⚠️](#-important-safety-note-)
+        - [⚠️ Important Safety Note](#-important-safety-note)
     - [🚀 Operational Flow](#-operational-flow)
         - [1. System Startup](#1-system-startup)
         - [2. CO2 Monitoring](#2-co2-monitoring)
@@ -105,7 +105,7 @@ The MP3 file is now uploaded and ready to be used by the Air Quality Meter.
 Connect all hardware components according to the 🔌 [Connections](#-connections) section and check the
 📈 [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
 💡 [Notes and Recommendations](#-notes-and-recommendations) section, including the
-⚠️ [Important Safety Note](#-important-safety-note-).
+⚠️ [Important Safety Note](#-important-safety-note).
 
 ### 4. Open the Project
 
@@ -337,7 +337,7 @@ These components require additional connections between one another for proper f
   Ensure they match your physical wiring.
 * **Safety First**: Always disconnect the power supply before making any changes to the wiring.
 
-### ⚠️ Important Safety Note ⚠️
+### ⚠️ Important Safety Note
 
 Before powering on your Air Quality Meter, please take the following precautions:
 
