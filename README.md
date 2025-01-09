@@ -15,16 +15,17 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
         - [4. Open the Project](#4-open-the-project)
         - [5. Upload the Code](#5-upload-the-code)
         - [6. (optional) Monitor Serial Output](#6-optional-monitor-serial-output)
-    - [🛠️ Hardware Requirements](#-hardware-requirements)
+    - [🧾 Configuring Logging](#-configuring-logging-platformioini)
+    - [⚙️ Hardware Requirements](#-hardware-requirements)
     - [💻 Software Requirements](#-software-requirements)
         - [Library Dependencies](#library-dependencies)
     - [🔌 Connections](#-connections)
-        - [🖼️ Wiring Diagram](#-wiring-diagram)
+        - [📈 Wiring Diagram](#-wiring-diagram)
         - [📌 Arduino Pin Connections Table](#-arduino-pin-connections-table)
         - [⚡ Power and Ground Connections Table](#-power-and-ground-connections-table)
         - [🔗 Other Component Connections Table](#-other-component-connections-table)
         - [💡 Notes and Recommendations](#-notes-and-recommendations)
-        - [⚠️ Important Safety Note ⚠️](#-important-safety-note-)
+        - [⚠️ Important Safety Note](#-important-safety-note)
     - [🚀 Operational Flow](#-operational-flow)
         - [1. System Startup](#1-system-startup)
         - [2. CO2 Monitoring](#2-co2-monitoring)
@@ -102,9 +103,9 @@ The MP3 file is now uploaded and ready to be used by the Air Quality Meter.
 ### 3. Connect hardware
 
 Connect all hardware components according to the 🔌 [Connections](#-connections) section and check the
-🖼️ [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
+📈 [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
 💡 [Notes and Recommendations](#-notes-and-recommendations) section, including the
-⚠️ [Important Safety Note](#-important-safety-note-).
+⚠️ [Important Safety Note](#-important-safety-note).
 
 ### 4. Open the Project
 
@@ -186,7 +187,7 @@ levels are (from most to least verbose):
 
 2. Clean and rebuild the project in PlatformIO.
 
-## 🛠️ Hardware Requirements
+## ⚙️ Hardware Requirements
 
 | **Component**                           | **Quantity** | **Description**                                            |
 |:----------------------------------------|:------------:|:-----------------------------------------------------------|
@@ -245,7 +246,7 @@ you build the project in PlatformIO.
 
 ## 🔌 Connections
 
-## 🖼️ Wiring Diagram
+## 📈 Wiring Diagram
 
 ![Arduino Air Quality Meter Wiring.jpg](img/Arduino%20Air%20Quality%20Meter%20Wiring.jpg)
 
@@ -336,12 +337,12 @@ These components require additional connections between one another for proper f
   Ensure they match your physical wiring.
 * **Safety First**: Always disconnect the power supply before making any changes to the wiring.
 
-### ⚠️ Important Safety Note ⚠️
+### ⚠️ Important Safety Note
 
 Before powering on your Air Quality Meter, please take the following precautions:
 
 1. 🔍 **Double-Check Wiring:** Carefully compare your physical wiring against the provided
-   🖼️ [wiring diagram](#-wiring-diagram). Ensure that each component is connected to the correct pins on the Arduino
+   📈 [wiring diagram](#-wiring-diagram). Ensure that each component is connected to the correct pins on the Arduino
    and other modules.
 2. 🧠 **Understand the Connections:** Take a moment to understand *why* each connection is made. Think about the flow of
    power and signals. Does it make sense to you based on the component's function? If something seems unclear, do
