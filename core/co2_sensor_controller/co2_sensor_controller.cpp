@@ -7,7 +7,7 @@
 
 #include <co2_sensor_controller.h>
 #include <pin_configuration.h>
-#include <../lib/display_controller/display_controller.h>
+#include <C:/Users/oetik/OneDrive/Documents/GitHub/air-quality-meter/core/display_controller/display_controller.h>
 #include <MHZ.h>
 #include <state.h>
 #include <ArduinoLog.h>
