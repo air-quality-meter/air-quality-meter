@@ -103,8 +103,8 @@ namespace Co2SensorController {
     ///< Maximum number of retries allowed for sensor CO2 measurements before declaring an invalid result.
     constexpr int MIN_VALID_CO2_VALUE_PPM = 400;
     ///< The minimum acceptable CO2 measurement value for MH-Z19B sensor in ppm (400 as per the datasheet).
-    constexpr int MAX_VALID_CO2_VALUE_PPM = 10000;
-    ///< The maximum acceptable CO2 measurement value for MH-Z19B sensor in ppm (10'000 as per the datasheet).
+    constexpr int MAX_VALID_CO2_VALUE_PPM = 5000;
+    ///< The maximum acceptable CO2 measurement value for MH-Z19B sensor in ppm (5'000 as per the used library).
 
 
     MHZ co2_sensor(PWM_PIN, MHZ::MHZ19B);
