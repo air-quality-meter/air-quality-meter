@@ -15,7 +15,7 @@
 #include "../log_controller/log_controller.h"
 
 namespace AcknowledgeButton {
-    constexpr unsigned long INDICATION_SEQUENCE_DELAY_MS = 100;
+    constexpr unsigned long INDICATION_SEQUENCE_DELAY_MS = 100UL;
 
     /**
      * @brief   Indicates acknowledgment through LED pattern.
@@ -34,10 +34,11 @@ namespace AcknowledgeButton {
 
     void acknowledge_warning() {
         Log.infoln(LogController::ACKNOWLEDGE_BUTTON_PRESSED);
-        static unsigned long last_button_press_detected_ms = 0;
+        static unsigned long last_button_press_detected_ms = 0UL;
         ///< Timestamp of last interrupt initialized with static to persist until next function call.
         TRACE_LN_u(last_button_press_detected_ms);
-        if (!ButtonDebouncer::is_button_debounced(last_button_press_detected_ms)) {
+        if (!ButtonDebouncer::is_button_debounced(last_button_press_detected_ms, true)) {
+            ///< use a long debounce delay to reduce sensitivity to rapit consecutive button presses.
             Log.verboseln(LogController::ACKNOWLEDGE_BUTTON_DEBOUNCED);
             return;
         }

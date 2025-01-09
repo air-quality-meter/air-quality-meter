@@ -90,11 +90,11 @@ namespace Co2SensorController {
     ///< Combined length of the sensor name and initialization message, including a space.
     constexpr size_t PREHEAT_MESSAGE_LENGTH = SENSOR_NAME_LENGTH + PREHEAT_LENGTH + 1;
     ///< Combined length of the sensor name and preheating message, including a space.
-    constexpr unsigned long RESPONSE_TIME_MS = 2000;
+    constexpr unsigned long WAIT_BETWEEN_TWO_SENSOR_READINGS_TIME_MS = 2000UL;
     ///< Waiting period between readings
-    constexpr unsigned long PREHEATING_TIME_MS = 180000;
+    constexpr unsigned long PREHEATING_TIME_MS = 180000UL;
     ///< Preheating duration for MH-Z19B sensor in milliseconds (3 minutes as per the datasheet).
-    constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS = 2000;
+    constexpr unsigned long WAITING_PERIOD_FOR_DISPLAY_MESSAGES_MS = 2000UL;
     ///< Time to show error or status messages on the display (in milliseconds).
     constexpr unsigned long PREHEAT_PROGRESS_BAR_UNIT_PROGRESS_MS =
             PREHEATING_TIME_MS / DisplayController::DISPLAY_WIDTH;
@@ -103,8 +103,8 @@ namespace Co2SensorController {
     ///< Maximum number of retries allowed for sensor CO2 measurements before declaring an invalid result.
     constexpr int MIN_VALID_CO2_VALUE_PPM = 400;
     ///< The minimum acceptable CO2 measurement value for MH-Z19B sensor in ppm (400 as per the datasheet).
-    constexpr int MAX_VALID_CO2_VALUE_PPM = 10000;
-    ///< The maximum acceptable CO2 measurement value for MH-Z19B sensor in ppm (10'000 as per the datasheet).
+    constexpr int MAX_VALID_CO2_VALUE_PPM = 5000;
+    ///< The maximum acceptable CO2 measurement value for MH-Z19B sensor in ppm (5'000 as per the used library).
 
 
     MHZ co2_sensor(PWM_PIN, MHZ::MHZ19B);
@@ -118,7 +118,7 @@ namespace Co2SensorController {
         concat_strings(init_message, INIT_MESSAGE_LENGTH, SENSOR_NAME, INIT);
         TRACE_LN_s(init_message);
         DisplayController::output(init_message, ""); // Display init message.
-        wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, RESPONSE_TIME_MS);
+        wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, WAIT_BETWEEN_TWO_SENSOR_READINGS_TIME_MS);
         preheat_sensor();
     }
 
@@ -128,7 +128,7 @@ namespace Co2SensorController {
             TRACE_LN_d(attempt);
 
             // Wait for the minimum cycle time to ensure valid readings
-            wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, RESPONSE_TIME_MS);
+            wait_until_time_passed(AirQualityMeter::state.last_co2_sensor_used_time_stamp_ms, WAIT_BETWEEN_TWO_SENSOR_READINGS_TIME_MS);
 
             // Read CO2 value through PWM and return if valid, otherwise retry
             const int ppm_pwm = co2_sensor.readCO2PWM();

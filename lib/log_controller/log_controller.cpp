@@ -95,10 +95,10 @@ namespace LogController {
 
     void print_timestamp(Print *_log_output) {
         // Division constants
-        constexpr unsigned long MSECS_PER_SEC = 1000; ///< Number of milliseconds per second.
-        constexpr unsigned long SECS_PER_MIN = 60; ///< Number of seconds per minute.
-        constexpr unsigned long SECS_PER_HOUR = 3600; ///< Number of seconds per hour.
-        constexpr unsigned long SECS_PER_DAY = 86400; ///< Number of seconds per day.
+        constexpr unsigned long MSECS_PER_SEC = 1000UL; ///< Number of milliseconds per second.
+        constexpr unsigned long SECS_PER_MIN = 60UL; ///< Number of seconds per minute.
+        constexpr unsigned long SECS_PER_HOUR = 3600UL; ///< Number of seconds per hour.
+        constexpr unsigned long SECS_PER_DAY = 86400UL; ///< Number of seconds per day.
 
         // Total time
         const unsigned long msecs = millis(); ///< Total milliseconds elapsed since the program started.
