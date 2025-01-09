@@ -15,7 +15,7 @@
 #include "../log_controller/log_controller.h"
 
 namespace AcknowledgeButton {
-    constexpr unsigned long INDICATION_SEQUENCE_DELAY_MS = 100;
+    constexpr unsigned long INDICATION_SEQUENCE_DELAY_MS = 100UL;
 
     /**
      * @brief   Indicates acknowledgment through LED pattern.
