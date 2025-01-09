@@ -23,7 +23,7 @@ namespace MuteButton {
 
     void toggle_mute_state() {
         Log.infoln(LogController::MUTE_BUTTON_PRESSED);
-        static unsigned long last_interrupt_time_ms = 0;
+        static unsigned long last_interrupt_time_ms = 0UL;
         ///< Timestamp of last interrupt initialized with static to persist until next function call.
         TRACE_LN_u(last_interrupt_time_ms);
         if (!ButtonDebouncer::is_button_debounced(last_interrupt_time_ms)) {
