@@ -1,7 +1,7 @@
 # Air Quality Meter
 
-The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels** in the air and provides **visual**, *
-*textual**, and **audible feedback** to alert users when air quality drops.
+The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels** in the air and provides **visual**,
+**textual**, and **audible feedback** to alert users when air quality drops.
 
 ## Table of Contents
 
@@ -15,16 +15,16 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
         - [4. Open the Project](#4-open-the-project)
         - [5. Upload the Code](#5-upload-the-code)
         - [6. (optional) Monitor Serial Output](#6-optional-monitor-serial-output)
-    - [🛠️ Hardware Requirements](#️hardware-requirements)
+    - [🛠️ Hardware Requirements](#-hardware-requirements)
     - [💻 Software Requirements](#-software-requirements)
         - [Library Dependencies](#library-dependencies)
     - [🔌 Connections](#-connections)
-        - [🖼️ Wiring Diagram](#️wiring-diagram)
+        - [🖼️ Wiring Diagram](#-wiring-diagram)
         - [📌 Arduino Pin Connections Table](#-arduino-pin-connections-table)
         - [⚡ Power and Ground Connections Table](#-power-and-ground-connections-table)
         - [🔗 Other Component Connections Table](#-other-component-connections-table)
         - [💡 Notes and Recommendations](#-notes-and-recommendations)
-            - [⚠️ Important Safety Note ⚠️](#-important-safety-note-)
+        - [⚠️ Important Safety Note ⚠️](#-important-safety-note-)
     - [🚀 Operational Flow](#-operational-flow)
         - [1. System Startup](#1-system-startup)
         - [2. CO2 Monitoring](#2-co2-monitoring)
@@ -46,7 +46,7 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
 
 - ✅ **CO2 Measurement**: Using the **MH-Z19B sensor**, the device continuously measures CO2 levels in ppm (parts per
   million).
-- ✅ **LCD Display**: The real-time CO2 levels and air-quality messages are displayed on a **16x2 LCD display**.
+- ✅ **LCD**: The real-time CO2 levels and air-quality messages are displayed on a **16x2 LCD**.
 - ✅ **LED Indicators**:
     - **Green LEDs**: High air quality.
     - **Yellow LEDs**: Moderate air quality.
@@ -63,7 +63,7 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
 ### 1. Clone the Repository
 
 ```shell
-git clone [https://github.com/air-quality-meter/air-quality-meter.git](https://github.com/air-quality-meter/air-quality-meter.git)
+git clone https://github.com/air-quality-meter/air-quality-meter.git
 cd air-quality-meter
 ```
 
@@ -80,27 +80,29 @@ audio/ directory:
 
 ##### 1. Prepare the MP3 Module:
 
-Ensure the MP3 module is powered on and connected to your computer via a compatible USB cable.
-It should appear as a removable storage device.
+- Ensure the MP3 module is connected to your computer via a compatible USB cable.
 
-##### 2. Copy MP3 Files:
+- It should appear as a removable storage device.
 
-- Copy the 001.mp3 and 002.mp3 files from the audio/ directory of the cloned repository to the root directory of the MP3
-  module.
+##### 2. Copy MP3 File:
 
-- **Important**: The files must be named exactly 001.mp3 and 002.mp3 on the MP3 module for the system to recognize them
+- Copy an MP3 file to the root directory of the MP3 module.
+
+  *You can use one of the provided files in the audio/ directory if you want.*
+
+- **Important**: The used file must be named exactly `001.mp3` on the MP3 module for the system to recognize it
   correctly.
 
 ##### 3. Eject the Module:
 
 - Safely eject the MP3 module from your computer to prevent data corruption.
 
-The MP3 files are now uploaded and ready to be used by the Air Quality Meter.
+The MP3 file is now uploaded and ready to be used by the Air Quality Meter.
 
 ### 3. Connect hardware
 
 Connect all hardware components according to the 🔌 [Connections](#-connections) section and check the
-🖼️ [wiring diagram](#️wiring-diagram). Ensure to follow the safety guidelines outlined in the
+🖼️ [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
 💡 [Notes and Recommendations](#-notes-and-recommendations) section, including the
 ⚠️ [Important Safety Note](#-important-safety-note-).
 
@@ -134,7 +136,7 @@ process.
 **To Disable Logging:**
 
 1. Open the `platformio.ini` file in your project's root directory.
-2. Find the line:
+2. Find the `build_flags = `-line:
 
    ```ini
    build_flags = -Iinclude
@@ -149,29 +151,23 @@ process.
 
 **To Enable Logging (Default):**
 
-1. Open the `platformio.ini` file.
-2. Make sure the line looks like this:
+1. Open the `platformio.ini` file in your project's root directory.
+2. Find the `build_flags = `-line:
+
+   ```ini
+   build_flags = -Iinclude -DDISABLE_LOGGING
+   ```
+
+3. Modify that line to not include the `-DDISABLE_LOGGING` flag anymore:
 
    ```ini
    build_flags = -Iinclude
    ```
 
-   Or simply comment out the `build_flags` line that contains `-DDISABLE_LOGGING` (if present):
+4. Save the `platformio.ini` file.
+5. Clean and rebuild the project in PlatformIO for the changes to take effect.
 
-   ```ini
-   ; build_flags = -Iinclude -DDISABLE_LOGGING
-   ```
-
-   And uncomment the `build_flags` line that does not contain  `-DDISABLE_LOGGING` (if commented out present):
-
-   ```ini
-   build_flags = -Iinclude
-   ```
-
-3. Save the `platformio.ini` file.
-4. Clean and rebuild the project in PlatformIO.
-
-**Log Levels**
+**Modify Log Levels**
 When logging is enabled, you can adjust the verbosity using the `LOG_LEVEL` variable in `src/main.cpp`. The available
 levels are (from most to least verbose):
 
@@ -182,9 +178,15 @@ levels are (from most to least verbose):
 - `LOG_LEVEL_ERROR`
 - `LOG_LEVEL_SILENT`
 
-Clean and rebuild the project in PlatformIO.
+1. Modify the following line in `src/main.cpp` accordingly:
 
-<h2 id="hardware-requirements">🛠️ Hardware Requirements</h2>
+    ```c++
+    constexpr uint8_t LOG_LEVEL = LOG_LEVEL_VERBOSE;
+    ```
+
+2. Clean and rebuild the project in PlatformIO.
+
+## 🛠️ Hardware Requirements
 
 | **Component**                           | **Quantity** | **Description**                                            |
 |:----------------------------------------|:------------:|:-----------------------------------------------------------|
@@ -243,7 +245,7 @@ you build the project in PlatformIO.
 
 ## 🔌 Connections
 
-<h3 id="wiring-diagram">🖼️ Wiring Diagram</h3>
+## 🖼️ Wiring Diagram
 
 ![Arduino Air Quality Meter Wiring.jpg](img/Arduino%20Air%20Quality%20Meter%20Wiring.jpg)
 
@@ -289,8 +291,8 @@ Proper wiring ensures stability and optimal performance of the system.
 | `GND`            | 📟  **LCD1602 Backlight**             | K (Cathode -)   | Ground connection for the LCD backlight.                                             |
 | `GND`            | 🔘 **Acknowledge Button**             | Pin 2           | Connected to GND through a 🧱 10KΩ pull-down resistor.                               |
 | `5V`             | 🔘 **Acknowledge Button**             | Pin 3           | Pin 3 is connected to 5V (internally connected to Pin 1 when the button is pressed). |
-| `GND`            | 🔇 **Mute Button**                    | Pin 2           | Connected to GND through a 🧱 10KΩ pull-down resistor.                               |
-| `5V`             | 🔇 **Mute Button**                    | Pin 3           | Pin 3 is connected to 5V (internally connected to Pin 1 when the button is pressed). |
+| `GND`            | 🔘 **Mute Button**                    | Pin 2           | Connected to GND through a 🧱 10KΩ pull-down resistor.                               |
+| `5V`             | 🔘 **Mute Button**                    | Pin 3           | Pin 3 is connected to 5V (internally connected to Pin 1 when the button is pressed). |
 | `GND`            | 🎚️ **10K Potentiometer (B103)**      | Outer Pin 1     | First pin connected to ground.                                                       |
 | `5V`             | 🎚️ **10K Potentiometer (B103)**      | Outer Pin 2     | Second pin connected to power.                                                       |
 | `GND`            | 🟢  **Green LED 1**                   | Cathode (-)     | Ground for the first green LED.                                                      |
@@ -339,7 +341,7 @@ These components require additional connections between one another for proper f
 Before powering on your Air Quality Meter, please take the following precautions:
 
 1. 🔍 **Double-Check Wiring:** Carefully compare your physical wiring against the provided
-   🖼️ [wiring diagram](#wiring-diagram). Ensure that each component is connected to the correct pins on the Arduino
+   🖼️ [wiring diagram](#-wiring-diagram). Ensure that each component is connected to the correct pins on the Arduino
    and other modules.
 2. 🧠 **Understand the Connections:** Take a moment to understand *why* each connection is made. Think about the flow of
    power and signals. Does it make sense to you based on the component's function? If something seems unclear, do
@@ -364,6 +366,7 @@ contribution!
 
 * The system initializes all modules (display, LEDs, CO2 sensor, audio, buttons).
 * The CO2 sensor undergoes a preheating period for around 3 Minutes as per its specifications.
+  The Display shows a progress bar during preheating.
 
 ### 2. CO2 Monitoring
 
@@ -400,7 +403,7 @@ contribution!
 * **Action:** When pressed, the button toggles the system's mute state.
     * If the system is currently **not muted**, pressing the button will **mute** it.
     * If the system is currently **muted**, pressing the button will **unmute** it.
-    * The blue LED indicates the current mute state (on = muted, off = not muted).
+    * The blue LED indicates the current mute state (on = muted, off = not muted) (see [Mute Indicator](#mute-indicator))
 
 ## 🚦 LED Indicator System
 
