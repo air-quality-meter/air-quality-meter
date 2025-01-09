@@ -90,7 +90,7 @@ namespace Co2SensorController {
     ///< Combined length of the sensor name and initialization message, including a space.
     constexpr size_t PREHEAT_MESSAGE_LENGTH = SENSOR_NAME_LENGTH + PREHEAT_LENGTH + 1;
     ///< Combined length of the sensor name and preheating message, including a space.
-    constexpr unsigned long RESPONSE_TIME_MS = 2000;
+    constexpr unsigned long WAIT_BETWEEN_TWO_SENSOR_READINGS_TIME_MS = 2000;
     ///< Waiting period between readings
     constexpr unsigned long PREHEATING_TIME_MS = 180000;
     ///< Preheating duration for MH-Z19B sensor in milliseconds (3 minutes as per the datasheet).
