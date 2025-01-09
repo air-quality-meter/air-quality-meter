@@ -127,7 +127,7 @@ Launch the Serial Monitor for feedback:
 pio device monitor
 ```
 
-## 🪛 Configuring Logging (platformio.ini)
+## 🧾 Configuring Logging (platformio.ini)
 
 You can control the logging output from the Air Quality Meter by modifying the `platformio.ini` project
 configuration file. The `build_flags` option allows you to define preprocessor directives that affect the compilation
