@@ -11,11 +11,10 @@
 #include "not_blocking_time_handler.h"
 
 namespace NotBlockingTimeHandler {
-  void wait_ms(const unsigned long waiting_time_ms) {
-    const unsigned long start_time_ms = millis();
-    const unsigned long end_time_ms = start_time_ms + waiting_time_ms;
-    while (millis() < end_time_ms) {
-      yield(); // Allow other tasks like interrupts run.
+    void wait_ms(const unsigned long waiting_time_ms) {
+        const unsigned long start_time_ms = millis();
+        const unsigned long end_time_ms = start_time_ms + waiting_time_ms;
+        while (millis() < end_time_ms) {
+        }
     }
-  }
 }
