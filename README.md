@@ -11,10 +11,10 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
     - [🚀 Getting Started](#-getting-started)
         - [1. Clone the Repository](#1-clone-the-repository)
         - [2. Upload MP3 Files to the MP3 Module](#2-upload-mp3-files-to-the-mp3-module)
-        - [3. Connect hardware](#3-connect-hardware)
+        - [3. Connect Hardware](#3-connect-hardware)
         - [4. Open the Project](#4-open-the-project)
         - [5. Upload the Code](#5-upload-the-code)
-        - [6. (optional) Monitor Serial Output](#6-optional-monitor-serial-output)
+        - [6. (Optional) Monitor Serial Output](#6-optional-monitor-serial-output)
     - [🧾 Configuring Logging](#-configuring-logging-platformioini)
     - [🎒 Hardware Requirements](#-hardware-requirements)
     - [💻 Software Requirements](#-software-requirements)
@@ -74,24 +74,24 @@ The Gravity UART MP3 Voice Module requires pre-recorded MP3 files for audio aler
 audio/ directory:
 
 - `001.mp3`: "CO2 Wert zu hoch, bitte Fenster öffnen!" (German for: "CO2 level too high, please open the window!")
-- `002.mp3`: "Die Luftqualität ist schlecht, bitte Fenster öffnen!" (German for: "The air quality is poor, please open
-  the window!")
+- `002.mp3`: "Die Luftqualität ist schlecht, bitte Fenster öffnen!" (German for: "Air quality is poor, please open
+  a window!")
 
 #### Upload Instructions:
 
 ##### 1. Prepare the MP3 Module:
 
-- Ensure the MP3 module is connected to your computer via a compatible USB cable.
+- Ensure the MP3 module is connected to your computer using a compatible USB cable.
 
-- It should appear as a removable storage device.
+- It should appear as a removable drive.
 
 ##### 2. Copy MP3 File:
 
-- Copy an MP3 file to the root directory of the MP3 module.
+- Copy a MP3 file to the root directory of the MP3 module.
 
   *You can use one of the provided files in the audio/ directory if you want.*
 
-- **Important**: The used file must be named exactly `001.mp3` on the MP3 module for the system to recognize it
+- **Important**: The file used must be named exactly `001.mp3` on the MP3 module for the system to recognize it
   correctly.
 
 ##### 3. Eject the Module:
@@ -100,7 +100,7 @@ audio/ directory:
 
 The MP3 file is now uploaded and ready to be used by the Air Quality Meter.
 
-### 3. Connect hardware
+### 3. Connect Hardware
 
 Connect all hardware components according to the 🔌 [Connections](#-connections) section and check the
 📈 [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
@@ -120,7 +120,7 @@ Upload the code using PlatformIO:
 pio run --target upload
 ```
 
-### 6. (optional) Monitor Serial Output
+### 6. (Optional) Monitor Serial Output
 
 Launch the Serial Monitor for feedback:
 
@@ -211,9 +211,9 @@ levels are (from most to least verbose):
 
 | **Tool**       | **Version** | **Notes**                          |
 |----------------|:-----------:|------------------------------------|
-| **PlatformIO** |   Latest    | E.g. to use with VS Code or CLion. |
+| **PlatformIO** |   Latest    | E.g. to use with VSCode or CLion. |
 
-This is the recommended IDE (with plugins for VS Code or CLion) for building and uploading the code to
+This is the recommended IDE (with plugins for VSCode or CLion) for building and uploading the code to
 the Arduino. Using the latest version is always recommended.
 
 ### Library Dependencies
@@ -248,7 +248,7 @@ you build the project in PlatformIO.
 
 ## 📈 Wiring Diagram
 
-![Arduino Air Quality Meter Wiring.jpg](img/Arduino%20Air%20Quality%20Meter%20Wiring.jpg)
+![Arduino Air Quality Meter Wiring.jpg](img/Arduino_Air_Quality_Meter_Wiring.jpg)
 
 ### 📌 Arduino Pin Connections Table
 
@@ -321,7 +321,7 @@ These components require additional connections between one another for proper f
   current and extend its lifespan.
 * **LED Resistors**: Add 🧱 **1kΩ resistors** in series with each LED (Green, Yellow, Red, Blue) to prevent damage to the
   LED and the Arduino pins.
-* **Button Resistors**: Use 🧱 **10kΩ pull-down resistors** for both the Acknowledge and Mute push buttons to avoid
+* **Button Resistors**: Use 🧱 **10kΩ pull-down resistors** for both the acknowledge and mute push buttons to avoid
   floating states and unreliable behavior.
 * **Understand the Connections**: Before making any connections, take the time to understand the purpose of each pin and
   the direction of the current flow. This will help you troubleshoot any issues and make modifications if needed.
@@ -332,7 +332,7 @@ These components require additional connections between one another for proper f
 * **MP3 Module Power**: The Gravity UART MP3 Voice Module requires 3.3V power. Ensure you are connecting it to the 3.3V
   pin on the Arduino, not the 5V pin.
 * **MP3 Module Ground**: Connect the MP3 module's ground to a separate GND pin on the Arduino.
-* **CO2 Sensor Preheating**: The MH-Z19B CO2 sensor requires a long preheating period (around 3 Minutes).
+* **CO2 Sensor Preheating**: The MH-Z19B CO2 sensor requires a long preheating period (about 3 Minutes).
 * **Code Customization**: If you modify the code, be mindful of the pin assignments defined in `pin_configuration.h`.
   Ensure they match your physical wiring.
 * **Safety First**: Always disconnect the power supply before making any changes to the wiring.
@@ -341,7 +341,7 @@ These components require additional connections between one another for proper f
 
 Before powering on your Air Quality Meter, please take the following precautions:
 
-1. 🔍 **Double-Check Wiring:** Carefully compare your physical wiring against the provided
+1. 🔍 **Double check Wiring:** Carefully compare your physical wiring against the provided
    📈 [wiring diagram](#-wiring-diagram). Ensure that each component is connected to the correct pins on the Arduino
    and other modules.
 2. 🧠 **Understand the Connections:** Take a moment to understand *why* each connection is made. Think about the flow of
@@ -357,7 +357,7 @@ Before powering on your Air Quality Meter, please take the following precautions
 🤝 **Found an Error? Help Us Improve!**
 
 If you find any errors in the description, wiring diagram, code, or any other part of this project, please
-**let us know**! Your feedback is valuable and helps us improve the project for everyone. You can report errors
+**let us know**! Your feedback is valuable and will help us improve the project for everyone. You can report errors
 by [opening an issue on GitHub](https://github.com/air-quality-meter/air-quality-meter/issues) . We appreciate your
 contribution!
 
@@ -366,7 +366,7 @@ contribution!
 ### 1. System Startup
 
 * The system initializes all modules (display, LEDs, CO2 sensor, audio, buttons).
-* The CO2 sensor undergoes a preheating period for around 3 Minutes as per its specifications.
+* The CO2 sensor will preheat for approximately 3 minutes according to its specifications.
   The Display shows a progress bar during preheating.
 
 ### 2. CO2 Monitoring
@@ -396,7 +396,7 @@ contribution!
     * Resets the time, when the CO2 level was lastly below the threshold, to the current time.
     * Temporarily stops playing audio warning.
     * Provides visual feedback through a specific LED sequence (
-      see [Acknowledgement Indicator](#acknowledgement-indicator)).
+    see [Acknowledgement Indicator](#acknowledgement-indicator)).
 
 ### Mute Button
 
@@ -467,7 +467,7 @@ If the sensor encounters a problem, specific LED patterns indicate the type of e
 | **Color** | **Meaning** |
 |:----------|:------------|
 | 🟢🟡🔴🔵  | LED is ON   |
-| ⚫️ Grey   | LED is OFF  |
+| ⚫️       | LED is OFF  |
 
 This classification ensures users can quickly interpret the air quality status, recognize the mute state or errors.
 
