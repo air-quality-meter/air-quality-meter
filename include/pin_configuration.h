@@ -35,8 +35,8 @@ namespace DisplayController {
 
 namespace AudioController {
     // Pin configuration for the MP3 Module: Gravity UART MP3 Voice Module
-    constexpr uint8_t TX_PIN = 14; ///< MP3 Modul Serial Pin T
-    constexpr uint8_t RX_PIN = 15; ///< MP3 Modul Serial Pin R
+    constexpr uint8_t MP3_T = 14; ///< MP3 Modul Transmit
+    constexpr uint8_t MP3_R = 15; ///< MP3 Modul Receive
 }
 
 namespace LedArray {
