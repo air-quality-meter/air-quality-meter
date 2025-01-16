@@ -209,8 +209,8 @@ levels are (from most to least verbose):
 
 ## 💻 Software Requirements
 
-| **Tool**       | **Version** | **Notes**                          |
-|----------------|:-----------:|------------------------------------|
+| **Tool**       | **Version** | **Notes**                         |
+|----------------|:-----------:|-----------------------------------|
 | **PlatformIO** |   Latest    | E.g. to use with VSCode or CLion. |
 
 This is the recommended IDE (with plugins for VSCode or CLion) for building and uploading the code to
@@ -255,26 +255,26 @@ you build the project in PlatformIO.
 This table shows all the **pins used** in the project, including their connected components. Each pin plays a
 specific role in enabling the functionality of the air quality meter.
 
-| **Arduino Pin** | **Component**                             | **Connection** | **Notes**                                           |
-|:----------------|:------------------------------------------|:---------------|:----------------------------------------------------|
-| `2 (INT0)`      | 🔘 **Acknowledge Button**                 | Pin 1          | Button Pin 1 connects to Button Pin 3 when pressed. |
-| `3 (INT1)`      | 🔘 **Mute Button**                        | Pin 1          | Button Pin 1 connects to Button Pin 3 when pressed. |
-| `4`             | 💨 **CO2 Sensor (MH-Z19B)** (PWM)         | PWM            | Connected to the sensor's PWM pin.                  |
-| `7`             | 📟 **LCD1602 Display** (RS)               | RS             | Register Select for the LCD Display.                |
-| `8`             | 📟 **LCD1602 Display** (E)                | E              | Enable Pin for the LCD Display.                     |
-| `9`             | 📟 **LCD1602 Display** (D4)               | D4             | Data line 4 for the LCD Display.                    |
-| `10`            | 📟 **LCD1602 Display** (D5)               | D5             | Data line 5 for the LCD Display.                    |
-| `11`            | 📟 **LCD1602 Display** (D6)               | D6             | Data line 6 for the LCD Display.                    |
-| `12`            | 📟 **LCD1602 Display** (D7)               | D7             | Data line 7 for the LCD Display.                    |
-| `14 (TX3)`      | 🎵 **Gravity UART MP3 Voice Module** (TX) | TX             | Serial TX pin.                                      |
-| `15 (RX3)`      | 🎵 **Gravity UART MP3 Voice Module** (RX) | RX             | Serial RX pin.                                      |
-| `22`            | 🟢 **Green LED 1**                        | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `24`            | 🟢 **Green LED 2**                        | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `26`            | 🟡 **Yellow LED 1**                       | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `28`            | 🟡 **Yellow LED 2**                       | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `30`            | 🔴 **Red LED 1**                          | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `32`            | 🔴 **Red LED 2**                          | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
-| `34`            | 🔵 **Blue LED**                           | Anode (+)      | Connected through 🧱 1KΩ resistor                   |
+| **Arduino Pin** | **Component**                        | **Connection** | **Notes**                                                     |
+|:----------------|:-------------------------------------|:---------------|:--------------------------------------------------------------|
+| `2 (INT0)`      | 🔘 **Acknowledge Button**            | Pin 1          | Button Pin 1 connects to Button Pin 3 when pressed.           |
+| `3 (INT1)`      | 🔘 **Mute Button**                   | Pin 1          | Button Pin 1 connects to Button Pin 3 when pressed.           |
+| `4`             | 💨 **CO2 Sensor (MH-Z19B)** (PWM)    | PWM            | Connected to the sensor's PWM pin.                            |
+| `7`             | 📟 **LCD1602 Display** (RS)          | RS             | Register Select for the LCD Display.                          |
+| `8`             | 📟 **LCD1602 Display** (E)           | E              | Enable Pin for the LCD Display.                               |
+| `9`             | 📟 **LCD1602 Display** (D4)          | D4             | Data line 4 for the LCD Display.                              |
+| `10`            | 📟 **LCD1602 Display** (D5)          | D5             | Data line 5 for the LCD Display.                              |
+| `11`            | 📟 **LCD1602 Display** (D6)          | D6             | Data line 6 for the LCD Display.                              |
+| `12`            | 📟 **LCD1602 Display** (D7)          | D7             | Data line 7 for the LCD Display.                              |
+| `14`            | 🎵 **Gravity UART MP3 Voice Module** | T              | MP3 Module [T]ransmit to Arduino 14 Receive (SoftwareSerial). |
+| `15`            | 🎵 **Gravity UART MP3 Voice Module** | R              | MP3 Module [R]eceive to Arduino 15 Transmit (SoftwareSerial). |
+| `22`            | 🟢 **Green LED 1**                   | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `24`            | 🟢 **Green LED 2**                   | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `26`            | 🟡 **Yellow LED 1**                  | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `28`            | 🟡 **Yellow LED 2**                  | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `30`            | 🔴 **Red LED 1**                     | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `32`            | 🔴 **Red LED 2**                     | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
+| `34`            | 🔵 **Blue LED**                      | Anode (+)      | Connected through 🧱 1KΩ resistor                             |
 
 ### ⚡ Power and Ground Connections Table
 
@@ -396,7 +396,7 @@ contribution!
     * Resets the time, when the CO2 level was lastly below the threshold, to the current time.
     * Temporarily stops playing audio warning.
     * Provides visual feedback through a specific LED sequence (
-    see [Acknowledgement Indicator](#acknowledgement-indicator)).
+      see [Acknowledgement Indicator](#acknowledgement-indicator)).
 
 ### Mute Button
 
@@ -404,7 +404,8 @@ contribution!
 * **Action:** When pressed, the button toggles the system's mute state.
     * If the system is currently **not muted**, pressing the button will **mute** it.
     * If the system is currently **muted**, pressing the button will **unmute** it.
-    * The blue LED indicates the current mute state (on = muted, off = not muted) (see [Mute Indicator](#mute-indicator))
+    * The blue LED indicates the current mute state (on = muted, off = not muted) (
+      see [Mute Indicator](#mute-indicator))
 
 ## 🚦 LED Indicator System
 
@@ -467,7 +468,7 @@ If the sensor encounters a problem, specific LED patterns indicate the type of e
 | **Color** | **Meaning** |
 |:----------|:------------|
 | 🟢🟡🔴🔵  | LED is ON   |
-| ⚫️       | LED is OFF  |
+| ⚫️        | LED is OFF  |
 
 This classification ensures users can quickly interpret the air quality status, recognize the mute state or errors.
 

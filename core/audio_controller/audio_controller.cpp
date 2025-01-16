@@ -30,7 +30,10 @@ namespace AudioController {
         ///< Command array to play the first warning track.
     }
 
-    SoftwareSerial mp3_module(TX_PIN, RX_PIN); ///< Connection instance for MP3 module communication.
+    SoftwareSerial mp3_module(MP3_T, MP3_R);
+    ///< Connection instance for MP3 module communication.
+    ///< MP3 T (Transmit) to Arduino SoftwareSerial Receive.
+    ///< MP3 R (Receive) to Arduino SoftwareSerial Transmit.
 
     void initialize() {
         mp3_module.begin(BAUD_RATE);
