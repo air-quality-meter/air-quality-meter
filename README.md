@@ -64,11 +64,14 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
 ### 1. Upload MP3 Files to the MP3 Module
 
 The Gravity UART MP3 Voice Module requires pre-recorded MP3 files for audio alerts. Two MP3 files are provided in the
-audio/ directory:
+audio/ directory of this repo:
 
 - `001.mp3`: "CO2 Wert zu hoch, bitte Fenster öffnen!" (German for: "CO2 level too high, please open the window!")
 - `002.mp3`: "Die Luftqualität ist schlecht, bitte Fenster öffnen!" (German for: "Air quality is poor, please open
   a window!")
+
+If you prefer to use your own MP3 file, make sure it meets all requirements (see
+[wiki DFRobot](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534)).
 
 #### Upload Instructions:
 
@@ -80,12 +83,16 @@ audio/ directory:
 
 ##### 2. Copy MP3 File:
 
-- Copy a MP3 file to the root directory of the MP3 module.
+- If there are already sample files on your module, delete them first (or at least make sure that no file with the name
+  001.mp3 pre-exists on the module)
 
-  *You can use one of the provided files in the audio/ directory if you want.*
+- Copy an MP3 file with the audio warning for poor air quality to the root directory of the MP3 module.
 
-- **Important**: The file used must be named exactly `001.mp3` on the MP3 module for the system to recognize it
-  correctly.
+  *You can use one of the provided files from the audio/ directory of this repo if you want.*
+
+  **Important**: The file used must be named exactly `001.mp3` on the MP3 module for the system to recognize it
+  correctly. If you use your own MP3 file, make also sure it meets all requirements (see
+  [wiki DFRobot](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534)).
 
 ##### 3. Eject the Module:
 
