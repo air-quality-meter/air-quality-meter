@@ -9,9 +9,9 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
     - [Table of Contents](#table-of-contents)
     - [✨ Features](#-features)
     - [🚀 Getting Started](#-getting-started)
-        - [1. Clone the Repository](#1-clone-the-repository)
-        - [2. Upload MP3 Files to the MP3 Module](#2-upload-mp3-files-to-the-mp3-module)
-        - [3. Connect Hardware](#3-connect-hardware)
+        - [1. Upload MP3 Files to the MP3 Module](#1-upload-mp3-files-to-the-mp3-module)
+        - [2. Connect Hardware](#2-connect-hardware)
+        - [3. Clone the Repository](#3-clone-the-repository)
         - [4. Open the Project](#4-open-the-project)
         - [5. Upload the Code](#5-upload-the-code)
         - [6. (Optional) Monitor Serial Output](#6-optional-monitor-serial-output)
@@ -61,14 +61,7 @@ The **Air Quality Meter** is an Arduino-based project that monitors **CO2 levels
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
-
-```shell
-git clone https://github.com/air-quality-meter/air-quality-meter.git
-cd air-quality-meter
-```
-
-### 2. Upload MP3 Files to the MP3 Module
+### 1. Upload MP3 Files to the MP3 Module
 
 The Gravity UART MP3 Voice Module requires pre-recorded MP3 files for audio alerts. Two MP3 files are provided in the
 audio/ directory:
@@ -100,12 +93,19 @@ audio/ directory:
 
 The MP3 file is now uploaded and ready to be used by the Air Quality Meter.
 
-### 3. Connect Hardware
+### 2. Connect Hardware
 
 Connect all hardware components according to the 🔌 [Connections](#-connections) section and check the
 📈 [wiring diagram](#-wiring-diagram). Ensure to follow the safety guidelines outlined in the
 💡 [Notes and Recommendations](#-notes-and-recommendations) section, including the
 ❗ [Important Safety Note](#-important-safety-notes).
+
+### 3. Clone the Repository
+
+```shell
+git clone https://github.com/air-quality-meter/air-quality-meter.git
+cd air-quality-meter
+```
 
 ### 4. Open the Project
 
